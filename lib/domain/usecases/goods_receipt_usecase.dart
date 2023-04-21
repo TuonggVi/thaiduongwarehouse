@@ -45,10 +45,8 @@ class GoodsReceiptUsecase {
   }
   // truy xuat lich su nhap kho
   Future<List<GoodsReceiptLot>> getGoodsReceiptsHistoryByPO(
- 
       String purchaseOrderNumber) async {
     final goodsReceipts = goodsReceiptRepository.getGoodsReceiptsHistoryByPO(
- 
         purchaseOrderNumber);
     return goodsReceipts;
   }

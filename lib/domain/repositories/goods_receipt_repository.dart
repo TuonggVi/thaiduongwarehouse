@@ -18,7 +18,6 @@ abstract class GoodsReceiptRepository {
   // truy xuat lich su nhap kho
     Future<List<GoodsReceiptLot>> getGoodsReceiptsHistoryByPO(
       String purchaseOrderNumber);
-
       Future<List<GoodsReceiptLot>> getGoodsReceiptsHistoryBySupplier(
       DateTime startDate,
       DateTime endDate,);

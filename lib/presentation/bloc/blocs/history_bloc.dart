@@ -1,5 +1,3 @@
-
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_warehouse_thaiduong/domain/entities/error_package.dart';
 import 'package:mobile_warehouse_thaiduong/domain/usecases/department_issuecase.dart';
@@ -28,46 +26,47 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         final item = await itemUsecase.getAllItem();
         final warehouse = await locationUsecase.getAllWarehouse();
         final department = await departmentUsecase.getAllDepartment();
-        
-        emit(GetAllInfoExportSuccessState(DateTime.now(), item, warehouse , department));
+
+        emit(GetAllInfoExportSuccessState(
+            DateTime.now(), item, warehouse, department));
       } catch (e) {
         emit(GetAllInfoExportFailState(DateTime.now(), ErrorPackage('')));
       }
     });
-    // lọc kho hàng theo thông tin tìm kiếm
-   on<AccessExportHistoryByPOEvent>((event, emit) async {
+    // truy xuất lịch sử xuất kho
+    on<AccessExportHistoryByPOEvent>((event, emit) async {
       emit(AccessExportHistoryLoadingState(DateTime.now()));
       try {
-       final goodIssueLots = await goodsIssueUseCase.getGoodsIssueHistoryByPO(
-             event.purchaseOrderNumber
- 
-              );
-          emit(AccessExportHistorySuccessState(DateTime.now(), goodIssueLots));
+        final goodIssueLots = await goodsIssueUseCase
+            .getGoodsIssueHistoryByPO(event.purchaseOrderNumber);
+        emit(AccessExportHistorySuccessState(DateTime.now(), goodIssueLots));
       } catch (e) {
         emit(AccessExportHistoryFailState(DateTime.now(), ErrorPackage('')));
       }
     });
-       on<AccessExportHistoryByReceiverEvent>((event, emit) async {
+    on<AccessExportHistoryByReceiverEvent>((event, emit) async {
       emit(AccessExportHistoryLoadingState(DateTime.now()));
       try {
-       final goodIssueLots = await goodsIssueUseCase.getGoodsIssueHistoryByReceiver(
-             event.startDate,
-            event.endDate,
-              );
-          emit(AccessExportHistorySuccessState(DateTime.now(), goodIssueLots));
+        final goodIssueLots =
+            await goodsIssueUseCase.getGoodsIssueHistoryByReceiver(
+          event.startDate,
+          event.endDate,
+        );
+        emit(AccessExportHistorySuccessState(DateTime.now(), goodIssueLots));
       } catch (e) {
         emit(AccessImportHistoryFailState(DateTime.now(), ErrorPackage('')));
       }
     });
-        on<AccessExportHistoryByItemIdEvent>((event, emit) async {
+    on<AccessExportHistoryByItemIdEvent>((event, emit) async {
       emit(AccessExportHistoryLoadingState(DateTime.now()));
       try {
-       final goodIssueLots = await goodsIssueUseCase.getGoodsIssueHistoryByItemId(
-             event.startDate,
-            event.endDate,
-            event.itemId,
-              );
-          emit(AccessExportHistorySuccessState(DateTime.now(), goodIssueLots));
+        final goodIssueLots =
+            await goodsIssueUseCase.getGoodsIssueHistoryByItemId(
+          event.startDate,
+          event.endDate,
+          event.itemId,
+        );
+        emit(AccessExportHistorySuccessState(DateTime.now(), goodIssueLots));
       } catch (e) {
         emit(AccessExportHistoryFailState(DateTime.now(), ErrorPackage('')));
       }
@@ -94,13 +93,52 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
             .expand((e) => [if (e.itemClassId == event.warehouseId) e])
             .toList();
         emit(GetItemByWarehouseSuccessState(
-            DateTime.now(), event.lisstItemByWarehouse,item, event.warehouse, event.department));
+            DateTime.now(),
+            event.lisstItemByWarehouse,
+            item,
+            event.warehouse,
+            event.department));
       } catch (e) {
         emit(GetItemByWarehouseFailState(DateTime.now(), ErrorPackage('')));
       }
     });
-    // lọc kho hàng theo thông tin tìm kiếm
-    
+    // truy xuất lịch sử nhập kho
+    on<AccessImportHistoryByPOEvent>((event, emit) async {
+      emit(AccessImportHistoryLoadingState(DateTime.now()));
+      try {
+        final goodReceiptLots = await goodsReceiptUseCase
+            .getGoodsReceiptsHistoryByPO(event.purchaseOrderNumber);
+        emit(AccessImportHistorySuccessState(DateTime.now(), goodReceiptLots));
+      } catch (e) {
+        emit(AccessImportHistoryFailState(DateTime.now(), ErrorPackage('')));
+      }
+    });
+    on<AccessImportHistoryBySupplierEvent>((event, emit) async {
+      emit(AccessImportHistoryLoadingState(DateTime.now()));
+      try {
+        final goodReceiptLots = await goodsReceiptUseCase
+            .getGoodsReceiptsHistoryBySupplier(event.startDate, event.endDate);
+
+        emit(AccessImportHistorySuccessState(DateTime.now(), goodReceiptLots));
+      } catch (e) {
+        emit(AccessImportHistoryFailState(DateTime.now(), ErrorPackage('')));
+      }
+    });
+    on<AccessImportHistoryByItemIdEvent>((event, emit) async {
+      emit(AccessImportHistoryLoadingState(DateTime.now()));
+      try {
+        final goodReceiptLots =
+            await goodsReceiptUseCase.getGoodsReceiptsHistoryByItemId(
+          event.startDate,
+          event.endDate,
+          event.itemId,
+        );
+        emit(AccessImportHistorySuccessState(DateTime.now(), goodReceiptLots));
+      } catch (e) {
+        emit(AccessImportHistoryFailState(DateTime.now(), ErrorPackage('')));
+      }
+    });
+
     // on<AccessImportHistoryEvent>((event, emit) async {
     //   emit(AccessImportHistoryLoadingState(DateTime.now()));
     //   try {
@@ -134,7 +172,6 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
       } catch (e) {
         emit(TestHistoryFailState(DateTime.now(), ErrorPackage('')));
       }
-    }
-    );
+    });
   }
 }

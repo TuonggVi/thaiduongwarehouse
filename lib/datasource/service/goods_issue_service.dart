@@ -179,7 +179,7 @@ class GoodsIssueService {
     );
   }
   // truy xuat lich su xuat kho
-    Future<List<GoodsIssueLot>> getGoodsReceiptsHistoryByPO(purchaseOrderNumber) async {
+    Future<List<GoodsIssueLot>> getGoodIsssueHistoryByPO(purchaseOrderNumber) async {
       
     return [
       GoodsIssueLot('11', 1, 1,'11', '11'
@@ -193,7 +193,7 @@ class GoodsIssueService {
        ), 
     ];
   }
-     Future<List<GoodsIssueLot>> getGoodsReceiptsHistoryBySupplier(purchaseOrderNumber) async {
+     Future<List<GoodsIssueLot>> getGoodsIssueHistoryBySupplier(purchaseOrderNumber) async {
     return [
       GoodsIssueLot('11', 1, 1,'11', '11'
        ),
@@ -206,7 +206,7 @@ class GoodsIssueService {
        ), 
     ];
   }
-  Future<List<GoodsIssueLot>> getGoodsReceiptsHistoryByItemId(itemId) async {
+  Future<List<GoodsIssueLot>> getGoodsIssueHistoryByItemId(itemId) async {
     return [
       GoodsIssueLot('11', 1, 1,'11', '11'
        ),

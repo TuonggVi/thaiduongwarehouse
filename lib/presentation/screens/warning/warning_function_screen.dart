@@ -44,7 +44,7 @@ class WarningFunctionScreen extends StatelessWidget {
               text: "CẢNH BÁO STOCKMIN",
               onPressed: () {
                 BlocProvider.of<WarningBloc>(context)
-                    .add(GetWarehouseEvent(DateTime.now()));
+                    .add(GetWarehouseEvent(DateTime.now()) );
                 Navigator.pushNamed(context, '/warning_under_stockmin');    
               }),
         ],

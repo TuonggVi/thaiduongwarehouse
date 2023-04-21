@@ -56,6 +56,67 @@ class GoodsReceiptService {
           false),
     ];
   }
+  // truy xuat lich su nhap kho
+    Future<List<GoodsReceiptLot>> getGoodsReceiptsHistoryByPO(purchaseOrderNumber) async {
+    return [
+      GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),
+       GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),  
+       GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),
+       GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),  
+       GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),
+       GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),  
+       GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),
+       GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),   
+    ];
+  }
+    Future<List<GoodsReceiptLot>> getGoodsReceiptsHistoryBySuplplier(purchaseOrderNumber) async {
+    return [
+      GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),
+       GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),  
+       GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),
+       GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),  
+       GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),
+       GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),  
+       GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),
+       GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),   
+    ];
+  }
+    Future<List<GoodsReceiptLot>> getGoodsReceiptsHistoryByItemId(purchaseOrderNumber) async {
+    return [
+      GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),
+       GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),  
+       GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),
+       GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),  
+       GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),
+       GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),  
+       GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),
+       GoodsReceiptLot('11', '11', 1, 1,'11', '11', '11', DateTime.now(),DateTime.now()
+       ),   
+    ];
+  }
   // thử giao diện
    
   Future<List<GoodsReceiptLot>> getGoodsReceiptsHistoryTest(warehouse) async {

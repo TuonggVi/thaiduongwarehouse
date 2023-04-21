@@ -191,11 +191,7 @@ class _SearchItemScreenState extends State<SearchItemScreen> {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                 child: ListTile(
-                                    leading: const Icon(Icons.list),
-                                    shape: RoundedRectangleBorder(
-                                      side: const BorderSide(width: 1),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
+                                    leading: const Icon(Icons.list),                                 
                                     trailing: Icon(Icons.arrow_drop_down_sharp,
                                         size: 15 * SizeConfig.ratioFont),
                                     title: Text(

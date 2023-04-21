@@ -45,7 +45,7 @@ class WarningBloc extends Bloc<WarningEvent, WarningState> {
       try {
         final itemLots = await itemLotUsecase.getUnderStockminItemLots(event.warehouseId);
         itemLots.isNotEmpty
-            ? emit(MinimumStockWarningSuccessState(DateTime.now(), itemLots, event.listWarehouse,
+            ? emit(MinimumStockWarningSuccessState(DateTime.now(), itemLots,event.warehouseId, event.warehouse, event.listWarehouse, 
             ))
             : emit(MinimumStockWarningFailState(
                 DateTime.now(), ''));

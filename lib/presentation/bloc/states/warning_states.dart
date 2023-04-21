@@ -40,8 +40,7 @@ class ExpirationWarningFailState extends WarningState {
 class GetWarehouseSuccessState extends WarningState {
   DateTime timestamp;
   List<Warehouse> warehouse;
-
-  GetWarehouseSuccessState(this.timestamp, this.warehouse, );
+  GetWarehouseSuccessState(this.timestamp, this.warehouse);
   @override
   List<Object?> get props => [timestamp];
 }
@@ -64,8 +63,11 @@ class GetWarehouseFailState extends WarningState {
 class MinimumStockWarningSuccessState extends WarningState {
   DateTime timestamp;
   List<ItemLot> itemLot;
-   List<Warehouse> listWarehouse;
-  MinimumStockWarningSuccessState(this.timestamp, this.itemLot,
+  List<Warehouse> warehouse;
+  String warehouseId;
+  List<Warehouse> listWarehouse;
+  MinimumStockWarningSuccessState(this.timestamp, this.itemLot,this.warehouseId,
+  this.warehouse,
   this.listWarehouse
    );
   @override

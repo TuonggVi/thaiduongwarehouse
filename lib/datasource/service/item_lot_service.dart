@@ -53,25 +53,25 @@ class ItemLotService {
           final res = await http.get(
       Uri.parse('${Constants.baseUrl}api/containers/$locationId'),
     );
-    if (res.statusCode == 200) {
-      dynamic body = jsonDecode(res.body);
-      //   print(body.toString());
-     List<ItemLotModel> itemLot = body
-          .map(
-            (dynamic item) => ItemLotModel.fromJson(item),
-          )
-          .toList();
-      return itemLot;
+    // if (res.statusCode == 200) {
+    //   dynamic body = jsonDecode(res.body);
+    //   //   print(body.toString());
+    //  List<ItemLotModel> itemLot = body
+    //       .map(
+    //         (dynamic item) => ItemLotModel.fromJson(item),
+    //       )
+    //       .toList();
+    //   return itemLot;
    
-    } else {
-      print('rổ không xác định');
+    // } else {
+    //   print('rổ không xác định');
 
-      return throw "Unable to retrieve posts.";
-    }
-    // return  [ItemLotModel('2023-02-23', Item('1', '001', Unit('cái'), ItemClass('TP'), 100, 10), false, 100, 10, "121214", 'Vị trí 1', null,null ),
-    // ItemLotModel('2023-02-23', Item('2', '002', Unit('cái'), ItemClass('TP'), 120, 10), false, 100, 10, "121215", 'Vị trí 1', null,null ),
-    //  ItemLotModel('2023-02-24', Item('3', '002', Unit('cái'), ItemClass('TP'), 150, 10), false, 100, 10, "121215", 'Vị trí 1', null,null ),
-    //  ItemLotModel('2023-02-24', Item('4', '002', Unit('cái'), ItemClass('TP'), 100, 10), false, 100, 10, "121215", 'Vị trí 1', null,null )];
+    //   return throw "Unable to retrieve posts.";
+    // }
+   return  [ItemLotModel('2023-02-23', Item('3', '001', 'cái', 'TP', 100, 10), false, 100, 10, "121214", 'Vị trí 1', null,null ),
+    ItemLotModel('2023-02-23', Item('3', '002', 'cái', 'TP', 80, 10), false, 100, 10, "121215", 'Vị trí 1', null,null ),
+     ItemLotModel('2023-02-24', Item('3', '002', 'cái', 'TP', 120, 10), false, 100, 10, "121215", 'Vị trí 3', null,null ),
+     ItemLotModel('2023-02-24', Item('3', '002', 'cái', 'TP', 60, 10), false, 100, 10, "121215", 'Vị trí 1', null,null )];
   }
 
   Future<List<ItemLotModel>> getIsolatedItemLots() async {

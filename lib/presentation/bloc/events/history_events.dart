@@ -37,15 +37,8 @@ class GetItemByWarehouseEvent extends HistoryEvent {
   List<Item> listAllItem;
   List<Item> lisstItemByWarehouse;
   List<Warehouse> warehouse;
-  GetItemByWarehouseEvent(
-    this.timestamp, 
-    this.warehouseId,
-
-  this.listAllItem, 
-  this.lisstItemByWarehouse,
-  this.warehouse,
-  this.department
-      );
+  GetItemByWarehouseEvent(this.timestamp, this.warehouseId, this.listAllItem,
+      this.lisstItemByWarehouse, this.warehouse, this.department);
   @override
   List<Object> get props => [timestamp];
 }
@@ -93,8 +86,12 @@ class AccessImportHistoryByPOEvent extends HistoryEvent {
 
 class AccessImportHistoryBySupplierEvent extends HistoryEvent {
   DateTime timestamp;
+  DateTime startDate;
+  DateTime endDate;
   AccessImportHistoryBySupplierEvent(
     this.timestamp,
+    this.startDate,
+    this.endDate,
   );
   @override
   List<Object> get props => [timestamp];
@@ -102,8 +99,11 @@ class AccessImportHistoryBySupplierEvent extends HistoryEvent {
 
 class AccessImportHistoryByItemIdEvent extends HistoryEvent {
   DateTime timestamp;
+  DateTime startDate;
+  DateTime endDate;
   String itemId;
-  AccessImportHistoryByItemIdEvent(this.timestamp, this.itemId);
+  AccessImportHistoryByItemIdEvent(
+      this.timestamp, this.startDate, this.endDate, this.itemId);
   @override
   List<Object> get props => [timestamp];
 }
@@ -131,6 +131,7 @@ class AccessExportHistoryEvent extends HistoryEvent {
   @override
   List<Object> get props => [timestamp];
 }
+
 // truy xuất lịch sử xuất kho
 class AccessExportHistoryByPOEvent extends HistoryEvent {
   DateTime timestamp;
@@ -160,11 +161,11 @@ class AccessExportHistoryByReceiverEvent extends HistoryEvent {
 
 class AccessExportHistoryByItemIdEvent extends HistoryEvent {
   DateTime timestamp;
-    DateTime startDate;
+  DateTime startDate;
   DateTime endDate;
   String itemId;
-  AccessExportHistoryByItemIdEvent(this.timestamp,    this.startDate,
-    this.endDate, this.itemId);
+  AccessExportHistoryByItemIdEvent(
+      this.timestamp, this.startDate, this.endDate, this.itemId);
   @override
   List<Object> get props => [timestamp];
 }

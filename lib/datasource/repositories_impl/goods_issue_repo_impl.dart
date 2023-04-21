@@ -105,19 +105,5 @@ class GoodsIssueRepoImpl implements GoodsIssueRepository {
   ) {
     throw UnimplementedError();
   }
-   Future<List<GoodsIssueLot>> getGoodsReceiptsHistoryByPO(String purchaseOrderNumber) {
-    final goodsIssueLot =
-        goodsIssueService.getGoodsReceiptsHistoryByPO(purchaseOrderNumber);
-    return goodsIssueLot;
-  }
-    Future<List<GoodsIssueLot>> getGoodsReceiptsHistoryBySupplier(String purchaseOrderNumber) {
-    final goodsIssueLot =
-        goodsIssueService.getGoodsReceiptsHistoryBySupplier(purchaseOrderNumber);
-    return goodsIssueLot;
-  }
-    Future<List<GoodsIssueLot>> getGoodsReceiptsHistoryByItemId(String purchaseOrderNumber) {
-    final goodsIssueLot =
-        goodsIssueService.getGoodsReceiptsHistoryByItemId(purchaseOrderNumber);
-    return goodsIssueLot;
-  }
+
 }

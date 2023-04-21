@@ -86,7 +86,6 @@ class GoodsReceiptRepoImpl implements GoodsReceiptRepository {
       String purchaseOrderNumber) {
     throw UnimplementedError();
   }
-
   // thử giao diện
   @override
   Future<List<GoodsReceiptLot>> getGoodsReceiptsHistoryTest(String warehouse) {
