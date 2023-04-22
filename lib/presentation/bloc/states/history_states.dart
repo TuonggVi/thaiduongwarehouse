@@ -98,7 +98,7 @@ class GetItemByWarehouseFailState extends HistoryState {
 }
 
 
-// lich su nhap kho theo 
+// lich su nhap kho 
 class AccessImportHistorySuccessState extends HistoryState {
   DateTime timestamp;
   List<GoodsReceiptLot> goodReceiptLots;

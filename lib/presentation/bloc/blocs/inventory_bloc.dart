@@ -28,11 +28,11 @@ class InventoryBloc extends Bloc<InventoryEvent, InventoryState> {
     on<GetAllItemIdByWarehouseEvent>((event, emit) async {
       emit(GetAllItemByWarehouseLoadingState(DateTime.now()));
       try {
-        List<Item> item = event.item
+        List<Item> item = event.listAllItem
             .expand((e) => [if (e.itemClassId == event.warehouseId) e])
             .toList();
         emit(GetAllItemByWarehouseSuccessState(
-            DateTime.now(), item, event.warehouse));
+            DateTime.now(), item, event.listAllItem, event.warehouse));
       } catch (e) {
         emit(GetAllItemByWarehouseFailState(
           DateTime.now(),

@@ -167,7 +167,42 @@ class _SearchShelfScreennState extends State<SearchShelfScreen> {
                   ],
                 );
               } else {
-                return const Center(child: CircularProgressIndicator());
+               return Column(children: [
+                  Column(children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: 340 * SizeConfig.ratioWidth,
+                        height: 60 * SizeConfig.ratioHeight,
+                        child: DropdownSearch<String?>(
+                            mode: Mode.MENU,
+                            //items: state.location,
+                           // showSearchBox: true,
+                            label: "Vị trí",
+                            onChanged: (value) {
+                              //  print(value);
+                              setState(() {
+                                location = value!;
+                              });
+                            },
+                            selectedItem: location),
+                      ),
+                    ),
+                    CustomizedButton(
+                        text: "Tìm kiếm",
+                        onPressed: () {
+                         // BlocProvider.of<ShelveBloc>(context).add(
+                          //    GetLotByLocationEvent(DateTime.now(), location, state.location));
+                        }),
+                    const Divider(
+                      indent: 30,
+                      endIndent: 30,
+                      color: Constants.mainColor,
+                      thickness: 1,
+                    ),
+                  
+                  ])
+                ]);
               }
             }));
   }

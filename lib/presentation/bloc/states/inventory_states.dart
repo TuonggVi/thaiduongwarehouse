@@ -32,9 +32,10 @@ class GetWarehouseIdFailState extends InventoryState {
 // Lọc sp theo kho hàng
 class GetAllItemByWarehouseSuccessState extends InventoryState {
   DateTime timestamp;
+   List<Warehouse> warehouse;
+  List<Item> listAllItem;
   List<Item> item;
-  List<Warehouse> warehouse;
-  GetAllItemByWarehouseSuccessState(this.timestamp, this.item, this.warehouse);
+  GetAllItemByWarehouseSuccessState(this.timestamp, this.item,this.listAllItem, this.warehouse);
   @override
 
   List<Object?> get props => [timestamp];

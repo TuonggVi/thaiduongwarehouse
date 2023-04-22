@@ -49,6 +49,7 @@ import '../screens/history/import_history_screen.dart';
 import '../screens/history/list_export_history_screen.dart';
 import '../screens/history/list_import_history_screen.dart';
 
+import '../screens/inventory/list_inventory_screen.dart';
 import '../screens/inventory/stockcard_function_screen.dart';
 import '../screens/isolation/isolation_function_screen.dart';
 import '../screens/isolation/isolation_item_screen.dart';
@@ -102,7 +103,6 @@ class AppRoute {
                       create: (context) => injector()),
                   BlocProvider<FillReceiptLotBloc>(
                       create: (context) => injector()),
-
                   BlocProvider<ExportingReceiptLotBloc>(
                       create: (context) => injector()),
                 ], child: const FillInfoLotReceiptScreen()));
@@ -244,7 +244,12 @@ class AppRoute {
         return MaterialPageRoute(
             builder: (context) => MultiBlocProvider(providers: [
                   BlocProvider<InventoryBloc>(create: (context) => injector()),
-                ], child:const StockcardScreen()));
+                ], child: const StockcardScreen()));
+      case '/list_inventory_screen':
+        return MaterialPageRoute(
+            builder: (context) => MultiBlocProvider(providers: [
+                  BlocProvider<InventoryBloc>(create: (context) => injector()),
+                ], child: const ListInventoryScreen()));
       // case '/product_inventory_screen':
       //   return MaterialPageRoute(
       //       builder: (context) => MultiBlocProvider(providers: [
@@ -260,9 +265,8 @@ class AppRoute {
         return MaterialPageRoute(
             builder: (context) => MultiBlocProvider(providers: [
                   BlocProvider<HistoryBloc>(create: (context) => injector()),
-            
                 ], child: const ImportHistoryScreen()));
-       case '/list_import_history_screen':
+      case '/list_import_history_screen':
         return MaterialPageRoute(
             builder: (context) => MultiBlocProvider(providers: [
                   BlocProvider<HistoryBloc>(create: (context) => injector()),

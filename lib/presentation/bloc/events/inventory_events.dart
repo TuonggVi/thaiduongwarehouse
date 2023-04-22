@@ -18,11 +18,12 @@ class GetWarehouseIdEvent extends InventoryEvent {
 // lấy mã sp
 class GetAllItemIdByWarehouseEvent extends InventoryEvent {
   DateTime timestamp;
-   String warehouseId;
-  List<Item> item;
+  String warehouseId;
+  List<Item> listAllItem;
+  List<Item> lisstItemByWarehouse;
   List<Warehouse> warehouse;
   GetAllItemIdByWarehouseEvent(
-      this.timestamp, this.warehouseId, this.item, this.warehouse);
+      this.timestamp, this.warehouseId,this.listAllItem, this.lisstItemByWarehouse, this.warehouse);
   @override
   List<Object?> get props => [timestamp];
 }

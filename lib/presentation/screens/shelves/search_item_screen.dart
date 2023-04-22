@@ -213,8 +213,64 @@ class _SearchItemScreenState extends State<SearchItemScreen> {
                   ],
                 );
               } else {
-                print(state);
-                return const Center(child: CircularProgressIndicator());
+                return Column(children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      width: 340 * SizeConfig.ratioWidth,
+                      height: 60 * SizeConfig.ratioHeight,
+                      child: DropdownSearch<String>(
+                        mode: Mode.MENU,
+                        // items: state.items.map((e) => e.itemId.toString()).toList(),
+                        // showSearchBox: true,
+                        label: "Mã sản phẩm",
+                        // hint: "country in menu mode",
+                        onChanged: (value) {
+                          //  print(value);
+                          // setState(() {
+                          //   selectedItem = state.items.firstWhere(
+                          //       (element) => element.itemId == value);
+                          // });
+                        },
+                        selectedItem:
+                            selectedItem == null ? '' : selectedItem!.itemId,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 340 * SizeConfig.ratioWidth,
+                    height: 60 * SizeConfig.ratioHeight,
+                    child: DropdownSearch<String>(
+                      mode: Mode.MENU,
+                      // items: state.items.map((e) => e.itemName.toString()).toList(),
+                      // showSearchBox: true,
+                      label: "Tên sản phẩm",
+                      // hint: "country in menu mode",
+                      onChanged: (value) {
+                        //  print(value);
+                        // setState(() {
+                        //   selectedItem = state.items.firstWhere(
+                        //       (element) => element.itemName == value);
+                        // });
+                      },
+                      selectedItem:
+                          selectedItem == null ? '' : selectedItem!.itemName,
+                    ),
+                  ),
+                  CustomizedButton(
+                      text: "Truy xuất",
+                      onPressed: () {
+                      //   BlocProvider.of<ShelveBloc>(context).add(
+                      //       GetLotByItemIdEvent(DateTime.now(),
+                      //           selectedItem!.itemId.toString(), state.items));
+                      }),
+                  const Divider(
+                    indent: 30,
+                    endIndent: 30,
+                    color: Constants.mainColor,
+                    thickness: 1,
+                  ),
+                ]);
               }
             }));
   }
