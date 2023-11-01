@@ -27,7 +27,7 @@ class _ListIsolatedItemLotScreenState extends State<ListIsolatedItemLotScreen> {
     SizeConfig().init(context);
 
     return WillPopScope(
-       onWillPop: () async {
+      onWillPop: () async {
         Navigator.pushNamed(context, "/isolation_function_screen");
         return false;
       },
@@ -60,7 +60,7 @@ class _ListIsolatedItemLotScreenState extends State<ListIsolatedItemLotScreen> {
                   return Column(
                     children: [
                       SizedBox(
-                        height: 430 * SizeConfig.ratioHeight,
+                        height: 550 * SizeConfig.ratioHeight,
                         child: ListView.builder(
                             itemCount: state.itemLot.length,
                             itemBuilder: (BuildContext context, int index) {
@@ -71,129 +71,134 @@ class _ListIsolatedItemLotScreenState extends State<ListIsolatedItemLotScreen> {
                                     border: Border.all(width: 1),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child: ListTile(
-                                    // trailing: Icon(Icons.edit,
-                                    //     size: 17 * SizeConfig.ratioFont),
-                                    title: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          0, 8.0, 0, 8.0),
-                                      child: Text(
-                                        "Mã lô : ${state.itemLot[index].lotId}",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16 * SizeConfig.ratioFont,
-                                          color: Colors.black,
+                                  child: Column(
+                                    children: [
+                                      ListTile(
+                                        // trailing: Icon(Icons.edit,
+                                        //     size: 17 * SizeConfig.ratioFont),
+                                        title: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 8.0, 0, 8.0),
+                                          child: Text(
+                                            "Mã lô : ${state.itemLot[index].lotId}",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 16 * SizeConfig.ratioFont,
+                                              color: Colors.black,
+                                            ),
+                                          ),
                                         ),
+                                        subtitle: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            SizedBox(
+                                              width: 150 * SizeConfig.ratioWidth,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.w100,
+                                                        fontSize: 16 *
+                                                            SizeConfig.ratioFont,
+                                                        color: Colors.black,
+                                                      ),
+                                                      "Mã hàng: ${state.itemLot[index].item!.itemId}"),
+                                                         Text(
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.w100,
+                                                        fontSize: 16 *
+                                                            SizeConfig.ratioFont,
+                                                        color: Colors.black,
+                                                      ),
+                                                      "Tên hàng: ${state.itemLot[index].item!.itemName}"),
+                                                  Text(
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.w100,
+                                                        fontSize: 16 *
+                                                            SizeConfig.ratioFont,
+                                                        color: Colors.black,
+                                                      ),
+                                                      "Số lượng: ${state.itemLot[index].quantity}"),
+                                                  
+                                              
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 150 * SizeConfig.ratioWidth,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                               
+                                                      Text(
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.w100,
+                                                      fontSize:
+                                                          16 * SizeConfig.ratioFont,
+                                                      color: Colors.black,
+                                                    ),
+                                                    "NSX:  ${state.itemLot[index].productionDate != null ? DateFormat('yyyy-MM-dd').format(state.itemLot[index].productionDate as DateTime) : ' '}",
+                                                  ),
+                                                  Text(
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.w100,
+                                                      fontSize:
+                                                          16 * SizeConfig.ratioFont,
+                                                      color: Colors.black,
+                                                    ),
+                                                    "HSD:  ${state.itemLot[index].expirationDate != null ? DateFormat('yyyy-MM-dd').format(state.itemLot[index].expirationDate as DateTime) : ' '}",
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        isThreeLine: true,
+                                        onTap: () {},
                                       ),
-                                    ),
-                                    subtitle: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                          width: 150 * SizeConfig.ratioWidth,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w100,
-                                                    fontSize:
-                                                        16 * SizeConfig.ratioFont,
-                                                    color: Colors.black,
-                                                  ),
-                                                  "Mã hàng: ${state.itemLot[index].item!.itemId}"),
-                                              Text(
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w100,
-                                                    fontSize:
-                                                        16 * SizeConfig.ratioFont,
-                                                    color: Colors.black,
-                                                  ),
-                                                  "Số lượng: ${state.itemLot[index].quantity}"),
-                                              Text(
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w100,
-                                                    fontSize:
-                                                        16 * SizeConfig.ratioFont,
-                                                    color: Colors.black,
-                                                  ),
-                                                  "Vị trí: ${state.itemLot[index].location?.locationId ?? '...'}"),
-                                             Text(
-                                                        overflow:
-                                                            TextOverflow.ellipsis,
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w100,
-                                                          fontSize: 16 *
-                                                              SizeConfig
-                                                                  .ratioFont,
-                                                          color: Colors.black,
-                                                        ),
-                                                        "NSX: ${DateFormat('yyyy-MM-dd')
-                                            .format(
-                                                state.itemLot[index].productionDate as DateTime)}"),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 150 * SizeConfig.ratioWidth,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w100,
-                                                    fontSize:
-                                                        16 * SizeConfig.ratioFont,
-                                                    color: Colors.black,
-                                                  ),
-                                                  "Tên hàng: ${state.itemLot[index].item!.itemName}"),
-                                              Text(
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w100,
-                                                    fontSize:
-                                                        16 * SizeConfig.ratioFont,
-                                                    color: Colors.black,
-                                                  ),
-                                                  "Định mức: ${state.itemLot[index].sublotSize ?? '...'}  "),
-                                              // Text(
-                                              //     overflow: TextOverflow.ellipsis,
-                                              //     style: TextStyle(
-                                              //       fontWeight: FontWeight.w100,
-                                              //       fontSize:
-                                              //           16 * SizeConfig.ratioFont,
-                                              //       color: Colors.black,
-                                              //     ),
-                                              //     "Số PO: ${state.itemLot[index].purchaseOrderNumber ?? '...'}"),
-                                              Text(
-                                                        overflow:
-                                                            TextOverflow.ellipsis,
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w100,
-                                                          fontSize: 16 *
-                                                              SizeConfig
-                                                                  .ratioFont,
-                                                          color: Colors.black,
-                                                        ),
-                                                        "HSD: ${DateFormat('yyyy-MM-dd')
-                                            .format(
-                                                state.itemLot[index].expirationDate as DateTime)}"),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    isThreeLine: true,
-                                    onTap: () {},
+                                          // ListView.builder(
+                                          //       shrinkWrap: true,
+                                          //       physics:
+                                          //           NeverScrollableScrollPhysics(),
+                                          //       itemCount: state.itemLot[index]
+                                          //           .itemLotSubLot.length,
+                                          //       itemBuilder:
+                                          //           (BuildContext context,
+                                          //               int index1) {                                  
+                                          //         return ListTile(
+                                          //           title: Column(
+                                          //             mainAxisAlignment: MainAxisAlignment.start,
+                                          //             children: [
+                                          //               Row(
+                                          //                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          //                 children: [
+                                          //                   Text(
+                                          //                       "Vị trí: ${ state.itemLot[index]
+                                          //               .itemLotSubLot[index1].locationId}        "),
+                                          //                   Text(
+                                          //                       "Số lượng: ${ state.itemLot[index]
+                                          //               .itemLotSubLot[index1].quantityPerLocation}        "),
+                                          //                 ],
+                                          //               ),
+                                          //             ],
+                                          //           ),
+                                          //           //subtitle: Column(),
+                                          //         );
+                                          //       },
+                                          //     ),
+                                    ],
                                   ),
                                 ),
                               );

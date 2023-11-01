@@ -90,7 +90,7 @@ class ListUncompletedGoodReceiptScreen extends StatelessWidget {
                                       //   side: BorderSide(width: 1),
                                       //   borderRadius: BorderRadius.circular(10),
                                       // ),
-                                      leading:  Icon(Icons.list),
+                                      leading:  const Icon(Icons.list),
                                       trailing: Icon(Icons.arrow_drop_down_sharp,
                                           size: 15 * SizeConfig.ratioFont),
                                       title: Text(
@@ -103,7 +103,9 @@ class ListUncompletedGoodReceiptScreen extends StatelessWidget {
                                         BlocProvider.of<ExportingReceiptLotBloc>(
                                                 context)
                                             .add(LoadUncompletedReceiptLotEvent(
-                                                DateTime.now(), state.receipts[index]));
+                                               DateTime.now(),
+                                           //    GoodsReceipt('', '',[] , DateTime.now(), null, null)));
+                                               state.receipts[index], ));
                                         Navigator.pushNamed(
                                             context, '/importing_receipt_lot_screen');
                                       },
@@ -125,9 +127,11 @@ class ListUncompletedGoodReceiptScreen extends StatelessWidget {
                     return SingleChildScrollView(
                       child: Column(
                         children: [
-                          ExceptionErrorState(
-                            title: state.detail,
-                            message: "Vui lòng quay lại sau",
+                          Center(
+                            child: ExceptionErrorState(
+                              title: state.detail,
+                              message: "Vui lòng quay lại sau",
+                            ),
                           ),
                           CustomizedButton(
                               text: "Trở lại",

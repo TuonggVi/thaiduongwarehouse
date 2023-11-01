@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, annotate_overrides, overridden_fields
 
 import 'package:equatable/equatable.dart';
 import 'package:mobile_warehouse_thaiduong/domain/entities/error_package.dart';
@@ -8,23 +8,23 @@ import 'package:mobile_warehouse_thaiduong/domain/entities/location.dart';
 
 abstract class ExportHistoryState extends Equatable {
   List<Warehouse> warehouse;
-  List<String> poNumber;
+
   List<String> receiver;
   List<Item> listAllItem;
   List<Item> itemSort;
   ExportHistoryState(this.warehouse, this.itemSort, this.listAllItem,
-      this.poNumber, this.receiver);
+     this.receiver);
 }
 
 // lấy ds kho, bo phan, item
 class GetAllInfoExportSuccessState extends ExportHistoryState {
   DateTime timestamp;
   List<Item> item;
-  List<String> poNumber;
+
   List<String> receiver;
   List<Warehouse> warehouseId;
-  GetAllInfoExportSuccessState(this.timestamp, this.item, this.poNumber,
-      this.receiver, this.warehouseId) : super(warehouseId, item, item, poNumber, receiver);
+  GetAllInfoExportSuccessState(this.timestamp, this.item,
+      this.receiver, this.warehouseId) : super(warehouseId, item, item, receiver);
   @override
   List<Object> get props => [timestamp];
 }
@@ -32,7 +32,7 @@ class GetAllInfoExportSuccessState extends ExportHistoryState {
 class GetAllInfoExportLoadingState extends ExportHistoryState {
   DateTime timestamp;
 
-  GetAllInfoExportLoadingState(this.timestamp) :  super([], [], [], [], []);
+  GetAllInfoExportLoadingState(this.timestamp) :  super([], [], [], [],);
   @override
   List<Object> get props => [timestamp];
 }
@@ -42,7 +42,7 @@ class GetAllInfoExportFailState extends ExportHistoryState {
   ErrorPackage status;
 
   
-  GetAllInfoExportFailState(this.timestamp, this.status) :  super([], [], [], [], []);
+  GetAllInfoExportFailState(this.timestamp, this.status) :  super([], [], [], [],);
   @override
   List<Object> get props => [timestamp];
 }
@@ -53,17 +53,17 @@ class GetExportItemByWarehouseSuccessState extends ExportHistoryState {
   List<Warehouse> warehouse;
   List<String> receiver;
   List<Item> listAllItem;
-  List<String> poNumber;
+
   List<Item> item;
   GetExportItemByWarehouseSuccessState(this.timestamp, this.listAllItem,
-      this.item, this.warehouse,this.poNumber, this.receiver) : super(warehouse, item, listAllItem, poNumber, receiver);
+      this.item, this.warehouse, this.receiver) : super(warehouse, item, listAllItem, receiver);
   @override
   List<Object> get props => [timestamp];
 }
 
 class GetExportItemByWarehouseLoadingState extends ExportHistoryState {
   DateTime timestamp;
-  GetExportItemByWarehouseLoadingState(this.timestamp) :  super([], [], [], [], []);
+  GetExportItemByWarehouseLoadingState(this.timestamp) :  super([], [], [], [],);
   @override
   List<Object> get props => [timestamp];
 }
@@ -73,7 +73,7 @@ class GetExportItemByWarehouseFailState extends ExportHistoryState {
   ErrorPackage status;
 
   
-  GetExportItemByWarehouseFailState(this.timestamp, this.status) :  super([], [], [], [], []);
+  GetExportItemByWarehouseFailState(this.timestamp, this.status) :  super([], [], [], [],);
   @override
   List<Object> get props => [timestamp];
 }
@@ -84,14 +84,14 @@ class AccessExportHistorySuccessState extends ExportHistoryState {
   List<ExportHistoryView> exportHistoryEntries;
 
    List<Warehouse> warehouse;
-  List<String> poNumber;
+
   List<String> receiver;
   List<Item> listAllItem;
   List<Item> itemSort;
   AccessExportHistorySuccessState(
     this.timestamp,
-    this.exportHistoryEntries,this.itemSort, this.listAllItem, this.warehouse, this.poNumber, this.receiver
-  ) :  super(warehouse, itemSort, listAllItem, poNumber, receiver);
+    this.exportHistoryEntries,this.itemSort, this.listAllItem, this.warehouse, this.receiver
+  ) :  super(warehouse, itemSort, listAllItem, receiver);
   @override
   List<Object> get props => [timestamp];
 }
@@ -100,7 +100,7 @@ class AccessExportHistoryLoadingState extends ExportHistoryState {
   DateTime timestamp;
   AccessExportHistoryLoadingState(
     this.timestamp,
-  ) :  super([], [], [], [], []);
+  ) :  super([], [], [], [], );
   @override
   List<Object> get props => [timestamp];
 }
@@ -110,15 +110,15 @@ class AccessExportHistoryFailState extends ExportHistoryState {
   ErrorPackage status;
 
    List<Warehouse> warehouse;
-  List<String> poNumber;
+
   List<String> receiver;
   List<Item> listAllItem;
   List<Item> itemSort;
   AccessExportHistoryFailState(
     this.timestamp,
     this.status,this.warehouse, this.itemSort, this.listAllItem,
-      this.poNumber, this.receiver
-  ) :  super(warehouse, listAllItem, listAllItem, poNumber, receiver);
+     this.receiver
+  ) :  super(warehouse, listAllItem, listAllItem,  receiver);
   @override
   List<Object> get props => [timestamp];
 }

@@ -34,7 +34,20 @@ class GoodsReceiptRepoImpl implements GoodsReceiptRepository {
   
   @override
   Future<ErrorPackage> patchNewGoodsReceipt(GoodsReceipt goodsReceipt) {
-     final status = goodsReceiptService.patchNewReceiptLot(goodsReceipt);
+     final status = goodsReceiptService.patchNewGoodsReceipt(goodsReceipt);
+    return status;
+  }
+  
+  @override
+  Future<ErrorPackage> removeGoodsReceiptLot(GoodsReceipt goodsReceipt, GoodsReceiptLot goodsReceiptLot) {
+
+    final status = goodsReceiptService.removeGoodsReceiptLot(goodsReceipt, goodsReceiptLot);
+    return status;
+  }
+  
+  @override
+  Future<ErrorPackage> patchRequestQuantity(GoodsReceipt goodsReceipt) {
+     final status = goodsReceiptService.updateDetailLotReceipt(goodsReceipt);
     return status;
   }
 }

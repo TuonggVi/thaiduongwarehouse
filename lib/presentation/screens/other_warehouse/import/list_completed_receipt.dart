@@ -11,6 +11,7 @@ import 'package:mobile_warehouse_thaiduong/presentation/widgets/button_widget.da
 import 'package:mobile_warehouse_thaiduong/presentation/widgets/customized_date_picker.dart';
 import '../../../../function.dart';
 import '../../../widgets/exception_widget.dart';
+
 // danh sách các phiếu đã nhập
 class ListCompletedReceiptScreen extends StatefulWidget {
   const ListCompletedReceiptScreen({super.key});
@@ -25,12 +26,12 @@ class _ListCompletedReceiptScreenState
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    DateTime startDate = DateFormat('yyyy-MM-dd')
-        .parse(DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 30))));
+    DateTime startDate = DateFormat('yyyy-MM-dd').parse(DateFormat('yyyy-MM-dd')
+        .format(DateTime.now().subtract(const Duration(days: 30))));
     DateTime endDate = DateFormat('yyyy-MM-dd')
         .parse(DateFormat('yyyy-MM-dd').format(DateTime.now()));
     return WillPopScope(
-       onWillPop: () async {
+      onWillPop: () async {
         Navigator.pushNamed(context, "/main_receipt_screen");
         return false;
       },
@@ -109,9 +110,11 @@ class _ListCompletedReceiptScreenState
               BlocBuilder<CompletedReceiptBloc, CompletedReceiptState>(
                 builder: (context, state) {
                   if (state is CompletedReceiptInitState) {
-                    return ExceptionErrorState(
-                      title: '',
-                      message: "Chọn thời gian để truy xuất",
+                    return Center(
+                      child: ExceptionErrorState(
+                        title: '',
+                        message: "Chọn thời gian để truy xuất",
+                      ),
                     );
                   }
                   if (state is LoadReceiptCompletedStateSuccess) {
@@ -138,15 +141,17 @@ class _ListCompletedReceiptScreenState
                                   title: Text(
                                       "${state.receipts[index].goodsReceiptId}"),
                                   subtitle: Text(
-                                      "NCC : ${state.receipts[index].supply.toString()}  \nNgày tạo : ${DateFormat('yyyy-MM-dd').parse(state.receipts[index].timestamp.toString())}"),
+                                      "NCC : ${state.receipts[index].supply.toString()}"),
+                                  // \nNgày tạo : ${DateFormat('yyyy-MM-dd').parse(state.receipts[index].timestamp.toString())}
+
                                   onTap: () {
                                     BlocProvider.of<CompletedReceiptLotBloc>(
                                             context)
                                         .add(LoadReceiptLotCompletedEvent(
                                             DateTime.now(),
                                             state.receipts[index]));
-                                    Navigator.pushNamed(
-                                        context, '/imported_receipt_lot_screen');
+                                    Navigator.pushNamed(context,
+                                        '/imported_receipt_lot_screen');
                                   },
                                 ),
                               ),
@@ -191,9 +196,11 @@ class _ListCompletedReceiptScreenState
                     return SingleChildScrollView(
                       child: Column(
                         children: [
-                          ExceptionErrorState(
-                            title: state.detail,
-                            message: "Chọn lại khoảng thời gian phù hợp",
+                          Center(
+                            child: ExceptionErrorState(
+                              title: state.detail,
+                              message: "Chọn lại khoảng thời gian phù hợp",
+                            ),
                           ),
                           CustomizedButton(
                               text: "Trở lại",

@@ -11,19 +11,10 @@ class CreateReceiptBloc extends Bloc<CreateReceiptEvent, CreateReceiptState> {
 
   CreateReceiptBloc(this.goodsReceiptUsecase, this.itemUsecase)
       : super(ReceiptInitState(DateTime.now())) {
-    // on<GetAllItemEvent>((event, emit) async {
-    //   emit(LoadItemDataLoadingState(DateTime.now()));
-    //   try {
-    //     final items = await itemUsecase.getAllItem();
 
-    //     emit(LoadItemDataSuccessState(items,event.lots, event.index, DateTime.now()));
-    //   } catch (e) {
-    //     //emit(Load(DateTime.now()));
-    //   }
-    // });
-    // thêm lô mới vào phiếu nhập kho
     on<AddLotToGoodsReceiptEvent>((event, emit) async {
       emit(ReceiptLoadingState(DateTime.now()));
+      
       try {
         event.goodsReceipt.lots.add(event.itemLot);
 
@@ -33,7 +24,7 @@ class CreateReceiptBloc extends Bloc<CreateReceiptEvent, CreateReceiptState> {
         // emit(LoginStateLoginFailure(DateTime.now()));
       }
     });
-    // cập nhật thông tin lô hàng trong phiếu chưa post lên server
+
     on<UpdateLotReceiptEvent>((event, emit) async {
       emit(ReceiptLoadingState(DateTime.now()));
       try {
@@ -47,7 +38,7 @@ class CreateReceiptBloc extends Bloc<CreateReceiptEvent, CreateReceiptState> {
         // emit(LoginStateLoginFailure(DateTime.now()));
       }
     });
-    // post phiếu mới lên server
+
     on<PostNewReceiptEvent>((event, emit) async {
       emit(PostReceiptStateLoadingState(DateTime.now()));
       try {
@@ -55,10 +46,10 @@ class CreateReceiptBloc extends Bloc<CreateReceiptEvent, CreateReceiptState> {
             await goodsReceiptUsecase.postNewGoodsReceipt(event.goodsReceipt);
         if (status.detail == 'success') {
           emit(PostReceiptStateSuccess(
-              DateTime.now(), status, event.goodsReceipt));
+             (DateTime.now()), status, event.goodsReceipt));
         } else {
           emit(PostReceiptStateFailure(
-              ErrorPackage('fail'), DateTime.now(), event.goodsReceipt));
+              ErrorPackage('fail'), (DateTime.now()), event.goodsReceipt));
           //   emit(UpdateLotReceiptStateSuccess(
           //   DateTime.now(),
           //   event.goodsReceipt,
@@ -66,7 +57,7 @@ class CreateReceiptBloc extends Bloc<CreateReceiptEvent, CreateReceiptState> {
         }
       } catch (e) {
         emit(PostReceiptStateFailure(
-            ErrorPackage('fail'), DateTime.now(), event.goodsReceipt));
+            ErrorPackage('fail'), (DateTime.now()), event.goodsReceipt));
         // emit(UpdateLotReceiptStateSuccess(
         //   DateTime.now(),
         //   event.goodsReceipt,

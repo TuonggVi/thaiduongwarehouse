@@ -40,11 +40,7 @@ class MainScreen extends StatelessWidget {
                     text: "NHẬP KHO",
                     onPressed: () {
                       Navigator.pushNamed(context, '/main_receipt_screen');
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) => const ImportFunctionScreen()),
-                      // );
+
                     },),
                 MainIconCustomizedButton(
                     icon: Icons.output,
@@ -67,7 +63,7 @@ class MainScreen extends StatelessWidget {
                     text: "TỒN KHO",
                     onPressed: () {
                       Navigator.pushNamed(
-                          context, '/stockcard_function_screen');
+                          context, '/scan_item_screen');
                       // Navigator.push(
                       //   context,
                       //   MaterialPageRoute(

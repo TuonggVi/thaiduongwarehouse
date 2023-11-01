@@ -15,7 +15,7 @@ class GoodsReceiptUsecase {
   Future<ErrorPackage> patchNewGoodsReceipt(
       GoodsReceipt goodsReceipt) async {
     final status =
-        goodsReceiptRepository.postNewGoodsReceipt( goodsReceipt);
+        goodsReceiptRepository.patchNewGoodsReceipt( goodsReceipt);
     return status;
   }
   Future<ErrorPackage> updateDetailLotReceipt(
@@ -31,7 +31,14 @@ class GoodsReceiptUsecase {
   }
 
   Future<List<GoodsReceipt>> getUnCompletedGoodsReceipts() async {
-    final goodsReceipts = goodsReceiptRepository.getUnCompletedGoodsReceipts();
+    final goodsReceipts = await goodsReceiptRepository.getUnCompletedGoodsReceipts();
     return goodsReceipts;
   }
+ Future<ErrorPackage> removeGoodsReceiptLot(
+      GoodsReceipt goodsReceipt, GoodsReceiptLot goodsReceiptLot) async {
+    final status =
+        goodsReceiptRepository.removeGoodsReceiptLot( goodsReceipt, goodsReceiptLot);
+    return status;
+  }
+
 }

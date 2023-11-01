@@ -22,7 +22,7 @@ class ShelveBloc extends Bloc<ShelveEvent, ShelveState> {
       }
     });
 
-// lọc sản phẩm theo id
+
     on<GetLotByItemIdEvent>((event, emit) async {
       emit(GetLotByItemIdLoadingState(DateTime.now()));
       try {
@@ -36,7 +36,7 @@ class ShelveBloc extends Bloc<ShelveEvent, ShelveState> {
             DateTime.now(), 'Không truy xuất được dữ liệu', event.listItem));
       }
     });
-    // lấy list vị trí
+
     on<GetAllLocationEvent>((event, emit) async {
       List<Location> locations = [];
 
@@ -52,7 +52,7 @@ class ShelveBloc extends Bloc<ShelveEvent, ShelveState> {
         emit(GetAllLocationFailState(DateTime.now(),));
       }
     });
-    // lọc lô theo vị trí
+
     on<GetLotByLocationEvent>((event, emit) async {
       emit(GetLotByLocationLoadingState(DateTime.now()));
       try {

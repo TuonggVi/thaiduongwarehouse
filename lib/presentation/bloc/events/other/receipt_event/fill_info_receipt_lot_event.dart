@@ -21,12 +21,3 @@ class FillReceiptLotEvent extends FillInfoLotReceiptEvent {
   List<Object> get props => [timestamp];
 }
 
-// dành cho khi sửa phiếu đã gửi
-class RefillReceiptLotEvent extends FillInfoLotReceiptEvent {
-  DateTime timestamp;
-  GoodsReceipt goodsReceipt;
-  int index;
-  RefillReceiptLotEvent(this.timestamp, this.goodsReceipt, this.index);
-  @override
-  List<Object> get props => [timestamp];
-}

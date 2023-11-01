@@ -7,11 +7,11 @@ class ExportHistoryEntryModel extends ExportHistoryEntry {
   ExportHistoryEntryModel(
       {super.receiver,
       super.timestamp,
-      super.purchaseOrderNumber,
+
       super.entries});
   ExportHistoryEntryModel.fromJson(Map<String, dynamic> json) {
     receiver = json["receiver"];
-    purchaseOrderNumber = json["purchaseOrderNumber"];
+
     timestamp =  DateTime.tryParse( json['timestamp'].toString());
     entries = json["entries"] == null
         ? null

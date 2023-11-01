@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, annotate_overrides
 
 import 'package:equatable/equatable.dart';
 import 'package:mobile_warehouse_thaiduong/domain/entities/other/goods_issue.dart';
@@ -11,7 +11,7 @@ class LoadItemDataLoadingState extends FillInfoIssueEntryState {
   LoadItemDataLoadingState(this.timestamp);
 
   @override
-  // TODO: implement props
+
   List<Object?> get props => [timestamp];
 }
 class LoadItemDataSuccessState extends FillInfoIssueEntryState {
@@ -24,7 +24,7 @@ class LoadItemDataSuccessState extends FillInfoIssueEntryState {
   DateTime timestamp;
   @override
   LoadItemDataSuccessState( this.items, this.goodsIssue, this.index, this.timestamp);
-  // TODO: implement props
+ 
   List<Object?> get props => [timestamp];
 }
 
@@ -33,6 +33,6 @@ class LoadItemDataFailState extends FillInfoIssueEntryState {
   LoadItemDataFailState(this.timestamp);
 
   @override
-  // TODO: implement props
+
   List<Object?> get props => [timestamp];
 }

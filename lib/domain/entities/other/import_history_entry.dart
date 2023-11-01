@@ -17,14 +17,14 @@ class ImportHistoryEntry extends Equatable {
 class LotsHistory extends Equatable {
   String? goodsReceiptLotId;
   int? quantity;
-  String? purchaseOrderNumber;
+
   Item? item;
   String? note;
 
   LotsHistory(
       {this.goodsReceiptLotId,
       this.quantity,
-      this.purchaseOrderNumber,
+
       this.item,
       this.note});
   @override
@@ -34,7 +34,7 @@ class LotsHistory extends Equatable {
 class ImportHistoryView {
   String? goodsReceiptLotId;
   int? quantity;
-  String? purchaseOrderNumber;
+
   String? itemName;
   String? note;
   String? supplier;
@@ -42,7 +42,7 @@ class ImportHistoryView {
   ImportHistoryView(
       this.goodsReceiptLotId,
       this.quantity,
-      this.purchaseOrderNumber,
+
       this.itemName,
       this.note,
       this.supplier,

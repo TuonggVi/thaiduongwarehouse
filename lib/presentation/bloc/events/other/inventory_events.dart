@@ -52,6 +52,6 @@ class GetReportInventory extends InventoryEvent {
   String itemId;
   GetReportInventory(this.itemId);
   @override
-  // TODO: implement props
+
   List<Object?> get props => [itemId];
 }

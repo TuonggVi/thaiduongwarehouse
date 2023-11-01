@@ -9,23 +9,24 @@ class GoodsIssueRepoImpl implements GoodsIssueRepository {
   final GoodsIssueService goodsIssueService;
   GoodsIssueRepoImpl(this.goodsIssueService);
   @override
+  // thêm entry vào phiếu nhập
   Future<ErrorPackageModel> addGoodsIssueEntry(
       String goodsIssueId, GoodsIssueEntry goodsIssueEntry) async {
     final status =
         goodsIssueService.addGoodsIssueEntry(goodsIssueId, goodsIssueEntry);
     return status;
   }
-
+// thêm lô vào entry
   @override
   Future<ErrorPackageModel> addLotToGoodsIssue(
       String goodsIssueId, String itemId, List<GoodsIssueLot> lots) async {
     final status = goodsIssueService.addLotToGoodsIssue(goodsIssueId,itemId, lots);
     return status;
   }
-
+// 
   @override
   Future<List<GoodsIssueModel>> getCompletedGoodsissue(DateTime startDate, DateTime endDate) async {
-    final goodsIssues = goodsIssueService.getCompletedGoodsissue(startDate,endDate);
+    final goodsIssues = goodsIssueService.getCompletedGoodsIssue(startDate,endDate);
     return goodsIssues;
   }
 
@@ -48,7 +49,7 @@ class GoodsIssueRepoImpl implements GoodsIssueRepository {
       goodsIssue);
     return status;
   }
-
+// sửa số lượng yêu cầu xuất
   @override
   Future<ErrorPackage> updateGoodsIssueEntry(
       String goodsIssueId, String itemEntryId, double newQuantity) async{
@@ -56,7 +57,7 @@ class GoodsIssueRepoImpl implements GoodsIssueRepository {
         goodsIssueId, itemEntryId, newQuantity);
     return status;
   }
-
+// sửa thông tin lô
   @override
   Future<ErrorPackage> updateGoodsIssueLot(
       String goodsIssueId, String goodsIssueLotId, double newQuantity)async {
@@ -64,4 +65,13 @@ class GoodsIssueRepoImpl implements GoodsIssueRepository {
         goodsIssueId, goodsIssueLotId, newQuantity);
     return status;
   }
+  
+  @override
+  Future<ErrorPackage> patchRequestQuantity(GoodsIssue goodsIssue) {
+   final status = goodsIssueService.patchRequestQuantity(
+        goodsIssue);
+    return status;
+  }
+  
+
 }

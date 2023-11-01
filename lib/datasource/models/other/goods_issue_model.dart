@@ -4,29 +4,35 @@ import 'package:mobile_warehouse_thaiduong/datasource/models/employee_model.dart
 import 'package:mobile_warehouse_thaiduong/datasource/models/item_model.dart';
 import 'package:mobile_warehouse_thaiduong/domain/entities/other/goods_issue.dart';
 
+import '../location_model.dart';
+
 class GoodsIssueLotModel extends GoodsIssueLot {
-  GoodsIssueLotModel(super.goodsIssueLotId, super.quantity, super.sublotSize,
-      super.employee, super.note);
+  GoodsIssueLotModel(super.goodsIssueLotId, super.quantity, super.unit,
+      super.employee, super.note, super.goodsIssueSublot);
   factory GoodsIssueLotModel.fromJson(Map<String, dynamic> json) {
     return GoodsIssueLotModel(
       json['goodsIssueLotId'],
       double.tryParse(json['quantity'].toString()),
-      double.tryParse(json['sublotSize'].toString()),
+       json['unit'],
       json['employee'] == null
           ? const EmployeeModel('', '')
           : EmployeeModel.fromJson(json["employee"]),
       json['note'],
+      json['goodsReceiptSublot'] == null
+          ? []
+          : (json["goodsReceiptSublot"] as List)
+              .map((e) => GoodsIssueSublotModel.fromJson(e))
+              .toList(),
     );
   }
 }
 
 class GoodsIssueEntryModel extends GoodsIssueEntry {
-  GoodsIssueEntryModel(super.item, super.requestSublotSize,
-      super.requestQuantity, super.actualQuantity, super.lots);
+  GoodsIssueEntryModel(
+      super.item, super.requestQuantity, super.actualQuantity, super.lots);
   factory GoodsIssueEntryModel.fromJson(Map<String, dynamic> json) {
     return GoodsIssueEntryModel(
       json['item'] = ItemModel.fromJson(json["item"]),
-      double.tryParse(json['requestedSublotSize'].toString()),
       double.tryParse(json['requestedQuantity'].toString()),
       0,
       json['lots'] == null
@@ -39,20 +45,12 @@ class GoodsIssueEntryModel extends GoodsIssueEntry {
 }
 
 class GoodsIssueModel extends GoodsIssue {
-  GoodsIssueModel(
-      super.goodsIssueId,
-      super.purchaseOrderNumber,
-      super.timestamp,
-      super.isConfirmed,
-      super.receiver,
-      super.employee,
-      super.entries);
+  GoodsIssueModel(super.goodsIssueId, super.timestamp, super.receiver,
+      super.employee, super.entries);
   factory GoodsIssueModel.fromJson(Map<String, dynamic> json) {
     return GoodsIssueModel(
       json['goodsIssueId'],
-      json['purchaseOrderNumber'],
       DateTime.tryParse(json['timestamp'].toString()),
-      json['isConfirmed'],
       json['receiver'],
       json['employee'] == null
           ? const EmployeeModel("", "")
@@ -67,16 +65,3 @@ class GoodsIssueModel extends GoodsIssue {
 }
 
 
-
-// class GoodsIssueEntryViewModel extends IssueEntryView {
-//   GoodsIssueEntryViewModel(
-//       super.itemName, super.requestSublotSize, super.requestQuantity, super.unit);
-//   factory GoodsIssueEntryViewModel.fromJson(Map<String, dynamic> json) {
-//     return GoodsIssueEntryViewModel(
-//       json['itemName'],
-//       json['requestSublotSize'],
-//       json['requestQuantity'],
-//       json['unit'] 
-//     );
-//   }
-// }

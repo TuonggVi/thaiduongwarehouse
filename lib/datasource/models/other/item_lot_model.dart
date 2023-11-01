@@ -10,24 +10,22 @@ class ItemLotModel extends ItemLot {
       super.item,
       super.isolated,
       super.quantity,
-      super.sublotSize,
-      super.purchaseOrderNumber,
-      super.location,
       super.productionDate,
-      super.expirationDate);
+      super.expirationDate,
+      super.itemLotSubLot);
   factory ItemLotModel.fromJson(Map<String, dynamic> json) {
     return ItemLotModel(
       json['lotId'],
       json['item'] = ItemModel.fromJson(json["item"]),
       json['isIsolated'],
       double.tryParse(json['quantity'].toString()),
-      double.tryParse(json['sublotSize'].toString()),
-      json['purchaseOrderNumber'],
-      json['location'] == null
-          ? null
-          : LocationModel.fromJson(json['location']),
       DateTime.tryParse(json['productionDate'].toString()),
       DateTime.tryParse(json['expirationDate'].toString()),
+      json['itemLotLocations'] == null
+          ? []
+          : (json["itemLotLocations"] as List)
+              .map((e) => ItemLotSublotModel.fromJson(e))
+              .toList(),
     );
   }
 }

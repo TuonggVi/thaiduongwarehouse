@@ -10,18 +10,7 @@ class CreateIssueBloc extends Bloc<CreateNewIssueEvent, CreaNewIssueState> {
 
   CreateIssueBloc(this.goodsIssueUseCase, this.infoUsecase)
       : super(CreateNewIssueInitialState(null)) {
-    // on<LoadListDataEvent>((event, emit) async {
-    //   emit(LoadDepartmentLoadingState(DateTime.now()));
-    //   try {
-    //     final department = await infoUsecase.getAllDepartment();
-    //     final listPO = await infoUsecase.getAllPO();
-    //  //   final listReceiver = await infoUsecase.getAllReceiver();
-    //     emit(LoadListDataSuccessState(department, event.entriesIssue,
-    //       listPO, DateTime.now()));
-    //   } catch (e) {
-    //     // emit(LoginStateLoginFailure(DateTime.now()));
-    //   }
-    // });
+    // thêm entry vào phiếu nhập
     on<AddIssueEntryEvent>((event, emit) async {
       emit(UpdateEntryToGoodsIssueLoading(DateTime.now()));
       try {
@@ -34,6 +23,7 @@ class CreateIssueBloc extends Bloc<CreateNewIssueEvent, CreaNewIssueState> {
         // emit(LoginStateLoginFailure(DateTime.now()));
       }
     });
+    // cập nhật thông tin entry
     on<UpdateIssueEntryEvent>((event, emit) async {
       emit(UpdateEntryToGoodsIssueLoading(DateTime.now()));
       try {
@@ -47,6 +37,7 @@ class CreateIssueBloc extends Bloc<CreateNewIssueEvent, CreaNewIssueState> {
         // emit(LoginStateLoginFailure(DateTime.now()));
       }
     });
+
     on<LoadIssueEntryEvent>((event, emit) async {
       emit(UpdateEntryToGoodsIssueLoading(DateTime.now()));
       try {
@@ -58,6 +49,7 @@ class CreateIssueBloc extends Bloc<CreateNewIssueEvent, CreaNewIssueState> {
         // emit(LoginStateLoginFailure(DateTime.now()));
       }
     });
+  
     on<PostNewGoodsIssueEvent>((event, emit) async {
       emit(PostNewGoodsIssueLoadingState(DateTime.now()));
       try {
@@ -75,6 +67,7 @@ class CreateIssueBloc extends Bloc<CreateNewIssueEvent, CreaNewIssueState> {
             DateTime.now(), 'fail', event.goodsIssue));
       }
     });
+    // sai thông tin, trả về phiếu để sửa
     on<UpdateIssueFailEvent>((event, emit) async {
       try {
         event.goodsIssue.goodsIssueId == ''

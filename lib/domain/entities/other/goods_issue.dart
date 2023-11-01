@@ -1,45 +1,43 @@
-
 // ignore_for_file: must_be_immutable
 
 import 'package:equatable/equatable.dart';
 import 'package:mobile_warehouse_thaiduong/domain/entities/employee.dart';
 import 'package:mobile_warehouse_thaiduong/domain/entities/item.dart';
 
+import '../location.dart';
+
 class GoodsIssueLot extends Equatable {
   String? goodsIssueLotId;
   double? quantity;
-  double? sublotSize;
+  String? unit;
   Employee? employee;
   String? note;
-  GoodsIssueLot(this.goodsIssueLotId, this.quantity, this.sublotSize,
-      this.employee, this.note);
+  List<GoodsIssueSublot> goodsIssueSublot;
+  GoodsIssueLot(this.goodsIssueLotId, this.quantity, this.unit,this.employee, this.note,
+      this.goodsIssueSublot);
   @override
   List<Object?> get props => [goodsIssueLotId];
 }
 
 class GoodsIssueEntry extends Equatable {
   Item? item;
-  double? requestSublotSize;
   double? requestQuantity;
   double? actualQuantity;
-
   List<GoodsIssueLot>? lots;
   GoodsIssueEntry(
-      this.item, this.requestSublotSize, this.requestQuantity,this.actualQuantity, this.lots);
+      this.item, this.requestQuantity, this.actualQuantity, this.lots);
   @override
   List<Object?> get props => [item];
 }
 
 class GoodsIssue extends Equatable {
   String? goodsIssueId;
-  String? purchaseOrderNumber;
   DateTime? timestamp;
-  bool isConfirmed;
   String? receiver;
   Employee? employee;
   List<GoodsIssueEntry>? entries;
-  GoodsIssue(this.goodsIssueId, this.purchaseOrderNumber, this.timestamp,
-      this.isConfirmed, this.receiver,this.employee, this.entries);
+  GoodsIssue(this.goodsIssueId, this.timestamp, this.receiver, this.employee,
+      this.entries);
   @override
   List<Object?> get props => throw UnimplementedError();
 }

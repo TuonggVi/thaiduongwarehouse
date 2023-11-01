@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_pubpresentationlic_api, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,7 +41,7 @@ class _BarcodeScannerItemScreenState extends State<BarcodeScannerItemScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pushNamed(context, "/stockcard_function_screen");
+        Navigator.pushNamed(context, "/main_screen");
         return false;
       },
       child: Scaffold(
@@ -52,7 +52,7 @@ class _BarcodeScannerItemScreenState extends State<BarcodeScannerItemScreen> {
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/stockcard_function_screen');
+                Navigator.pushNamed(context, '/main_screen');
               },
             ),
             // leading: IconButton(

@@ -5,12 +5,11 @@ import 'package:mobile_warehouse_thaiduong/domain/entities/item.dart';
 
 class ExportHistoryEntry extends Equatable {
   String? receiver;
-  String? purchaseOrderNumber;
+
   DateTime? timestamp;
   List<EntriesHistory>? entries;
 
-  ExportHistoryEntry(
-      {this.receiver, this.purchaseOrderNumber, this.timestamp, this.entries});
+  ExportHistoryEntry({this.receiver, this.timestamp, this.entries});
 
   @override
   List<Object?> get props => [timestamp];
@@ -43,17 +42,10 @@ class ExportHistoryView {
   int? quantity;
   String? note;
   String? receiver;
-  String? purchaseOrderNumber;
+
   DateTime? timestamp;
   String? itemName;
   String? unit;
-  ExportHistoryView(
-      this.goodsIssueLotId,
-      this.quantity,
-      this.note,
-      this.receiver,
-      this.purchaseOrderNumber,
-      this.timestamp,
-      this.itemName,
-      this.unit);
+  ExportHistoryView(this.goodsIssueLotId, this.quantity, this.note,
+      this.receiver, this.timestamp, this.itemName, this.unit);
 }

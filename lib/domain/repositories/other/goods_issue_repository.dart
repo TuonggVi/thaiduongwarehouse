@@ -17,4 +17,6 @@ abstract class GoodsIssueRepository {
       String goodsIssueId, GoodsIssueEntry goodsIssueEntry);
   Future<ErrorPackage> updateGoodsIssueLot(
       String goodsIssueId, String goodsIssueLotId, double newQuantity);
+        Future<ErrorPackage> patchRequestQuantity(
+      GoodsIssue goodsIssue);
 }

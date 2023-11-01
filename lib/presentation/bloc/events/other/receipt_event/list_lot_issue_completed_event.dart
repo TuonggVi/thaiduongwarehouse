@@ -14,10 +14,4 @@ class LoadGoodsIssueLotCompletedEvent extends GoodsIssueLotCompletedEvent {
   List<Object?> get props => [timestamp];
 }
 
-//
-class UpdateGoodsIssueLotEvent extends GoodsIssueLotCompletedEvent {
-  DateTime timestamp;
-  UpdateGoodsIssueLotEvent(this.timestamp);
-  @override
-  List<Object?> get props => [timestamp];
-}
+

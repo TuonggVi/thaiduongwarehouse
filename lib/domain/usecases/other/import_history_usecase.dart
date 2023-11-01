@@ -12,14 +12,14 @@ class ImportHistoryUsecase {
     final entries = importHistoryRepoitory.getImportHistoryByPO(poNumber);
     return entries;
   }
-
+// truy xuất lịch sửa nhập theo thời gian + nhà cung cấp
   Future<List<ImportHistoryEntry>> getImportHistoryBySupplier(
       String supplier, DateTime startDate, DateTime endDate) {
     final entries = importHistoryRepoitory.getImportHistoryBySupplier(
         supplier, startDate, endDate);
     return entries;
   }
-
+// truy xuất lịch sử nhập theo kho hàng + mã sp
   Future<List<ImportHistoryEntry>> getImportHistoryByItem(
       String warehouseId, String itemId, DateTime startDate, DateTime endDate) {
     final entries = importHistoryRepoitory.getImportHistoryByItem(

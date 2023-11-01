@@ -5,13 +5,16 @@ import 'package:equatable/equatable.dart';
 import 'package:mobile_warehouse_thaiduong/domain/entities/error_package.dart';
 import 'package:mobile_warehouse_thaiduong/domain/entities/other/lot_adjustment.dart';
 
+import '../../../../domain/entities/other/item_lot.dart';
+
 
 abstract class AdjustmentState extends Equatable {}
 // Scan Barcode
 class GetLotDetailSuccessState extends AdjustmentState {
   DateTime timestamp;
   List<LotAdjustment> itemLots;
-  GetLotDetailSuccessState(this.timestamp, this.itemLots);
+  ItemLot itemLot;
+  GetLotDetailSuccessState(this.timestamp, this.itemLots, this.itemLot);
   @override
   List<Object> get props => [timestamp];
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_warehouse_thaiduong/injector.dart';
@@ -19,6 +21,7 @@ import 'package:mobile_warehouse_thaiduong/presentation/bloc/blocs/other/receipt
 import 'package:mobile_warehouse_thaiduong/presentation/bloc/blocs/other/receipt_bloc/fill_info_receipt_lot_bloc.dart';
 import 'package:mobile_warehouse_thaiduong/presentation/bloc/blocs/other/receipt_bloc/uncompleted_receipt_bloc.dart';
 import 'package:mobile_warehouse_thaiduong/presentation/bloc/blocs/other/receipt_bloc/uncompleted_receipt_lot_bloc.dart';
+import 'package:mobile_warehouse_thaiduong/presentation/bloc/blocs/other/receipt_bloc/update_receipt_lot_bloc.dart';
 import 'package:mobile_warehouse_thaiduong/presentation/screens/other_warehouse/export/create_new_issue_screen.dart';
 import 'package:mobile_warehouse_thaiduong/presentation/screens/other_warehouse/export/export_function_screen.dart';
 import 'package:mobile_warehouse_thaiduong/presentation/screens/other_warehouse/export/fill_info_lot_issue_screen.dart';
@@ -117,7 +120,7 @@ class AppRoute {
                       create: (context) => injector()),
                   BlocProvider<FillInfoNewReceiptLotBloc>(
                       create: (context) => injector()),
-                ], child: const FillInfoAddLotReceiptScreen()));
+                ], child: FillInfoAddLotReceiptScreen()));
 
       // ds phiếu nhập kho chưa hoàn thành
       case '/importing_receipt_screen':
@@ -127,7 +130,9 @@ class AppRoute {
                       create: (context) => injector()),
                   BlocProvider<ExportingReceiptLotBloc>(
                       create: (context) => injector()),
-                ], child: const ListUncompletedGoodReceiptScreen()));
+                          BlocProvider<GoodsReceiptSublotBloc>(
+                      create: (context) => injector()),
+                ], child: ListUncompletedGoodReceiptScreen()));
       // ds lô nhập kho trong phiếu chưa hoàn thành
       case '/importing_receipt_lot_screen':
         return MaterialPageRoute(
@@ -138,7 +143,11 @@ class AppRoute {
                       create: (context) => injector()),
                   BlocProvider<FillInfoNewReceiptLotBloc>(
                       create: (context) => injector()),
-                ], child: const ListUncompletedLotReceiptScreen()));
+                  BlocProvider<ExportingReceiptBloc>(
+                      create: (context) => injector()),
+                  BlocProvider<GoodsReceiptSublotBloc>(
+                      create: (context) => injector()),
+                ], child: ListUncompletedLotReceiptScreen()));
 
       case '/update_lot_receipt_screen':
         return MaterialPageRoute(
@@ -148,11 +157,17 @@ class AppRoute {
                       create: (context) => injector()),
                   BlocProvider<ExportingReceiptLotBloc>(
                       create: (context) => injector()),
+                  BlocProvider<ExportingReceiptBloc>(
+                      create: (context) => injector()),
+                  BlocProvider<GoodsReceiptSublotBloc>(
+                      create: (context) => injector()),
                 ], child: const UpdateInfoLotReceiptScreen()));
       case '/imported_receipt_screen':
         return MaterialPageRoute(
             builder: (context) => MultiBlocProvider(providers: [
                   BlocProvider<CompletedReceiptBloc>(
+                      create: (context) => injector()),
+                  BlocProvider<GoodsReceiptSublotBloc>(
                       create: (context) => injector()),
                   BlocProvider<CompletedReceiptLotBloc>(
                       create: (context) => injector()),
@@ -161,6 +176,8 @@ class AppRoute {
         return MaterialPageRoute(
             builder: (context) => MultiBlocProvider(providers: [
                   BlocProvider<CompletedReceiptLotBloc>(
+                      create: (context) => injector()),
+                  BlocProvider<GoodsReceiptSublotBloc>(
                       create: (context) => injector()),
                 ], child: const ListCompletedLotReceiptScreen()));
       case '/export_main_screen':

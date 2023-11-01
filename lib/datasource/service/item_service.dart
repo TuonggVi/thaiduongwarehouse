@@ -9,6 +9,7 @@ import '../models/error_package_model.dart';
 class ItemService {
   Future<List<ItemModel>> getAllItems() async {
     final res = await http.get(Uri.parse('${Constants.baseUrl}api/Items'));
+    
     if (res.statusCode == 200) {
       List<dynamic> body = jsonDecode(res.body);
       List<ItemModel> items = body

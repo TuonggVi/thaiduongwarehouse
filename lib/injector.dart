@@ -60,6 +60,7 @@ import 'package:mobile_warehouse_thaiduong/presentation/bloc/blocs/other/receipt
 import 'package:mobile_warehouse_thaiduong/presentation/bloc/blocs/other/receipt_bloc/fill_info_receipt_lot_bloc.dart';
 import 'package:mobile_warehouse_thaiduong/presentation/bloc/blocs/other/receipt_bloc/uncompleted_receipt_bloc.dart';
 import 'package:mobile_warehouse_thaiduong/presentation/bloc/blocs/other/receipt_bloc/uncompleted_receipt_lot_bloc.dart';
+import 'package:mobile_warehouse_thaiduong/presentation/bloc/blocs/other/receipt_bloc/update_receipt_lot_bloc.dart';
 import 'package:mobile_warehouse_thaiduong/presentation/bloc/blocs/other/shelve_bloc.dart';
 import 'package:mobile_warehouse_thaiduong/presentation/bloc/blocs/other/warning_bloc.dart';
 
@@ -146,7 +147,9 @@ Future<void> initializeDependencies() async {
   injector.registerSingleton<CompletedReceiptLotBloc>(
       CompletedReceiptLotBloc(injector()));
   injector.registerSingleton<FillInfoNewReceiptLotBloc>(
-      FillInfoNewReceiptLotBloc(injector(), injector()));
+      FillInfoNewReceiptLotBloc(injector(), injector(), injector()));
+       injector.registerSingleton<GoodsReceiptSublotBloc>(
+      GoodsReceiptSublotBloc(injector(), injector()));
   //issue
   injector.registerSingleton<CreateIssueBloc>(
       CreateIssueBloc(injector(), injector()));

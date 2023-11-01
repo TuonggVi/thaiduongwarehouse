@@ -3,6 +3,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:mobile_warehouse_thaiduong/domain/entities/employee.dart';
 import 'package:mobile_warehouse_thaiduong/domain/entities/item.dart';
+import 'package:mobile_warehouse_thaiduong/domain/entities/location.dart';
 
 class LotAdjustment extends Equatable {
   String? lotId;
@@ -11,11 +12,10 @@ class LotAdjustment extends Equatable {
   DateTime? timestamp;
   double? afterQuantity;
   double? beforeQuantity;
-  String? newPoNumber;
-  String? oldPoNumber;
+  List<ItemLotSublot> itemLotSublot;
   Item? item;
   bool? isConfirmed;
-  LotAdjustment(this.lotId, this.note, this.employee, this.timestamp, this.afterQuantity, this.beforeQuantity, this.oldPoNumber, this.newPoNumber, this.item, this.isConfirmed);
+  LotAdjustment(this.lotId, this.note, this.employee, this.timestamp, this.afterQuantity, this.beforeQuantity,this.itemLotSublot, this.item, this.isConfirmed);
   @override
   List<Object?> get props => throw UnimplementedError();
 }

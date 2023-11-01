@@ -72,7 +72,7 @@ class _ImportHistoryEntryScreenState extends State<ImportHistoryEntryScreen> {
                                   DataColumn(label: Text('Mã lô')),
                                   DataColumn(label: Text('SP')),
                                   DataColumn(label: Text('SL')),
-                                  DataColumn(label: Text('PO')),
+                           
                                 ],
                                 rows: state
                                     .importHistoryEntries // Loops through dataColumnText, each iteration assigning the value to element
@@ -87,8 +87,7 @@ class _ImportHistoryEntryScreenState extends State<ImportHistoryEntryScreen> {
                                                   Text(element.itemName.toString())),
                                                    DataCell(
                                                   Text(element.quantity.toString())),
-                                              DataCell(
-                                                  Text(element.purchaseOrderNumber.toString())),
+                              
                                             ],
                                           )),
                                     )
@@ -118,9 +117,11 @@ class _ImportHistoryEntryScreenState extends State<ImportHistoryEntryScreen> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        ExceptionErrorState(
-                          title: state.status.detail,
-                          message: "Vui lòng thử lại sau",
+                        Center(
+                          child: ExceptionErrorState(
+                            title: state.status.detail,
+                            message: "Vui lòng thử lại sau",
+                          ),
                         ),
                         CustomizedButton(
                         onPressed: () {
@@ -136,14 +137,14 @@ class _ImportHistoryEntryScreenState extends State<ImportHistoryEntryScreen> {
                     );
                   }
                   if (state is AccessImportHistoryLoadingState) {
-                  return const Dialog(
+                  return   Dialog(
                         // The background color
                         backgroundColor: Colors.white,
                         child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 20),
+                          padding: const EdgeInsets.symmetric(vertical: 20),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
-                            children: [
+                            children:const [
                               // The loading indicator
                               CircularProgressIndicator(),
                               SizedBox(
@@ -156,9 +157,9 @@ class _ImportHistoryEntryScreenState extends State<ImportHistoryEntryScreen> {
                         ),
                       );
                   } else {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
+                    return Center(
+    
+                      child: 
                         ExceptionErrorState(
                           title: 'Lỗi hệ thống',
                           message: "Vui lòng thử lại sau",
@@ -173,7 +174,7 @@ class _ImportHistoryEntryScreenState extends State<ImportHistoryEntryScreen> {
                       //   },
                       //   text: "Trở lại",
                       // )
-                      ],
+                      
                     );
                   }
                 })

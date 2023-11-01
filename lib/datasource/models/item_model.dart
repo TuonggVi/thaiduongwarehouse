@@ -13,6 +13,7 @@ factory ItemModel.fromJson(Map<String, dynamic> json) {
       //== null ?  ItemClassModel('') : ItemClassModel.fromJson(json["itemClass"]),
      double.parse( json['minimumStockLevel'].toString()),
      double.parse( json['price'].toString()),
+   
     );
   }
 }

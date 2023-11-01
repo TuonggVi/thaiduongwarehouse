@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -10,7 +12,6 @@ import 'package:mobile_warehouse_thaiduong/presentation/bloc/events/other/issue_
 import 'package:mobile_warehouse_thaiduong/presentation/bloc/events/other/issue_event/fill_info_issue_entry_event.dart';
 import 'package:mobile_warehouse_thaiduong/presentation/bloc/states/other/issue_state/create_new_issue_state.dart';
 import 'package:mobile_warehouse_thaiduong/presentation/widgets/button_widget.dart';
-import '../../../dialog/dialog_one_button.dart';
 import '../../../widgets/exception_widget.dart';
 // trang tạo phiếu xuất kho chính
 class CreateNewIssueScreen extends StatefulWidget {
@@ -21,7 +22,7 @@ class CreateNewIssueScreen extends StatefulWidget {
 
 class _CreateNewIssueScreenState extends State<CreateNewIssueScreen> {
   GoodsIssue goodsIssue =
-      GoodsIssue('', '', DateTime.now(), false, '', null,  []);
+      GoodsIssue('', DateTime.now(), '', null,  []);
   var issueId = TextEditingController();
   var receiver = TextEditingController();
 
@@ -70,14 +71,14 @@ class _CreateNewIssueScreenState extends State<CreateNewIssueScreen> {
           builder: (context, state) {
             if (state is PostNewGoodsIssueLoadingState ||
                 state is UpdateEntryToGoodsIssueLoading) {
-              return const Dialog(
+              return   Dialog(
                 // The background color
                 backgroundColor: Colors.white,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20),
+                  padding:  const EdgeInsets.symmetric(vertical: 20),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: [
+                    children: const [
                       // The loading indicator
                       CircularProgressIndicator(),
                       SizedBox(
@@ -105,7 +106,7 @@ class _CreateNewIssueScreenState extends State<CreateNewIssueScreen> {
                           // reset lại trang tạo phiếu
                           BlocProvider.of<CreateIssueBloc>(context)
                               .add(UpdateIssueFailEvent(
-                            GoodsIssue('', '', null, false, null, null, null),
+                            GoodsIssue('', null,  null, null, null),
                             DateTime.now(),
                           ));
                           Navigator.pushNamed(
@@ -141,7 +142,7 @@ class _CreateNewIssueScreenState extends State<CreateNewIssueScreen> {
                           // reset lại trang tạo phiếu
                           BlocProvider.of<CreateIssueBloc>(context)
                               .add(UpdateIssueFailEvent(
-                            GoodsIssue('', '', null, false, null, null, null),
+                            GoodsIssue('', null, null, null, null),
                             DateTime.now(),
                           ));
                           Navigator.pushNamed(
@@ -224,7 +225,7 @@ class _CreateNewIssueScreenState extends State<CreateNewIssueScreen> {
                                   title: Text(
                                       "Sản phẩm : ${state.goodsIssue!.entries![index].item!.itemName.toString()}"),
                                   subtitle: Text(
-                                      "Số lượng yêu cầu : ${state.goodsIssue!.entries![index].requestQuantity.toString()} \nĐịnh mức yêu cầu : ${state.goodsIssue!.entries![index].requestSublotSize ?? "..."} "),
+                                      "Số lượng yêu cầu : ${state.goodsIssue!.entries![index].requestQuantity.toString()} "),
                                   onTap: () {
                                     BlocProvider.of<FillInfoIssueEntryBloc>(
                                             context)
@@ -324,9 +325,11 @@ class _CreateNewIssueScreenState extends State<CreateNewIssueScreen> {
                         color: Colors.black,
                       ),
                     ),
-                    ExceptionErrorState(
-                      title: "Phiếu đang rỗng",
-                      message: "Chọn Thêm mới để chọn hàng hóa cần xuất",
+                    Center(
+                      child: ExceptionErrorState(
+                        title: "Phiếu đang rỗng",
+                        message: "Chọn Thêm mới để chọn hàng hóa cần xuất",
+                      ),
                     ),
                     CustomizedButton(
                         text: "Thêm mới",

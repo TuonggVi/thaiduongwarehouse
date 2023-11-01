@@ -50,7 +50,8 @@ class _SearchItemScreenState extends State<SearchItemScreen> {
           body: Column(
             children: [
               BlocConsumer<ShelveBloc, ShelveState>(listener: (context, state) {
-                if (state is GetLotByItemIdLoadingState || state is GetLotByItemIdLoadingState) {
+                if (state is GetLotByItemIdLoadingState ||
+                    state is GetLotByItemIdLoadingState) {
                   //  LoadingAlertDialog(context).show();
                 }
               }, builder: (context, state) {
@@ -67,7 +68,7 @@ class _SearchItemScreenState extends State<SearchItemScreen> {
                               .map((e) => e.itemId.toString())
                               .toList(),
                           showSearchBox: true,
-                          label: "Mã sản phẩm",                    
+                          label: "Mã sản phẩm",
                           onChanged: (value) {
                             setState(() {
                               selectedItem = state.items.firstWhere(
@@ -133,162 +134,213 @@ class _SearchItemScreenState extends State<SearchItemScreen> {
                               ],
                             ),
                           )
-                        : SizedBox(
-                            height: 330 * SizeConfig.ratioHeight,
-                            child: ListView.builder(
-                                itemCount: state.itemLot.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(width: 1),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: ListTile(
-                                        trailing: Icon(Icons.edit,
-                                            size: 17 * SizeConfig.ratioFont),
-                                        title: Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              0, 8.0, 0, 8.0),
-                                          child: Text(
-                                            "Mã lô : ${state.itemLot[index].lotId}",
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize:
-                                                  16 * SizeConfig.ratioFont,
-                                              color: Colors.black,
-                                            ),
+                        : Column(
+                            children: [
+                              SizedBox(
+                                height: 330 * SizeConfig.ratioHeight,
+                                child: ListView.builder(
+                                    itemCount: state.itemLot.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            border: Border.all(width: 1),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              ListTile(
+                                              
+                                                title: Padding(
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          0, 8.0, 0, 8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        "Mã lô : ${state.itemLot[index].lotId}",
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 16 *
+                                                              SizeConfig.ratioFont,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                      Icon(Icons.edit,
+                                                    size: 17 *
+                                                        SizeConfig.ratioFont),
+                                                    ],
+                                                  ),
+                                                ),
+                                                subtitle: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 150 *
+                                                          SizeConfig.ratioWidth,
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w100,
+                                                                fontSize: 16 *
+                                                                    SizeConfig
+                                                                        .ratioFont,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                              "Mã hàng: ${state.itemLot[index].item!.itemId}"),
+                                                               Text(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w100,
+                                                                fontSize: 16 *
+                                                                    SizeConfig
+                                                                        .ratioFont,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                              "Tên hàng: ${state.itemLot[index].item!.itemName}"),
+                                                          Text(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w100,
+                                                                fontSize: 16 *
+                                                                    SizeConfig
+                                                                        .ratioFont,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                              "Số lượng: ${state.itemLot[index].quantity}"),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 150 *
+                                                          SizeConfig.ratioWidth,
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                         
+                                                          Text(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w100,
+                                                                fontSize: 16 *
+                                                                    SizeConfig
+                                                                        .ratioFont,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                              "NSX: ${state.itemLot[index].productionDate == null ? 'Chưa cập nhật' : 
+                                                              DateFormat('yyyy-MM-dd').format(state.itemLot[index].productionDate as DateTime)}"),
+                                                          Text(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w100,
+                                                                fontSize: 16 *
+                                                                    SizeConfig
+                                                                        .ratioFont,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                              "HSD: ${state.itemLot[index].expirationDate == null ? 'Chưa cập nhật' : 
+                                                              DateFormat('yyyy-MM-dd').format(state.itemLot[index].expirationDate as DateTime)}"),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                isThreeLine: true,
+                                                onTap: () {},
+                                              ),
+                                              ListView.builder(
+                                                shrinkWrap: true,
+                                                physics:
+                                                    const NeverScrollableScrollPhysics(),
+                                                itemCount: state.itemLot[index]
+                                                    .itemLotSubLot.length,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int index1) {
+                                                  return ListTile(
+                                                    title: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          SizedBox(
+                                                            width: 150 *
+                                                                SizeConfig
+                                                                    .ratioWidth,
+                                                            child: Text(
+                                                            "Vị trí: ${state.itemLot[index].itemLotSubLot[index1].locationId}",
+                                                             
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 150 *
+                                                                SizeConfig
+                                                                    .ratioWidth,
+                                                            child: Text(
+                                                                "Số lượng: ${state.itemLot[index].itemLotSubLot[index1].quantityPerLocation}"),
+                                                          ),
+                                                        ]),
+                                                  );
+                                                },
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        subtitle: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            SizedBox(
-                                              width:
-                                                  150 * SizeConfig.ratioWidth,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w100,
-                                                        fontSize: 16 *
-                                                            SizeConfig
-                                                                .ratioFont,
-                                                        color: Colors.black,
-                                                      ),
-                                                      "Mã hàng: ${state.itemLot[index].item!.itemId}"),
-                                                  Text(
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w100,
-                                                        fontSize: 16 *
-                                                            SizeConfig
-                                                                .ratioFont,
-                                                        color: Colors.black,
-                                                      ),
-                                                      "Số lượng: ${state.itemLot[index].quantity}"),
-                                                  Text(
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w100,
-                                                        fontSize: 16 *
-                                                            SizeConfig
-                                                                .ratioFont,
-                                                        color: Colors.black,
-                                                      ),
-                                                      "Vị trí: ${state.itemLot[index].location!.locationId }"),
-                                                  Text(
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w100,
-                                                        fontSize: 16 *
-                                                            SizeConfig
-                                                                .ratioFont,
-                                                        color: Colors.black,
-                                                      ),
-                                                      "NSX: ${state.itemLot[index].productionDate == null ? '...' : DateFormat('yyyy-MM-dd').format(state.itemLot[index].productionDate as DateTime)}"),
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width:
-                                                  150 * SizeConfig.ratioWidth,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w100,
-                                                        fontSize: 16 *
-                                                            SizeConfig
-                                                                .ratioFont,
-                                                        color: Colors.black,
-                                                      ),
-                                                      "Tên hàng: ${state.itemLot[index].item!.itemName}"),
-                                                  Text(
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w100,
-                                                        fontSize: 16 *
-                                                            SizeConfig
-                                                                .ratioFont,
-                                                        color: Colors.black,
-                                                      ),
-                                                      "Định mức: ${state.itemLot[index].sublotSize ?? '...'}  "),
-                                                  Text(
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w100,
-                                                        fontSize: 16 *
-                                                            SizeConfig
-                                                                .ratioFont,
-                                                        color: Colors.black,
-                                                      ),
-                                                      "Số PO: ${state.itemLot[index].purchaseOrderNumber ?? '...'}"),
-                                                  Text(
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w100,
-                                                        fontSize: 16 *
-                                                            SizeConfig
-                                                                .ratioFont,
-                                                        color: Colors.black,
-                                                      ),
-                                                      "HSD: ${state.itemLot[index].expirationDate == null ? '...' : DateFormat('yyyy-MM-dd').format(state.itemLot[index].expirationDate as DateTime)}"),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        isThreeLine: true,
-                                        onTap: () {},
-                                      ),
-                                    ),
-                                  );
-                                }),
+                                      );
+                                    }),
+                              ),
+                              CustomizedButton(
+                                  text: "Trở về",
+                                  onPressed: () {
+                                    // reset lại trang tạo phiếu
+                                    Navigator.pushNamed(
+                                      context,
+                                      '/shelves_function_screen',
+                                    );
+                                  }),
+                            ],
                           ),
                   ],
                 );

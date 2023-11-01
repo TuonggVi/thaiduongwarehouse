@@ -4,11 +4,12 @@ import 'package:mobile_warehouse_thaiduong/constant.dart';
 import 'package:mobile_warehouse_thaiduong/function.dart';
 import 'package:mobile_warehouse_thaiduong/presentation/bloc/blocs/other/receipt_bloc/uncompleted_receipt_bloc.dart';
 import 'package:mobile_warehouse_thaiduong/presentation/bloc/events/other/receipt_event/uncompleted_receipt_event.dart';
-
 import 'package:mobile_warehouse_thaiduong/presentation/widgets/button_widget.dart';
 
 class ImportFunctionScreen extends StatelessWidget {
   const ImportFunctionScreen({super.key});
+  
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -51,16 +52,11 @@ class ImportFunctionScreen extends StatelessWidget {
                 icon: Icons.add_location_alt,
                 text: "DS PHIẾU CHƯA HOÀN THÀNH",
                 onPressed: () {
+               
                   BlocProvider.of<ExportingReceiptBloc>(context)
                       .add(LoadUncompletedGoodsReceiptEvent(DateTime.now()));
                   Navigator.pushNamed(context, '/importing_receipt_screen');
-    
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (context) =>
-                  //           const ListUncompletedGoodReceiptScreen()),
-                  // );
+      
                 }),
             IconCustomizedButton(
                 icon: Icons.list_alt_outlined,

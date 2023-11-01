@@ -29,6 +29,8 @@ class GoodsIssueUseCase {
     final goodsIssue = goodsIssueRepository.getGoodsIssueById(goodsIssueId);
     return goodsIssue;
   }
+  
+
 
   Future<ErrorPackage> updateGoodsIssueEntry(
       String goodsIssueId, String itemEntryId, double newQuantity) async {
@@ -54,6 +56,12 @@ class GoodsIssueUseCase {
       String goodsIssueId, String goodsIssueLotId, double newQuantity) async {
     final status = goodsIssueRepository.updateGoodsIssueLot(
         goodsIssueId, goodsIssueLotId, newQuantity);
+    return status;
+  }
+    Future<ErrorPackage> patchRequestQuantity(
+      GoodsIssue goodsIssue) async {
+    final status =
+        goodsIssueRepository.patchRequestQuantity( goodsIssue);
     return status;
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_warehouse_thaiduong/function.dart';
 import '../../../constant.dart';
-import '../../dialog/dialog_two_button.dart';
 import '../../widgets/button_widget.dart';
 import '../../widgets/main_app_name.dart';
 

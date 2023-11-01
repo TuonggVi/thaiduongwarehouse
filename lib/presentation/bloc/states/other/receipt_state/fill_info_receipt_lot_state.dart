@@ -20,6 +20,8 @@ class LoadItemDataSuccessState extends FillInfoReceiptLotState {
       this.items,this.locations, this.goodsReceipt, this.index, this.timestamp);
   @override
   List<Object?> get props => [timestamp];
+
+  get goodsReceiptLot => null;
 }
 
 class LoadItemDataLoadingState extends FillInfoReceiptLotState {

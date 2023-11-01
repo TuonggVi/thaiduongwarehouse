@@ -21,14 +21,14 @@ class LotsHistoryModel extends LotsHistory {
   LotsHistoryModel(
       {super.goodsReceiptLotId,
       super.item,
-      super.purchaseOrderNumber,
+
       super.quantity,
       super.note});
 
   LotsHistoryModel.fromJson(Map<String, dynamic> json) {
     goodsReceiptLotId = json["goodsReceiptLotId"];
     quantity = json["quantity"];
-    purchaseOrderNumber = json["purchaseOrderNumber"];
+
     item = json["item"] == null ? null : ItemModel.fromJson(json["item"]);
     note = json["note"];
   }

@@ -26,10 +26,10 @@ class ExportHistoryBloc extends Bloc<ExportHistoryEvent, ExportHistoryState> {
         final item = await itemUsecase.getAllItem();
         final warehouse = await locationUsecase.getAllWarehouseId();
         final receiver = await infoUsecase.getAllReceiver();
-        final poNumber = await infoUsecase.getAllPO();
+       
 
         emit(GetAllInfoExportSuccessState(
-            DateTime.now(), item, poNumber, receiver, warehouse));
+            DateTime.now(), item, receiver, warehouse));
       } catch (e) {
         emit(GetAllInfoExportFailState(DateTime.now(), ErrorPackage('')));
       }
@@ -40,73 +40,14 @@ class ExportHistoryBloc extends Bloc<ExportHistoryEvent, ExportHistoryState> {
         List<Item> item = event.listAllItem
             .expand((e) => [if (e.itemClass == event.warehouseId) e])
             .toList();
-        emit(GetExportItemByWarehouseSuccessState(
-            DateTime.now(),
-            event.listAllItem,
-            item,
-            event.warehouse,
-            event.poNumber,
-            event.receiver));
+        emit(GetExportItemByWarehouseSuccessState(DateTime.now(),
+            event.listAllItem, item, event.warehouse, event.receiver));
       } catch (e) {
         emit(GetExportItemByWarehouseFailState(
             DateTime.now(), ErrorPackage('')));
       }
     });
 
-    // truy xuất lịch sử xuất kho
-    on<AccessExportHistoryByPOEvent>((event, emit) async {
-      List<ExportHistoryView> exportHistoryView = [];
-      emit(AccessExportHistoryLoadingState(DateTime.now()));
-      try {
-        final goodIssueLots = await exportHistoryUsecase
-            .getExportHistoryByPO(event.purchaseOrderNumber);
-        for (var element in goodIssueLots) {
-          if (element.entries!.isNotEmpty) {
-            for (var entry in element.entries!) {
-              if (entry.lots!.isNotEmpty) {
-                for (var lot in entry.lots!) {
-                  exportHistoryView.add(ExportHistoryView(
-                      lot.goodsIssueLotId,
-                      lot.quantity,
-                      lot.note,
-                      element.receiver,
-                      element.purchaseOrderNumber,
-                      element.timestamp,
-                      entry.item!.itemName,
-                      entry.unit));
-                }
-              }
-            }
-          }
-        }
-        goodIssueLots.isNotEmpty
-            ? emit(AccessExportHistorySuccessState(
-                DateTime.now(),
-                exportHistoryView,
-                event.itemSort,
-                event.listAllItem,
-                event.warehouse,
-                event.poNumber,
-                event.receiverList))
-            : emit(AccessExportHistoryFailState(
-                DateTime.now(),
-                ErrorPackage('Lịch sử đang rỗng'),
-                event.warehouse,
-                event.itemSort,
-                event.listAllItem,
-                event.poNumber,
-                event.receiverList));
-      } catch (e) {
-        emit(AccessExportHistoryFailState(
-            DateTime.now(),
-            ErrorPackage('Lỗi hệ thống'),
-            event.warehouse,
-            event.itemSort,
-            event.listAllItem,
-            event.poNumber,
-            event.receiverList));
-      }
-    });
     on<AccessExportHistoryByReceiverEvent>((event, emit) async {
       List<ExportHistoryView> exportHistoryView = [];
 
@@ -128,7 +69,7 @@ class ExportHistoryBloc extends Bloc<ExportHistoryEvent, ExportHistoryState> {
                       lot.quantity,
                       lot.note,
                       element.receiver,
-                      element.purchaseOrderNumber,
+                  
                       element.timestamp,
                       entry.item!.itemName,
                       entry.unit));
@@ -144,7 +85,6 @@ class ExportHistoryBloc extends Bloc<ExportHistoryEvent, ExportHistoryState> {
                 event.itemSort,
                 event.listAllItem,
                 event.warehouse,
-                event.poNumber,
                 event.receiverList))
             : emit(AccessExportHistoryFailState(
                 DateTime.now(),
@@ -152,7 +92,6 @@ class ExportHistoryBloc extends Bloc<ExportHistoryEvent, ExportHistoryState> {
                 event.warehouse,
                 event.itemSort,
                 event.listAllItem,
-                event.poNumber,
                 event.receiverList));
       } catch (e) {
         emit(AccessExportHistoryFailState(
@@ -161,7 +100,6 @@ class ExportHistoryBloc extends Bloc<ExportHistoryEvent, ExportHistoryState> {
             event.warehouse,
             event.itemSort,
             event.listAllItem,
-            event.poNumber,
             event.receiverList));
       }
     });
@@ -186,7 +124,7 @@ class ExportHistoryBloc extends Bloc<ExportHistoryEvent, ExportHistoryState> {
                       lot.quantity,
                       lot.note,
                       element.receiver,
-                      element.purchaseOrderNumber,
+          
                       element.timestamp,
                       entry.item!.itemName,
                       entry.unit));
@@ -202,7 +140,6 @@ class ExportHistoryBloc extends Bloc<ExportHistoryEvent, ExportHistoryState> {
                 event.itemSort,
                 event.listAllItem,
                 event.warehouse,
-                event.poNumber,
                 event.receiverList))
             : emit(AccessExportHistoryFailState(
                 DateTime.now(),
@@ -210,7 +147,6 @@ class ExportHistoryBloc extends Bloc<ExportHistoryEvent, ExportHistoryState> {
                 event.warehouse,
                 event.itemSort,
                 event.listAllItem,
-                event.poNumber,
                 event.receiverList));
       } catch (e) {
         emit(AccessExportHistoryFailState(
@@ -219,7 +155,6 @@ class ExportHistoryBloc extends Bloc<ExportHistoryEvent, ExportHistoryState> {
             event.warehouse,
             event.itemSort,
             event.listAllItem,
-            event.poNumber,
             event.receiverList));
       }
     });

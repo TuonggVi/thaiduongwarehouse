@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_warehouse_thaiduong/constant.dart';
-import 'package:mobile_warehouse_thaiduong/presentation/bloc/events/other/issue_event/list_lot_issue_completed_event.dart';
+import 'package:mobile_warehouse_thaiduong/presentation/bloc/events/other/receipt_event/list_lot_issue_completed_event.dart';
 import '../../../../function.dart';
 import '../../../bloc/blocs/other/issue_bloc/list_goods_issue_completed_bloc.dart';
 import '../../../bloc/blocs/other/issue_bloc/list_lot_issue_completed_bloc.dart';
@@ -11,7 +11,8 @@ import '../../../bloc/states/other/issue_state/list_completed_goods_issue_state.
 import '../../../widgets/button_widget.dart';
 import '../../../widgets/customized_date_picker.dart';
 import '../../../widgets/exception_widget.dart';
-// danh sách các phiếu nhập đã hoàn thành
+
+// danh sách các phiếu xuất đã hoàn thành
 class ListGoodIssueCompletedScreen extends StatefulWidget {
   const ListGoodIssueCompletedScreen({super.key});
 
@@ -31,8 +32,8 @@ class _ListGoodIssueCompletedScreenState
     SizeConfig().init(context);
 
     return WillPopScope(
-        onWillPop: () async {
-        Navigator.pushNamed(context,'/export_main_screen');
+      onWillPop: () async {
+        Navigator.pushNamed(context, '/export_main_screen');
         return false;
       },
       child: Scaffold(
@@ -100,67 +101,102 @@ class _ListGoodIssueCompletedScreenState
               Text(
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
-                "Danh sách các phiếu nhập \n đã hoàn thành",
+                "Danh sách các phiếu xuất \n đã hoàn thành",
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 25 * SizeConfig.ratioFont,
                   color: Colors.black,
                 ),
               ),
-              BlocBuilder<ListGoodsIssueCompletedBloc, CompletedGoodsIssueState>(
+              BlocBuilder<ListGoodsIssueCompletedBloc,
+                  CompletedGoodsIssueState>(
                 builder: (context, state) {
                   if (state is LoadCompletedGoodsIssueInitState) {
-                    return ExceptionErrorState(
-                      title: '',
-                      message: "Chọn thời gian để truy xuất",
+                    return Column(
+                      children: [
+                        Center(
+                          child: ExceptionErrorState(
+                            title: '',
+                            message: "Chọn thời gian để truy xuất",
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.fromLTRB(0, 80, 0, 0),
+                          child: CustomizedButton(
+                              text: "Truy xuất",
+                              onPressed: () {
+                                BlocProvider.of<ListGoodsIssueCompletedBloc>(
+                                        context)
+                                    .add(LoadCompletedGoodsIssuesEvent(
+                                        DateTime.now(), startDate, endDate));
+                              }),
+                        ),
+                      ],
                     );
                   }
                   if (state is LoadCompletedGoodsIssuesSuccessState) {
-                    return SizedBox(
-                      height: 380 * SizeConfig.ratioHeight,
-                      child: ListView.builder(
-                          itemCount: state.goodsIssues.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(width: 1),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: ListTile(
-                                  // shape: RoundedRectangleBorder(
-                                  //   side: BorderSide(width: 1),
-                                  //   borderRadius: BorderRadius.circular(10),
-                                  // ),
-                                  leading: const Icon(Icons.list),
-                                  trailing: Icon(Icons.arrow_drop_down_sharp,
-                                      size: 15 * SizeConfig.ratioFont),
-                                  title: Text(state
-                                      .goodsIssues[index].goodsIssueId
-                                      .toString()),
-                                  subtitle: Text(
-                                      "Người nhận : ${state.goodsIssues[index].receiver.toString()}  \nNgày tạo : ${DateFormat('yyyy-MM-dd').parse(state.goodsIssues[index].timestamp.toString())}"),
-                                  onTap: () {
-                                    BlocProvider.of<
-                                                ListGoodsIssueLotCompletedBloc>(
-                                            context)
-                                        .add(LoadGoodsIssueLotCompletedEvent(
-                                            DateTime.now(),
-                                            state.goodsIssues[index]));
-                                    Navigator.pushNamed(context,
-                                        '/list_goods_issue_lot_completed_screen');
-                                  },
-                                ),
-                              ),
-                            );
-                          }),
+                    return Column(
+                      children: [
+                        SizedBox(
+                          height: 380 * SizeConfig.ratioHeight,
+                          child: ListView.builder(
+                              itemCount: state.goodsIssues.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(width: 1),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: ListTile(
+                                      // shape: RoundedRectangleBorder(
+                                      //   side: BorderSide(width: 1),
+                                      //   borderRadius: BorderRadius.circular(10),
+                                      // ),
+                                      leading: const Icon(Icons.list),
+                                      trailing: Icon(
+                                          Icons.arrow_drop_down_sharp,
+                                          size: 15 * SizeConfig.ratioFont),
+                                      title: Text(state
+                                          .goodsIssues[index].goodsIssueId
+                                          .toString()),
+                                      subtitle: Text(
+                                          "Người nhận : ${state.goodsIssues[index].receiver.toString()}"),
+                                      //\nNgày tạo : ${DateFormat('yyyy-MM-dd').parse(state.goodsIssues[index].timestamp.toString())}"),
+                                      onTap: () {
+                                        BlocProvider.of<
+                                                    ListGoodsIssueLotCompletedBloc>(
+                                                context)
+                                            .add(
+                                                LoadGoodsIssueLotCompletedEvent(
+                                                    DateTime.now(),
+                                                    state.goodsIssues[index]));
+                                        Navigator.pushNamed(context,
+                                            '/list_goods_issue_lot_completed_screen');
+                                      },
+                                    ),
+                                  ),
+                                );
+                              }),
+                        ),
+                        CustomizedButton(
+                            text: "Truy xuất",
+                            onPressed: () {
+                              BlocProvider.of<ListGoodsIssueCompletedBloc>(
+                                      context)
+                                  .add(LoadCompletedGoodsIssuesEvent(
+                                      DateTime.now(), startDate, endDate));
+                            }),
+                      ],
                     );
                   }
                   if (state is LoadCompletedGoodsIssuesFailState) {
-                    return ExceptionErrorState(
-                      title: state.detail,
-                      message: "Vui lòng quay lại sau",
+                    return Center(
+                      child: ExceptionErrorState(
+                        title: state.detail,
+                        message: "Vui lòng quay lại sau",
+                      ),
                     );
                   } else {
                     return Dialog(
@@ -185,13 +221,6 @@ class _ListGoodIssueCompletedScreenState
                   }
                 },
               ),
-              CustomizedButton(
-                  text: "Truy xuất",
-                  onPressed: () {
-                    BlocProvider.of<ListGoodsIssueCompletedBloc>(context).add(
-                        LoadCompletedGoodsIssuesEvent(
-                            DateTime.now(), startDate, endDate));
-                  })
             ],
           ),
         ),

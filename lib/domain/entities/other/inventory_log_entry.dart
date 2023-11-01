@@ -10,5 +10,5 @@ class InventoryLogEntry extends Equatable {
  const InventoryLogEntry(
       this.item, this.beforeQuantity, this.changedQuantity, this.timestamp, this.itemLot);
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props  => [timestamp];
 }

@@ -1,4 +1,4 @@
-import 'dart:ffi';
+// ignore_for_file: use_build_context_synchronously, prefer_const_literals_to_create_immutables, unused_local_variable
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,27 +9,29 @@ import 'package:mobile_warehouse_thaiduong/domain/entities/other/goods_issue.dar
 import 'package:mobile_warehouse_thaiduong/function.dart';
 import 'package:mobile_warehouse_thaiduong/presentation/bloc/events/other/issue_event/list_lot_issue_event.dart';
 
+import '../../../../domain/entities/location.dart';
 import '../../../bloc/blocs/other/issue_bloc/list_goods_issue_uncompleted_bloc.dart';
 import '../../../bloc/blocs/other/issue_bloc/list_lot_issue_uncompleted_bloc.dart';
 import '../../../bloc/events/other/issue_event/list_goods_issue_event.dart';
 import '../../../bloc/states/other/issue_state/list_lot_issue_state.dart';
 import '../../../dialog/dialog_one_button.dart';
-import '../../../dialog/dialog_two_button.dart';
 import '../../../widgets/button_widget.dart';
 import '../../../widgets/exception_widget.dart';
 
 // danh sách xuất hàng hóa đề xuất và dự kiến
 class ListLotIssueScreen extends StatefulWidget {
   const ListLotIssueScreen({super.key});
-
   @override
   State<ListLotIssueScreen> createState() => _ListLotIssueScreenState();
 }
 
 class _ListLotIssueScreenState extends State<ListLotIssueScreen> {
   String note = '';
-  double quantity = 0;
+
+  double subLotQuantity = 0;
   int tabIndex = 0;
+  GoodsIssueLot goodsIssueLot = GoodsIssueLot('', null, '', null, null, []);
+  GoodsIssueSublot goodsIssueSublot = GoodsIssueSublot('', null, null);
   String scanResult = '-1'; //Scan QR ra
   Future<void> scanQR() async {
     String barcodeScanRes;
@@ -39,9 +41,7 @@ class _ListLotIssueScreenState extends State<ListLotIssueScreen> {
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
-
     if (!mounted) return;
-
     setState(() {
       scanResult = barcodeScanRes;
     });
@@ -52,8 +52,6 @@ class _ListLotIssueScreenState extends State<ListLotIssueScreen> {
     SizeConfig().init(context);
     return WillPopScope(
       onWillPop: () async {
-        // Navigator.pushNamed(context, '/list_goods_issue_screen');
-        // return false;
         final shouldPop = await showDialog<bool>(
           context: context,
           builder: (context) {
@@ -64,7 +62,6 @@ class _ListLotIssueScreenState extends State<ListLotIssueScreen> {
                 TextButton(
                   onPressed: () {
                     // Navigator.pop(context, true);
-
                     Navigator.pushNamed(
                       context,
                       '/export_main_screen',
@@ -136,94 +133,213 @@ class _ListLotIssueScreenState extends State<ListLotIssueScreen> {
                 if (state is LoadGoodsIssueLotsSuccessState) {
                   return SingleChildScrollView(
                     child: ExpansionPanelList.radio(
-                      children: state.lotsSuggest
-                          .map((e) => ExpansionPanelRadio(
-                              canTapOnHeader: true,
-                              value: e.lotId.toString(),
-                              headerBuilder: ((context, isExpanded) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: ListTile(
-                                    shape: RoundedRectangleBorder(
-                                      side: const BorderSide(width: 2),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    leading: const Icon(Icons.list),
-                                    isThreeLine: true,
-                                    title: Text("Mã lô : ${e.lotId}"),
-                                    subtitle: Text(
-                                        "Sản phẩm : ${e.item!.itemId.toString()} \nVị trí : ${e.location!.locationId.toString()} \nSố lượng : ${e.quantity.toString()} \nSố PO : ${e.purchaseOrderNumber.toString()}"),
-                                    //onTap: () {},
-                                  ),
-                                );
-                              }),
-                              body: Column(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 5 * SizeConfig.ratioHeight),
-                                    alignment: Alignment.centerRight,
-                                    width: 300 * SizeConfig.ratioWidth,
-                                    height: 60 * SizeConfig.ratioHeight,
-                                    //color: Colors.grey[200],
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5)),
-                                          // filled: true,
-                                          // fillColor: Constants.buttonColor,
-                                          labelText: "Nhập số lượng xuất"),
-                                      keyboardType:
-                                          const TextInputType.numberWithOptions(
-                                              decimal: true),
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp('[0-9.,]')),
-                                      ],                                  
-                                      onChanged: (value) => setState(() {                                       
-                                        double.tryParse(value) ==
-                                                double.parse(
-                                                    e.quantity.toString())
-                                            ? {note = "Xuất cả lô"}
-                                            : {
-                                                double.tryParse(value)! <
-                                                        double.parse(e.quantity
-                                                            .toString())
-                                                    ? {note = "Xuất một phần"}
-                                                    : {note = "Số lượng không hợp lệ"}
-                                              };
+                      children: state.lotsSuggest.asMap().entries.map((entry) {
+                        final int index1 = entry
+                            .key; // Lấy ra index của phần tử trong danh sách
+                        final e = entry
+                            .value; // Lấy ra giá trị (element) tương ứng với index
+                        List<GoodsIssueSublot> goodsIssueSublots = [];
+                        double quantity = 0;
+                        for (int index = 0;
+                            index <
+                                state.lotsSuggest[index1].itemLotSubLot.length;
+                            index++) {
+                          GoodsIssueSublot sublot = GoodsIssueSublot(
+                            e.itemLotSubLot[index].locationId,
+                            e.itemLotSubLot[index].quantityPerLocation,
+                            e.itemLotSubLot[index].newQuantityPerLocation ??
+                                0, // Sử dụng '??' để xác định giá trị mặc định nếu null.
+                          );
 
-                                        value != ''
-                                            ? quantity = double.parse(value)
-                                            : quantity = double.parse('0');
-                                      }),
-                                      onSubmitted: (value) => value != ''
-                                          ? quantity = double.parse(value)
-                                          : quantity = double.parse('0'),
-                                    ),
+                          goodsIssueSublots.add(sublot);
+
+                          e.itemLotSubLot[index].newQuantityPerLocation ??= 0;
+                          quantity = quantity.toDouble() +
+                              e.itemLotSubLot[index].newQuantityPerLocation!
+                                  .toDouble();
+                          if (quantity == e.quantity) {
+                            note = "Xuất cả lô";
+                          } else if (quantity <
+                              double.parse(e.quantity.toString())) {
+                            note = "Xuất một phần";
+                          } else {
+                            note = "Số lượng không hợp lệ";
+                          }
+                        }
+
+                        return ExpansionPanelRadio(
+                            canTapOnHeader: true,
+                            value: e.lotId.toString(),
+                            headerBuilder: ((context, isExpanded) {
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ListTile(
+                                  shape: RoundedRectangleBorder(
+                                    side: const BorderSide(width: 2),
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
-                                  Container(
-                                    width: 300 * SizeConfig.ratioWidth,
-                                    height: 60 * SizeConfig.ratioHeight,
+                                  leading: const Icon(Icons.list),
+                                  isThreeLine: true,
+                                  title: Text("Mã lô : ${e.lotId}"),
+                                  subtitle: Text(
+                                      "Sản phẩm : ${e.item?.itemId.toString()} \nSố lượng : ${e.quantity.toString()}"),
+                                  //onTap: () {},
+                                ),
+                              );
+                            }),
+                            body: Column(children: [
+                              SizedBox(
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: e.itemLotSubLot.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return ListTile(
+                                      title: Column(
+                                        children: [
+                                          Text(
+                                              "Vị trí: ${e.itemLotSubLot[index].locationId}"),
+                                          Text(
+                                              "Số lượng: ${e.itemLotSubLot[index].quantityPerLocation}"),
+                                        ],
+                                      ),
+                                      subtitle: Column(
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical:
+                                                    5 * SizeConfig.ratioHeight),
+                                            alignment: Alignment.centerRight,
+                                            width: 300 * SizeConfig.ratioWidth,
+                                            height: 60 * SizeConfig.ratioHeight,
+                                            //color: Colors.grey[200],
+                                            child: TextField(
+                                              decoration: InputDecoration(
+                                                  border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5)),
+                                                  // filled: true,
+                                                  // fillColor: Constants.buttonColor,
+                                                  labelText:
+                                                      "Nhập số lượng xuất"),
+                                              keyboardType: const TextInputType
+                                                      .numberWithOptions(
+                                                  decimal: true),
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter
+                                                    .allow(RegExp('[0-9.,]')),
+                                              ],
+                                              onSubmitted: (value) {
+                                                // Cập nhật giá trị quantityPerLocation cho mục hiện tại
+                                                e.itemLotSubLot[index]
+                                                        .newQuantityPerLocation
+                                                    //  sublotQuantity[index]
+                                                    = value.isNotEmpty
+                                                        ? double.parse(value)
+                                                        : 0;
+                                              },
+                                              onChanged: (value) => value != ''
+                                                  ? e.itemLotSubLot[index]
+                                                          .newQuantityPerLocation =
+                                                      double.parse(value)
+                                                  : e.itemLotSubLot[index]
+                                                          .newQuantityPerLocation =
+                                                      double.parse('0'),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              Column(
+                                children: [
+                                  Container(           
                                     padding: EdgeInsets.symmetric(
                                         vertical: 5 * SizeConfig.ratioHeight),
-                                    child: TextField(
-                                      controller:
-                                          TextEditingController(text: note),
-                                      decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5)),
-                                          // filled: true,
-                                          // fillColor: Constants.buttonColor,
-                                          labelText: "Ghi chú"),
-                                      onChanged: (value) => note = value,
-                                    ),
+                                    child: Text(
+                                        "Tổng số lượng xuất: ${quantity.toString()}", style: TextStyle(fontSize: 17.5*SizeConfig.ratioFont),),
                                   ),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 5 * SizeConfig.ratioHeight),
+                                    child: Text("Ghi chú: $note",  style: TextStyle(fontSize: 17.5*SizeConfig.ratioFont),),
+                                  ),
+                                  // Container(
+                                  //   padding: EdgeInsets.symmetric(
+                                  //       vertical: 5 * SizeConfig.ratioHeight),
+                                  //   alignment: Alignment.centerRight,
+                                  //   width: 300 * SizeConfig.ratioWidth,
+                                  //   height: 60 * SizeConfig.ratioHeight,
+                                  //   //color: Colors.grey[200],
+
+                                  //   child: TextField(
+                                  //     controller: TextEditingController(
+                                  //         text: quantity.toString()),
+                                  //     decoration: InputDecoration(
+                                  //         border: OutlineInputBorder(
+                                  //             borderRadius:
+                                  //                 BorderRadius.circular(5)),
+                                  //         // filled: true,
+                                  //         // fillColor: Constants.buttonColor,
+                                  //         labelText: "Tổng số lượng xuất"),
+                                  //     keyboardType:
+                                  //         const TextInputType.numberWithOptions(
+                                  //             decimal: true),
+                                  //     inputFormatters: [
+                                  //       FilteringTextInputFormatter.allow(
+                                  //           RegExp('[0-9.,]')),
+                                  //     ],
+                                  //     onSubmitted: (value) {
+                                  //       // Cập nhật "quantity" từ giá trị mới nhập vào TextField khi người dùng ấn submit
+                                  //       quantity = double.tryParse(value) ?? 0.0;
+                                  //     },
+                                  //     onChanged: (value) => setState(() {
+                                  //       quantity = double.tryParse(value) ?? 0.0;
+                                  //       if (double.tryParse(value) ==
+                                  //           double.parse(e.quantity.toString())) {
+                                  //         note = "Xuất cả lô";
+                                  //       } else if (double.tryParse(value)! <
+                                  //           double.parse(e.quantity.toString())) {
+                                  //         note = "Xuất một phần";
+                                  //       } else {
+                                  //         note = "Số lượng không hợp lệ";
+                                  //       }
+
+                                  //       value != ''
+                                  //           ? quantity = double.parse(value)
+                                  //           : quantity = 0.0;
+                                  //     }),
+                                  //   ),
+                                  // ),
+                                  // Container(
+                                  //   width: 300 * SizeConfig.ratioWidth,
+                                  //   height: 60 * SizeConfig.ratioHeight,
+                                  //   padding: EdgeInsets.symmetric(
+                                  //       vertical: 5 * SizeConfig.ratioHeight),
+                                  //   child: TextField(
+                                  //       controller:
+                                  //           TextEditingController(text: note),
+                                  //       decoration: InputDecoration(
+                                  //           border: OutlineInputBorder(
+                                  //               borderRadius:
+                                  //                   BorderRadius.circular(5)),
+                                  //           // filled: true,
+                                  //           // fillColor: Constants.buttonColor,
+                                  //           labelText: "Ghi chú"),
+                                  //       onChanged: (value) {
+                                  //         setState(() {
+                                  //           // Cập nhật "note" từ giá trị mới nhập vào TextField
+                                  //           note = value;
+                                  //         });
+                                  //       }),
+                                  // ),
                                   TextButton(
                                       onPressed: () async {
-                                        if (e.quantity! < quantity) {
+                                        if (e.quantity! < quantity || quantity == 0) {
                                           AlertDialogOneBtnCustomized(
                                                   context,
                                                   'Không hợp lệ',
@@ -239,31 +355,34 @@ class _ListLotIssueScreenState extends State<ListLotIssueScreen> {
                                               ? {
                                                   e.quantity == quantity
                                                       ? {
-                                                          BlocProvider.of<
-                                                                      ListGoodsIssueLotUncompletedBloc>(
-                                                                  context)
-                                                              .add(AddGoodsIssueLotEvent(
+                                                          BlocProvider.of<ListGoodsIssueLotUncompletedBloc>(context).add(
+                                                              AddGoodsIssueLotEvent(
                                                                   DateTime
                                                                       .now(),
                                                                   true,
                                                                   state.itemId,
                                                                   state
                                                                       .goodsIssueId,
+                                                                  // truyền các thông tin trong itemLot vào goodsIssueLot
                                                                   GoodsIssueLot(
                                                                       e.lotId,
                                                                       quantity,
-                                                                      double.tryParse(e
-                                                                          .sublotSize
-                                                                          .toString()),
+                                                                      e.item!
+                                                                          .unit,
                                                                       null,
-                                                                      note),
+                                                                     'Xuất cả lô',
+                                                                      goodsIssueSublots),
                                                                   state
                                                                       .lotsSuggest,
                                                                   state
-                                                                      .lotsExpected)),
+                                                                      .lotsExpected,
+                                                                  state
+                                                                      .itemLotSublot,
+                                                                  state
+                                                                      .goodsIssueSublots)),
                                                           DefaultTabController
                                                                   .of(context)
-                                                              ?.animateTo(1)
+                                                              .animateTo(1)
                                                         }
                                                       : {
                                                           BlocProvider.of<
@@ -279,18 +398,22 @@ class _ListLotIssueScreenState extends State<ListLotIssueScreen> {
                                                                   GoodsIssueLot(
                                                                       e.lotId,
                                                                       quantity,
-                                                                      double.tryParse(e
-                                                                          .sublotSize
-                                                                          .toString()),
+                                                                      e.item!
+                                                                          .unit,
                                                                       null,
-                                                                      note),
+                                                                      'Xuất một phần',
+                                                                      goodsIssueSublots),
                                                                   state
                                                                       .lotsSuggest,
                                                                   state
-                                                                      .lotsExpected)),
+                                                                      .lotsExpected,
+                                                                  state
+                                                                      .itemLotSublot,
+                                                                  state
+                                                                      .goodsIssueSublots)),
                                                           DefaultTabController
                                                                   .of(context)
-                                                              ?.animateTo(1)
+                                                              .animateTo(1)
                                                         }
                                                 }
                                               : {
@@ -311,8 +434,9 @@ class _ListLotIssueScreenState extends State<ListLotIssueScreen> {
                                       },
                                       child: const Text('Quét mã xác nhận'))
                                 ],
-                              )))
-                          .toList(),
+                              )
+                            ]));
+                      }).toList(),
                     ),
                   );
                 }
@@ -339,7 +463,7 @@ class _ListLotIssueScreenState extends State<ListLotIssueScreen> {
                     ),
                   );
                 } else {
-                  return Dialog(
+                  return  Dialog(
                     // The background color
                     backgroundColor: Colors.white,
                     child: Padding(
@@ -386,24 +510,60 @@ class _ListLotIssueScreenState extends State<ListLotIssueScreen> {
                   return Column(
                     children: [
                       SizedBox(
-                        height: 400 * SizeConfig.ratioHeight,
+                        height: 480 * SizeConfig.ratioHeight,
                         child: ListView.builder(
                             itemCount: state.lotsExpected.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: ListTile(
-                                  shape: RoundedRectangleBorder(
-                                    side: const BorderSide(width: 2),
-                                    borderRadius: BorderRadius.circular(20),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                      width: 1,
+                                    ),
                                   ),
-                                  leading: const Icon(Icons.list),
-                                  isThreeLine: true,
-                                  title: Text(
-                                      "Mã lô : ${state.lotsExpected[index].goodsIssueLotId}"),
-                                  subtitle: Text(
-                                      "Sản phẩm : ${state.itemId} \nSố lượng : ${state.lotsExpected[index].quantity} \nĐịnh mức : ${state.lotsExpected[index].sublotSize.toString()}"),
-                                  onTap: () {},
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            55, 0, 20, 0),
+                                        child: ListTile(
+                                          // leading: const Icon(Icons.list),
+                                          isThreeLine: true,
+                                          title: Text(
+                                              "Mã lô : ${state.lotsExpected[index].goodsIssueLotId}",
+                                              style: const TextStyle(fontSize: 16)),
+                                          subtitle: Text(
+                                              "Sản phẩm : ${state.itemId} \nSố lượng : ${state.lotsExpected[index].quantity} ",
+                                              style: const TextStyle(fontSize: 16)),
+                                          onTap: () {},
+                                        ),
+                                      ),
+                                      ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        itemCount: state.lotsExpected[index]
+                                            .goodsIssueSublot.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index3) {
+                                          return ListTile(
+                                            leading: const Icon(Icons.list),
+                                            title: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                    "${state.lotsExpected[index].goodsIssueSublot[index3].locationId}"),
+                                                Text(
+                                                    "Số lượng: ${state.lotsExpected[index].goodsIssueSublot[index3].quantityPerLocation}"),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               );
                             }),
@@ -414,10 +574,11 @@ class _ListLotIssueScreenState extends State<ListLotIssueScreen> {
                             BlocProvider.of<ListGoodsIssueLotUncompletedBloc>(
                                     context)
                                 .add(PostGoodsIssueLotEvent(
-                                    DateTime.now(),
-                                    state.itemId,
-                                    state.goodsIssueId,
-                                    state.lotsExpected));
+                              DateTime.now(),
+                              state.itemId,
+                              state.goodsIssueId,
+                              state.lotsExpected,
+                            ));
                             // Navigator.pushNamed(
                             //   context,
                             //   '/fill_info_entry_screen',
@@ -441,7 +602,8 @@ class _ListLotIssueScreenState extends State<ListLotIssueScreen> {
                             onPressed: () {
                               BlocProvider.of<ListGoodsIssueUncompletedBloc>(
                                       context)
-                                  .add(LoadGoodsIssuesEvent(DateTime.now()));
+                                  .add(LoadGoodsIssuesEvent(
+                                      DateTime.now(), state.goodsIssueLot));
                               Navigator.pushNamed(
                                   context, '/list_goods_issue_screen');
                             })
@@ -464,7 +626,8 @@ class _ListLotIssueScreenState extends State<ListLotIssueScreen> {
                             onPressed: () {
                               BlocProvider.of<ListGoodsIssueUncompletedBloc>(
                                       context)
-                                  .add(LoadGoodsIssuesEvent(DateTime.now()));
+                                  .add(LoadGoodsIssuesEvent(
+                                      DateTime.now(), state.goodsIssueLot));
                               Navigator.pushNamed(
                                   context, '/list_goods_issue_screen');
                             })

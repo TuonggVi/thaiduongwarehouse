@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,7 +26,7 @@ class _FillInfoEntryIssueScreenState extends State<FillInfoEntryIssueScreen> {
   // List<Item> itemsDropdownData = [];
   //Item? selectedItem;
   GoodsIssueEntry issueEntryView =
-      GoodsIssueEntry(null, null, null, null, null);
+      GoodsIssueEntry(null, null, null, null, );
         var quantity = TextEditingController();
   var sublotSize = TextEditingController();
   @override
@@ -49,7 +51,7 @@ class _FillInfoEntryIssueScreenState extends State<FillInfoEntryIssueScreen> {
           ),
           backgroundColor: Constants.mainColor,
           title: Text(
-            'Nhập kho',
+            'Xuất kho',
             style: TextStyle(fontSize: 22 * SizeConfig.ratioFont),
           ),
         ),
@@ -171,8 +173,8 @@ class _FillInfoEntryIssueScreenState extends State<FillInfoEntryIssueScreen> {
                                 padding: EdgeInsets.symmetric(
                                     vertical: 5 * SizeConfig.ratioHeight),
                                 alignment: Alignment.centerRight,
-                                width: 160 * SizeConfig.ratioWidth,
-                                height: 55 * SizeConfig.ratioHeight,
+                                width: 350 * SizeConfig.ratioWidth,
+                                height: 60 * SizeConfig.ratioHeight,
                                 //color: Colors.grey[200],
                                 child: TextField(
                                   // controller: state.index == -1
@@ -180,7 +182,7 @@ class _FillInfoEntryIssueScreenState extends State<FillInfoEntryIssueScreen> {
                                   //     : TextEditingController(
                                   //         text: issueEntryView.requestQuantity
                                   //             .toString()),
-                                  controller: sublotSize,
+                                  controller: quantity,
                                   // TextEditingController(
                                   //     text:
                                   //         issueEntryView.requestQuantity == null
@@ -213,47 +215,7 @@ class _FillInfoEntryIssueScreenState extends State<FillInfoEntryIssueScreen> {
                                           double.parse('0'),
                                 ),
                               ),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 5 * SizeConfig.ratioHeight),
-                                alignment: Alignment.centerRight,
-                                width: 160 * SizeConfig.ratioWidth,
-                                height: 55 * SizeConfig.ratioHeight,
-                                //color: Colors.grey[200],
-                                child: TextField(
-                                  controller: quantity,
-                                  // TextEditingController(
-                                  //     text: issueEntryView.requestSublotSize ==
-                                  //             null
-                                  //         ? ''
-                                  //         : issueEntryView.requestSublotSize
-                                  //             .toString()),
-                                  decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
-                                      // filled: true,
-                                      // fillColor: Constants.buttonColor,
-                                      labelText: "Định mức"),
-                                  keyboardType:
-                                      const TextInputType.numberWithOptions(
-                                          decimal: true),
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.allow(
-                                        RegExp('[0-9.,]')),
-                                  ],
-                                  onSubmitted: (value) => value != ''
-                                      ? issueEntryView.requestSublotSize =
-                                          double.parse(value)
-                                      : issueEntryView.requestSublotSize =
-                                          double.parse('0'),
-                                  onChanged: (value) => value != ''
-                                      ? issueEntryView.requestSublotSize =
-                                          double.parse(value)
-                                      : issueEntryView.requestSublotSize =
-                                          double.parse('0'),
-                                ),
-                              ),
+                             
                               
                             ],
                           ),

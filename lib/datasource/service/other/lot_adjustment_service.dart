@@ -8,6 +8,15 @@ import '../../../constant.dart';
 class LotAdjustmentService {
   Future<ErrorPackageModel> postNewLotAdjustment(
        String employeename, LotAdjustment lotAdjustment) async {
+          List bodyJson = [];
+    for (int i = 0; i < lotAdjustment.itemLotSublot.length; i++) {
+      Map<String, dynamic> dimensionJson = {
+        "locationId": lotAdjustment.itemLotSublot[i].locationId.toString(),
+        "newQuantityPerLocation":
+            double.tryParse(lotAdjustment.itemLotSublot[i].newQuantityPerLocation.toString()),
+      };
+      bodyJson.add(dimensionJson);
+    }
     final res =
         await http.post(Uri.parse('${Constants.baseUrl}api/LotAdjustments'),
             headers: <String, String>{
@@ -18,13 +27,13 @@ class LotAdjustmentService {
               <String, dynamic>{
                 "lotId": lotAdjustment.lotId.toString(),
                 "itemId": lotAdjustment.item!.itemId.toString(),
-                "beforeQuantity": double.tryParse(lotAdjustment.beforeQuantity.toString()),
                 "afterQuantity": double.tryParse(lotAdjustment.afterQuantity.toString()),
-                "oldPurchaseOrderNumber": lotAdjustment.oldPoNumber.toString(),
-                "newPurchaseOrderNumber": lotAdjustment.newPoNumber.toString(),
+                
                 "unit": lotAdjustment.item!.unit.toString(),
-                "employeeName": "Trần Như Toàn",
-                "note": lotAdjustment.note.toString()
+
+                "employeeName": "Tran Nhu Toan",
+                "note": lotAdjustment.note.toString(),
+                "sublotAdjustments": bodyJson,
               },
             ));
     if (res.statusCode == 200) {

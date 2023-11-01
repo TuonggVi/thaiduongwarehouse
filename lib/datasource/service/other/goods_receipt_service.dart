@@ -23,16 +23,10 @@ class GoodsReceiptService {
         "quantity": double.tryParse(goodsReceipt.lots[i].quantity.toString()),
         "unit": goodsReceipt.lots[i].unit.toString(),
         "itemId": goodsReceipt.lots[i].item!.itemId.toString(),
-        "purchaseOrderNumber":
-            goodsReceipt.lots[i].purchaseOrderNumber.toString(),
-        "employeeId": 'NV01',
+        //"employeeId": 'NV01',
+        "employeeId": 'NV1',
         "note": goodsReceipt.lots[i].note.toString(),
         // "locationId": goodsReceipt.lots[i].location.toString(),
-        "sublotSize":
-            double.tryParse(goodsReceipt.lots[i].sublotSize.toString()),
-        "sublotUnit": "",
-
-    
       };
       bodyJson.add(dimensionJson);
     }
@@ -47,7 +41,8 @@ class GoodsReceiptService {
                 "goodsReceiptId": goodsReceipt.goodsReceiptId,
                 "timestamp": DateFormat('yyyy-MM-dd').format(DateTime.now()),
                 "supplier": goodsReceipt.supply,
-                "employeeId": "NV01",
+                //"employeeId": 'NV01',
+                "employeeId": "NV1",
                 "goodsReceiptLots": bodyJson
                 //  [
                 //   {
@@ -73,14 +68,14 @@ class GoodsReceiptService {
     }
   }
 
-
+// lấy danh sách phiếu đã hoàn thành
   Future<List<GoodsReceiptModel>> getCompletedGoodsReceipts(
       DateTime startDate, DateTime endDate) async {
-    final start = DateFormat('yyyy-MM-dd').format(startDate);
-    final end = DateFormat('yyyy-MM-dd').format(endDate);
+    // final start = DateFormat('yyyy-MM-dd').format(startDate);
+    // final end = DateFormat('yyyy-MM-dd').format(endDate);
     final res = await http.get(
       Uri.parse(
-          '${Constants.baseUrl}api/GoodsReceipts/TimeRange?startTime=$start&endTime=$end'),
+          '${Constants.baseUrl}/api/GoodsReceipts/TimeRange/true?StartTime=$startDate&EndTime=$endDate'),
       // headers: {
       //   'Content-Type': 'application/json; charset=UTF-8',
       //   'Accept': '*/*',
@@ -105,19 +100,13 @@ class GoodsReceiptService {
     }
   }
 
+// lấy danh sách phiếu chưa hoàn thành
   Future<List<GoodsReceiptModel>> getUnCompletedGoodsReceipts() async {
     final res = await http.get(
-      Uri.parse('${Constants.baseUrl}api/GoodsReceipts/goodsReceipts/false'),
-      // headers: {
-      //   'Content-Type': 'application/json; charset=UTF-8',
-      //   'Accept': '*/*',
-      //   'Authorization': 'Bearer ',
-      // },
+      Uri.parse('${Constants.baseUrl}api/GoodsReceipts/TimeRange/false'),
     );
-
     if (res.statusCode == 200) {
       List<dynamic> body = jsonDecode(res.body);
-
       List<GoodsReceiptModel> allIssues = body
           .map(
             (dynamic item) => GoodsReceiptModel.fromJson(item),
@@ -132,48 +121,50 @@ class GoodsReceiptService {
     }
   }
 
-  Future<ErrorPackageModel> updateDetailLotReceipt(GoodsReceipt goodsReceipt) async {
+// cập nhật thông tin lô hàng
+  Future<ErrorPackageModel> updateDetailLotReceipt(
+      GoodsReceipt goodsReceipt) async {
     List bodyJson = [];
     for (int i = 0; i < goodsReceipt.lots.length; i++) {
-     final production = DateFormat('yyyy-MM-dd').format(goodsReceipt.lots[i].productionDate as DateTime);
-    final expiration = DateFormat('yyyy-MM-dd').format(goodsReceipt.lots[i].expirationDate as DateTime);
+      List bodySublot = [];   
+        for (int j = 0;
+            j < goodsReceipt.lots[i].goodsReceiptSublots.length;
+            j++) {
+          Map<String, dynamic> dimensionSublot = {
+            "locationId": goodsReceipt.lots[i].goodsReceiptSublots[j].locationId
+                .toString(),
+            "quantityPerLocation": double.tryParse(goodsReceipt
+                .lots[i].goodsReceiptSublots[j].quantityPerLocation
+                .toString()),
+          };
+          bodySublot.add(dimensionSublot);
+        }
+  
       Map<String, dynamic> dimensionJson = {
-          "oldGoodsReceiptLotId": goodsReceipt.lots[i].goodsReceiptLotId.toString(), 
-   // "newGoodsReceiptLotId": goodsReceipt.lots[i].goodsReceiptLotId.toString(),
-    "itemLotLocations": [ 
-      { 
-        "locationId": goodsReceipt.lots[i].location.toString(),
-        "quantityPerLocation":  double.tryParse(goodsReceipt.lots[i].sublotSize.toString()), 
-      } 
-    ], 
-    "quantity": double.tryParse(goodsReceipt.lots[i].quantity.toString()),
-    "productionDate": production,
-    "expirationDate": expiration,
-    "note":goodsReceipt.lots[i].note.toString(),
-      //   "goodsReceiptLotId": goodsReceipt.lots[i].goodsReceiptLotId.toString(),
-      //   "locationId": goodsReceipt.lots[i].location.toString(),
-      //   "quantity": double.tryParse(goodsReceipt.lots[i].quantity.toString()),
-      //   "sublotSize":
-      //       double.tryParse(goodsReceipt.lots[i].sublotSize.toString()),
-      //  "sublotUnit": "string",
-      //   "purchaseOrderNumber": goodsReceipt.lots[i].purchaseOrderNumber.toString(),
-      //   "productionDate": production,
-      //   "expirationDate": expiration,
-      //   "note": goodsReceipt.lots[i].note.toString(),
-        // "locationId": "NVL_Location_1",
-        // "quantity": 10.0,
-        // "sublotSize": 2.0,
-        // "sublotUnit": "string",
-        // "purchaseOrderNumber": "123456",
-        // "productionDate": "2023-05-09T06:07:30.38",
-        // "expirationDate": "2024-05-09T06:07:30.38",
-        // "note": " "
+        "oldGoodsReceiptLotId":
+            goodsReceipt.lots[i].goodsReceiptLotId.toString(),
+        "newGoodsReceiptLotId":
+            goodsReceipt.lots[i].newGoodsReceiptLotId.toString(),
+        "itemLotLocations": bodySublot.isNotEmpty ? bodySublot : null,
+        "quantity": double.tryParse(goodsReceipt.lots[i].quantity.toString()),
+        // "production": production,
+        // "expiration" : expiration,
+        "productionDate": goodsReceipt.lots[i].productionDate != null
+            ? DateFormat('yyyy-MM-dd')
+                .format(goodsReceipt.lots[i].productionDate as DateTime)
+            : null,
+        "expirationDate": goodsReceipt.lots[i].expirationDate != null
+            ? DateFormat('yyyy-MM-dd')
+                .format(goodsReceipt.lots[i].expirationDate as DateTime)
+            : null,
+        "note": goodsReceipt.lots[i].note,
       };
       bodyJson.add(dimensionJson);
     }
+    String id = goodsReceipt.goodsReceiptId.toString();
     final res = await http.patch(
         Uri.parse(
-            '${Constants.baseUrl}api/GoodsReceipts/api/GoodsReceipts/goodsReceiptId/addedGoodsReceiptLots'),
+            '${Constants.baseUrl}api/GoodsReceipts/$id/updatedGoodsReceiptLots'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': '*/*',
@@ -183,61 +174,66 @@ class GoodsReceiptService {
       return ErrorPackageModel(
         "success",
       );
+    } else {
+      return ErrorPackageModel(res.body);
+    }
+  }
+
+// thêm lô vào phiếu nhập kho
+  Future<ErrorPackageModel> patchNewGoodsReceipt(
+      GoodsReceipt goodsReceipt) async {
+    List bodyJson = [];
+    for (int i = goodsReceipt.lots.length - 1;
+        i < goodsReceipt.lots.length;
+        i++) {
+      Map<String, dynamic> dimensionJson = {
+        "goodsReceiptLotId": goodsReceipt.lots[i].goodsReceiptLotId.toString(),
+        "quantity": double.tryParse(goodsReceipt.lots[i].quantity.toString()),
+        "itemId": goodsReceipt.lots[i].item!.itemId.toString(),
+        "unit": goodsReceipt.lots[i].unit.toString(),
+      // "employeeId": 'NV01',
+        "employeeId": "NV1",
+        "note": goodsReceipt.lots[i].note.toString(),
+        // "locationId": goodsReceipt.lots[i].location.toString(),
+      };
+      bodyJson.add(dimensionJson);
+    }
+    String id = goodsReceipt.goodsReceiptId.toString();
+    final res = await http.patch(
+        Uri.parse(
+            '${Constants.baseUrl}api/GoodsReceipts/$id/addedGoodsReceiptLots'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': '*/*',
+        },
+        body: jsonEncode(bodyJson));
+    if (res.statusCode == 200) {
+      return ErrorPackageModel("success");
     } else {
       return ErrorPackageModel("fail");
     }
   }
-   Future<ErrorPackageModel> patchNewReceiptLot(GoodsReceipt goodsReceipt) async {
-    List bodyJson = [];
-    for (int i = 0; i < goodsReceipt.lots.length; i++) {
-      final production = DateFormat('yyyy-MM-dd').format(goodsReceipt.lots[i].productionDate as DateTime);
-    final expiration = DateFormat('yyyy-MM-dd').format(goodsReceipt.lots[i].expirationDate as DateTime);
-      Map<String, dynamic> dimensionJson = {
-    "oldGoodsReceiptLotId": goodsReceipt.lots[i].goodsReceiptLotId.toString(), 
-   // "newGoodsReceiptLotId": goodsReceipt.lots[i].goodsReceiptLotId.toString(),
-    "itemLotLocations": [ 
-      { 
-        "locationId": goodsReceipt.lots[i].location.toString(),
-        "quantityPerLocation":  double.tryParse(goodsReceipt.lots[i].sublotSize.toString()), 
-      } 
-    ], 
-    "quantity": double.tryParse(goodsReceipt.lots[i].quantity.toString()),
-    "productionDate": production,
-    "expirationDate": expiration,
-    "note":goodsReceipt.lots[i].note.toString(),
-        // "goodsReceiptLotId": goodsReceipt.lots[i].goodsReceiptLotId.toString(),
-        // "locationId": goodsReceipt.lots[i].location.toString(),
-        // "quantity": double.tryParse(goodsReceipt.lots[i].quantity.toString()),
-        // "sublotSize":
-        //     double.tryParse(goodsReceipt.lots[i].sublotSize.toString()),
-        // "sublotUnit": "string",
-        // "purchaseOrderNumber": goodsReceipt.lots[i].purchaseOrderNumber.toString(),
-        // "productionDate": production,
-        // "expirationDate": expiration,
-        // "note": goodsReceipt.lots[i].note.toString(),
-        // "locationId": "NVL_Location_1",
-        // "quantity": 10.0,
-        // "sublotSize": 2.0,
-        // "sublotUnit": "string",
-        // "purchaseOrderNumber": "123456",
-        // "productionDate": "2023-05-09T06:07:30.38",
-        // "expirationDate": "2024-05-09T06:07:30.38",
-        // "note": " "
-      };
-      bodyJson.add(dimensionJson);
-    }
+
+// xóa lô trong trường hợp sai mã sp, đơn vị
+  Future<ErrorPackageModel> removeGoodsReceiptLot(
+      GoodsReceipt goodsReceipt, GoodsReceiptLot goodsReceiptLot) async {
+    String id = goodsReceipt.goodsReceiptId.toString();
+    String lotId = goodsReceiptLot.goodsReceiptLotId.toString();
+    List<String> lotIds = [lotId];
+  if (lotIds.isEmpty) {
+    return ErrorPackageModel("fail");
+  }
     final res = await http.patch(
         Uri.parse(
-            '${Constants.baseUrl}api/GoodsReceipts/goodsReceiptId/addedGoodsReceiptLots'),
+            '${Constants.baseUrl}api/GoodsReceipts/$id/removedGoodsReceiptLots'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': '*/*',
         },
-        body: jsonEncode(bodyJson));
+        body: jsonEncode(lotIds));
+
     if (res.statusCode == 200) {
-      return ErrorPackageModel(
-        "success",
-      );
+      return ErrorPackageModel("success");
     } else {
       return ErrorPackageModel("fail");
     }

@@ -44,7 +44,7 @@ class ItemLotRepoImpl implements ItemLotRepository {
 
   @override
   Future<ErrorPackage> patchIsolationItemLot(bool isolated, String itemLotId) {
-    final status = itemLotService.patIsolationItemLot(isolated, itemLotId);
+    final status = itemLotService.patchIsolationItemLot(isolated, itemLotId);
     return status;
   }
 }

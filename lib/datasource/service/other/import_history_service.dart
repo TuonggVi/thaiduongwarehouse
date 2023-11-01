@@ -49,6 +49,7 @@ class ImportHistoryService {
   }
   Future<ErrorPackageModel> postAddNewGoodsReceipt(
       GoodsReceipt goodsReceipt) async {
+       
     List bodyJson = [];
     for (int i = 0; i < goodsReceipt.lots.length; i++) {
       Map<String, dynamic> dimensionJson = {
@@ -56,13 +57,11 @@ class ImportHistoryService {
         "quantity": double.tryParse(goodsReceipt.lots[i].quantity.toString()),
         "unit": goodsReceipt.lots[i].unit.toString(),
         "itemId": goodsReceipt.lots[i].item!.itemId.toString(),
-        "purchaseOrderNumber":
-            goodsReceipt.lots[i].purchaseOrderNumber.toString(),
-        "employeeId": 'NV01',
+        //"employeeId": "NV01",
+        "employeeId": 'NV1',
         "note": goodsReceipt.lots[i].note.toString(),
         // "locationId": goodsReceipt.lots[i].location.toString(),
-        "sublotSize":
-            double.tryParse(goodsReceipt.lots[i].sublotSize.toString()),
+   
         "sublotUnit": "",
 
     
@@ -80,7 +79,8 @@ class ImportHistoryService {
                 "goodsReceiptId": goodsReceipt.goodsReceiptId,
                 "timestamp": DateFormat('yyyy-MM-dd').format(DateTime.now()),
                 "supplier": goodsReceipt.supply,
-                "employeeId": "NV01",
+               // "employeeId": "NV01",
+                "employeeId": "NV1",
                 "goodsReceiptLots": bodyJson
                 //  [
                 //   {

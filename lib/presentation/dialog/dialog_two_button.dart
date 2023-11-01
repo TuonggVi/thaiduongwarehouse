@@ -1,3 +1,5 @@
+// ignore_for_file: unrelated_type_equality_checks, unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'package:mobile_warehouse_thaiduong/constant.dart';
 import 'package:mobile_warehouse_thaiduong/function.dart';

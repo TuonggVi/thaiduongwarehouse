@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_warehouse_thaiduong/datasource/models/error_package_model.dart';
 import 'package:mobile_warehouse_thaiduong/domain/entities/error_package.dart';
@@ -18,36 +20,11 @@ class AdjustmentBloc extends Bloc<AdjustmentEvent, AdjustmentState> {
       List<LotAdjustment> listLotAjustment = [];
       emit(GetLotDetailLoadingState(DateTime.now()));
       try {
-        // final List<ItemLot> lotsAdjust =
-        //     await itemLotUsecase.getItemLotsByItemId(event.lotId);
-        // for (var element in lotsAdjust) {
-        //   listLotAjustment.add(LotAdjustment(
-        //       element.lotId,
-        //       '',
-        //       null,
-        //       null,
-        //       null,
-        //       element.quantity,
-        //       element.purchaseOrderNumber,
-        //       null,
-        //       element.item,
-        //       null));
-        // }
-         
-        final ItemLot lot =
-            await itemLotUsecase.getItemLotById(event.lotId);
-             listLotAjustment.add(LotAdjustment(
-              lot.lotId,
-              '',
-              null,
-              null,
-              null,
-              lot.quantity,
-              lot.purchaseOrderNumber,
-              null,
-              lot.item,
-              null));
-        emit(GetLotDetailSuccessState(DateTime.now(), listLotAjustment));
+        final List<ItemLot> lotsAdjust =[];
+        final ItemLot lot = await itemLotUsecase.getItemLotById(event.lotId);
+        listLotAjustment.add(LotAdjustment(
+            lot.lotId, '', null, DateTime.now(), null, lot.quantity, lot.itemLotSubLot, lot.item, null));
+        emit(GetLotDetailSuccessState(DateTime.now(), listLotAjustment, lot));
       } catch (e) {
         emit(GetLotDetailFailState(DateTime.now()));
       }
@@ -55,10 +32,10 @@ class AdjustmentBloc extends Bloc<AdjustmentEvent, AdjustmentState> {
 
     on<UpdateLotAdjustmentQuantityEvent>((event, emit) async {
       emit(UpdateLotQuantityLoadingState(DateTime.now()));
+   
       try {
-        final ErrorPackage postNewAdjust =
-            await lotAdjustmentUsecase.postNewLotAdjustment(
-                event.employeeName, event.lotAdjustment);
+        final ErrorPackage postNewAdjust = await lotAdjustmentUsecase
+            .postNewLotAdjustment(event.employeeName, event.lotAdjustment);
         if (postNewAdjust.detail == 'success') {
           emit(UpdateLotQuantitySuccessState(
             DateTime.now(),

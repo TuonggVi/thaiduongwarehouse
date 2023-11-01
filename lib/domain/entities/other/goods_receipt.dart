@@ -4,27 +4,32 @@ import 'package:equatable/equatable.dart';
 import 'package:mobile_warehouse_thaiduong/domain/entities/employee.dart';
 import 'package:mobile_warehouse_thaiduong/domain/entities/item.dart';
 
+import '../location.dart';
+
 class GoodsReceiptLot extends Equatable {
-  String goodsReceiptLotId;
+  String? goodsReceiptLotId;
+  String? oldGoodsReceiptLotId;
+  String? newGoodsReceiptLotId;
+  List<GoodsReceiptSublot> goodsReceiptSublots;
   Item? item;
-  String?unit;
+  String? unit;
   double? quantity;
-  double? sublotSize;
-  String? purchaseOrderNumber;
+
   Employee? employeeId;
-  String? location;
+
   DateTime? productionDate;
   DateTime? expirationDate;
   String? note;
   GoodsReceiptLot(
       this.goodsReceiptLotId,
+      this.oldGoodsReceiptLotId,
+      this.newGoodsReceiptLotId,
+      this.goodsReceiptSublots,
       this.item,
       this.unit,
       this.quantity,
-      this.sublotSize,
-      this.purchaseOrderNumber,
       this.employeeId,
-      this.location,
+
       this.productionDate,
       this.expirationDate,
       this.note);
@@ -43,4 +48,23 @@ class GoodsReceipt extends Equatable {
       this.empployee, this.isCompleted);
   @override
   List<Object?> get props => [goodsReceiptId];
+}
+
+// chỉnh sửa mã lô và số lượng, 1 lô có nhiều vị trí
+class GoodsReceiptLotAdjustment extends Equatable {
+  String? oldGoodsReceiptLotId;
+  String? newGoodsReceiptLotId;
+  List<GoodsReceiptSublot>? goodsReceiptSublots;
+  double? quantity;
+  DateTime? productionDate;
+  DateTime? expirationDate;
+  GoodsReceiptLotAdjustment(
+      this.oldGoodsReceiptLotId,
+      this.newGoodsReceiptLotId,
+      this.goodsReceiptSublots,
+      this.quantity,
+      this.productionDate,
+      this.expirationDate);
+  @override
+  List<Object?> get props => [oldGoodsReceiptLotId];
 }

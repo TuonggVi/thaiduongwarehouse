@@ -71,7 +71,7 @@ class _ExportHistoryEntryScreenState extends State<ExportHistoryEntryScreen> {
                                   DataColumn(label: Text('Mã lô')),
                                   DataColumn(label: Text('SP')),
                                   DataColumn(label: Text('SL')),
-                                  DataColumn(label: Text('PO')),
+                       
                                 ],
                                 rows: state
                                     .exportHistoryEntries // Loops through dataColumnText, each iteration assigning the value to element
@@ -86,9 +86,7 @@ class _ExportHistoryEntryScreenState extends State<ExportHistoryEntryScreen> {
                                                   element.itemName.toString())),
                                               DataCell(Text(
                                                   element.quantity.toString())),
-                                              DataCell(Text(element
-                                                  .purchaseOrderNumber
-                                                  .toString())),
+                                        
                                             ],
                                           )),
                                     )
@@ -131,14 +129,14 @@ class _ExportHistoryEntryScreenState extends State<ExportHistoryEntryScreen> {
                     );
                   }
                   if (state is AccessExportHistoryLoadingState) {
-                   return const Dialog(
+                   return   Dialog(
                         // The background color
                         backgroundColor: Colors.white,
                         child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 20),
+                          padding: const EdgeInsets.symmetric(vertical: 20),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
-                            children: [
+                            children: const [
                               // The loading indicator
                               CircularProgressIndicator(),
                               SizedBox(

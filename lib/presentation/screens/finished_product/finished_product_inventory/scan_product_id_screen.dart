@@ -1,1 +1,0 @@
-// quét mã qr code => báo cáo tồn kho

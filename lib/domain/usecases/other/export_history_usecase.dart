@@ -10,14 +10,14 @@ class ExportHistoryUsecase {
     final entries = exportHistoryRepoitory.getExportHistoryByPO(poNumber);
     return entries;
   }
-
+// truy xuất lịch sử xuất theo người nhận
   Future<List<ExportHistoryEntry>> getExportHistoryByReceiver(
       String receiver, DateTime startDate, DateTime endDate) {
     final entries = exportHistoryRepoitory.getExportHistoryByReceiver(
         receiver, startDate, endDate);
     return entries;
   }
-
+// truy xuất lịch sử xuất theo kho hàng + mã sp
   Future<List<ExportHistoryEntry>> getExportHistoryByItem(
       String warehouseId, String itemId, DateTime startDate, DateTime endDate) {
     final entries = exportHistoryRepoitory.getExportHistoryByItem(

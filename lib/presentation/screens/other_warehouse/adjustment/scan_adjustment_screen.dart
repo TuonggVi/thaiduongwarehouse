@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -18,7 +20,10 @@ class BarcodeScannerScreen extends StatefulWidget {
 }
 
 class _BarcodeScannerScreenState extends State<BarcodeScannerScreen> {
-  String scanResult = '-1'; //Scan QR ra
+   
+  String scanResult = '-1';
+
+//Scan QR ra
   Future<void> scanQR() async {
     String barcodeScanRes;
     try {
@@ -127,7 +132,7 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen> {
                                 }
                               : () {
                                   BlocProvider.of<AdjustmentBloc>(context).add(
-                                      GetLotEvent(DateTime.now(), scanResult));
+                                      GetLotEvent(DateTime.now(), scanResult) );
                                   Navigator.pushNamed(
                                       context, '/lot_adjustment_screen');
                                 },

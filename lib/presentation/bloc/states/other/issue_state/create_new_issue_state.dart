@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, overridden_fields, annotate_overrides
 
 import 'package:equatable/equatable.dart';
 import 'package:mobile_warehouse_thaiduong/domain/entities/other/goods_issue.dart';
@@ -60,7 +60,7 @@ class CreateNewIssueInitialState extends CreaNewIssueState {
 //   List<Object?> get props => [timestamp];
 // }
 
-//-------------------
+// thêm entry vào phiếu nhập
 class UpdateEntryToGoodsIssueLoading extends CreaNewIssueState {
   DateTime timestamp;
   UpdateEntryToGoodsIssueLoading(this.timestamp) : super(null);

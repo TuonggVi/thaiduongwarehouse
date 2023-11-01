@@ -67,40 +67,36 @@ class ListLotIssueCompletedScreen extends StatelessWidget {
                         itemBuilder: (BuildContext context, int index) {
                           return Column(
                             children: [
-                              Container(
-                                //        decoration: BoxDecoration(
-                                //   border: Border.all(width: 1),
-                                //   borderRadius: BorderRadius.circular(10),
-                                // ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: ListTile(
-                                    // leading: const Icon(Icons.list),
-                                    // shape: RoundedRectangleBorder(
-                                    //   side: BorderSide(width: 1),
-                                    //   borderRadius: BorderRadius.circular(10),
-                                    // ),
-                                    // trailing: Icon(Icons.edit,
-                                    //     size: 15 * SizeConfig.ratioFont),
-                                    title: Column(
-                                      children: [
-                                        Text(
-                                            "Sản phẩm : ${state.goodsIssue.entries![index].item!.itemName}"),
-                                        Text(
-                                            "Số lượng yêu cầu : ${state.goodsIssue.entries![index].requestQuantity}"),
-                                      ],
-                                    ),
-                                    // subtitle: Row(
-                                    //   mainAxisAlignment:
-                                    //       MainAxisAlignment.spaceBetween,
-                                    //   children: [
-                                    //     Text(
-                                    //         "Số lượng yêu cầu : ${state.goodsIssue.entries![index].requestQuantity} \nĐịnh mức yêu cầu : ${state.goodsIssue.entries![index].requestSublotSize.toString()} "),
-                                    //   ],
-                                    // ),
-                                    //   isThreeLine: true,
-                                    onTap: () {},
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ListTile(
+                                  // leading: const Icon(Icons.list),
+                                  // shape: RoundedRectangleBorder(
+                                  //   side: BorderSide(width: 1),
+                                  //   borderRadius: BorderRadius.circular(10),
+                                  // ),
+                                  // trailing: Icon(Icons.edit,
+                                  //     size: 15 * SizeConfig.ratioFont),
+                                  title: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                          "Sản phẩm : ${state.goodsIssue.entries![index].item!.itemName}"),
+                                      Text(
+                                          "Số lượng yêu cầu : ${state.goodsIssue.entries![index].requestQuantity}"),
+                                    ],
                                   ),
+                                  // subtitle: Row(
+                                  //   mainAxisAlignment:
+                                  //       MainAxisAlignment.spaceBetween,
+                                  //   children: [
+                                  //     Text(
+                                  //         "Số lượng yêu cầu : ${state.goodsIssue.entries![index].requestQuantity} \nĐịnh mức yêu cầu : ${state.goodsIssue.entries![index].requestSublotSize.toString()} "),
+                                  //   ],
+                                  // ),
+                                  //   isThreeLine: true,
+                                  onTap: () {},
                                 ),
                               ),
                               ListView.builder(
@@ -144,8 +140,7 @@ class ListLotIssueCompletedScreen extends StatelessWidget {
                                                 children: [
                                                   Text(
                                                       "Số lượng : ${state.goodsIssue.entries![index].lots![int].quantity} "),
-                                                  Text(
-                                                      "Định mức : ${state.goodsIssue.entries![index].lots![int].sublotSize} "),
+                                                 
                                                   Text(
                                                       "Ghi chú : ${state.goodsIssue.entries![index].lots![int].note}"),
                                                 ],

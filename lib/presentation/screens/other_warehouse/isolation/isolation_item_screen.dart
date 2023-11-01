@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -10,7 +12,7 @@ import 'package:mobile_warehouse_thaiduong/presentation/bloc/states/other/isolat
 import 'package:mobile_warehouse_thaiduong/presentation/widgets/button_widget.dart';
 import '../../../dialog/dialog_one_button.dart';
 import '../../../dialog/dialog_two_button.dart';
-import '../../../widgets/barcode_input_widget.dart';
+
 import '../../../widgets/exception_widget.dart';
 
 class IsolatedNewItemLotScreen extends StatefulWidget {
@@ -189,9 +191,11 @@ class _IsolatedNewItemLotScreenState extends State<IsolatedNewItemLotScreen> {
                         SizedBox(
                           height: 20 * SizeConfig.ratioHeight,
                         ),
-                        ExceptionErrorState(
-                          title: 'Lỗi hệ thống',
-                          message: "Vui lòng thử lại sau",
+                        Center(
+                          child: ExceptionErrorState(
+                            title: 'Lỗi hệ thống',
+                            message: "Vui lòng thử lại sau",
+                          ),
                         ),
                         CustomizedButton(
                             onPressed: () {

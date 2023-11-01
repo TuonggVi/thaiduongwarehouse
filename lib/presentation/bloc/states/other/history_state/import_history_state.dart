@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, overridden_fields, annotate_overrides
 
 import 'package:equatable/equatable.dart';
 import 'package:mobile_warehouse_thaiduong/domain/entities/error_package.dart';
@@ -9,31 +9,31 @@ import '../../../../../domain/entities/other/import_history_entry.dart';
 
 abstract class ImportHistoryState extends Equatable {
   List<Warehouse> warehouse;
-  List<String> poNumber;
+
   List<String> supplier;
   List<Item> listAllItem;
   List<Item> itemSort;
-  ImportHistoryState(this.warehouse, this.itemSort, this.listAllItem,
-      this.poNumber, this.supplier);
+  ImportHistoryState(this.warehouse, this.itemSort, this.listAllItem
+    , this.supplier);
 }
 
 // lấy ds kho, ncc, item
 class GetAllInfoImportSuccessState extends ImportHistoryState {
   DateTime timestamp;
   List<Item> listAllItem;
-  List<String> poNumber;
+
   List<Warehouse> warehouse; // lưu warehouse
   List<String> supplier;
-  GetAllInfoImportSuccessState(this.timestamp, this.poNumber, this.warehouse,
+  GetAllInfoImportSuccessState(this.timestamp, this.warehouse,
       this.listAllItem, this.supplier)
-      : super(warehouse, listAllItem, listAllItem, poNumber, supplier);
+      : super(warehouse, listAllItem, listAllItem, supplier);
   @override
   List<Object> get props => [timestamp];
 }
 
 class GetAllInfoImportLoadingState extends ImportHistoryState {
   DateTime timestamp;
-  GetAllInfoImportLoadingState(this.timestamp) : super([], [], [], [], []);
+  GetAllInfoImportLoadingState(this.timestamp) : super([], [], [], []);
   @override
   List<Object> get props => [timestamp];
 }
@@ -43,7 +43,7 @@ class GetAllInfoImportFailState extends ImportHistoryState {
   ErrorPackage status;
  
   GetAllInfoImportFailState(this.timestamp, this.status)
-      : super([], [], [], [], []);
+      : super([], [], [], [],);
   @override
   List<Object> get props => [timestamp];
 }
@@ -52,13 +52,13 @@ class GetAllInfoImportFailState extends ImportHistoryState {
 class GetImportItemByWarehouseSuccessState extends ImportHistoryState {
   DateTime timestamp;
   List<Warehouse> warehouse;
-  List<String> poNumber;
+
   List<String> supplier;
   List<Item> listAllItem;
   List<Item> itemSort;
-  GetImportItemByWarehouseSuccessState(this.timestamp, this.poNumber,
+  GetImportItemByWarehouseSuccessState(this.timestamp,
       this.listAllItem, this.itemSort, this.warehouse, this.supplier)
-      : super(warehouse, itemSort, listAllItem, poNumber, supplier);
+      : super(warehouse, itemSort, listAllItem, supplier);
   @override
   List<Object> get props => [timestamp];
 }
@@ -66,7 +66,7 @@ class GetImportItemByWarehouseSuccessState extends ImportHistoryState {
 class GetImportItemByWarehouseLoadingState extends ImportHistoryState {
   DateTime timestamp;
   GetImportItemByWarehouseLoadingState(this.timestamp)
-      : super([], [], [], [], []);
+      : super([], [], [], [],);
   @override
   List<Object> get props => [timestamp];
 }
@@ -76,7 +76,7 @@ class GetImportItemByWarehouseFailState extends ImportHistoryState {
   ErrorPackage status;
  
   GetImportItemByWarehouseFailState(this.timestamp, this.status)
-      : super([], [], [], [], []);
+      : super([], [], [], [],);
   @override
   List<Object> get props => [timestamp];
 }
@@ -86,7 +86,7 @@ class AccessImportHistorySuccessState extends ImportHistoryState {
   DateTime timestamp;
   List<ImportHistoryView> importHistoryEntries;
   List<Warehouse> warehouse;
-  List<String> poNumber;
+
   List<String> supplier;
   List<Item> listAllItem;
   List<Item> itemSort;
@@ -96,9 +96,9 @@ class AccessImportHistorySuccessState extends ImportHistoryState {
       this.warehouse,
       this.itemSort,
       this.listAllItem,
-      this.poNumber,
+
       this.supplier)
-      : super(warehouse, itemSort, listAllItem, poNumber, supplier);
+      : super(warehouse, itemSort, listAllItem, supplier);
   @override
   List<Object> get props => [timestamp];
 }
@@ -107,7 +107,7 @@ class AccessImportHistoryLoadingState extends ImportHistoryState {
   DateTime timestamp;
   AccessImportHistoryLoadingState(
     this.timestamp,
-  ) : super([], [], [], [], []);
+  ) : super([], [], [], [],);
   @override
   List<Object> get props => [timestamp];
 }
@@ -116,15 +116,15 @@ class AccessImportHistoryFailState extends ImportHistoryState {
   DateTime timestamp;
   ErrorPackage status;
   List<Warehouse> warehouse;
-  List<String> poNumber;
+
   List<String> supplier;
   List<Item> listAllItem;
   List<Item> itemSort;
   AccessImportHistoryFailState(
     this.timestamp,
     this.status,this.warehouse, this.itemSort, this.listAllItem,
-      this.poNumber, this.supplier
-  ) : super(warehouse, listAllItem, listAllItem, poNumber, supplier);
+       this.supplier
+  ) : super(warehouse, listAllItem, listAllItem, supplier);
   @override
   List<Object> get props => [timestamp];
 }

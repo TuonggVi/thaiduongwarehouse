@@ -24,13 +24,13 @@ class GetAllInfoImportEvent extends ImportHistoryEvent {
 class GetImportItemByWarehouseEvent extends ImportHistoryEvent {
   DateTime timestamp;
   String warehouseId;
-  List<String> poNumber;
+ 
   List<Item> listAllItem;
   List<Warehouse> warehouse;
   List<String> supplier;
   GetImportItemByWarehouseEvent(
     this.timestamp,
-    this.poNumber,
+
     this.warehouseId,
     this.listAllItem,
     this.warehouse,
@@ -45,14 +45,14 @@ class AccessImportHistoryByPOEvent extends ImportHistoryEvent {
   DateTime timestamp;
   String purchaseOrderNumber;
     List<Warehouse> warehouse;
-  List<String> poNumber;
+
   List<String> supplier;
   List<Item> listAllItem;
   List<Item> itemSort;
   AccessImportHistoryByPOEvent(
     this.timestamp,
     this.purchaseOrderNumber,
-    this.warehouse, this.itemSort, this.listAllItem, this.poNumber, this.supplier
+    this.warehouse, this.itemSort, this.listAllItem, this.supplier
   );
   @override
   List<Object> get props => [timestamp];
@@ -65,13 +65,13 @@ class AccessImportHistoryBySupplierEvent extends ImportHistoryEvent {
   String supplier;
 
     List<Warehouse> warehouse;
-  List<String> poNumber;
+
   List<String> supplierList;
   List<Item> listAllItem;
   List<Item> itemSort;
   AccessImportHistoryBySupplierEvent(
       this.timestamp, this.startDate, this.endDate, this.supplier,
-      this.warehouse, this.itemSort, this.listAllItem, this.poNumber, this.supplierList);
+      this.warehouse, this.itemSort, this.listAllItem, this.supplierList);
   @override
   List<Object> get props => [timestamp];
 }
@@ -84,13 +84,13 @@ class AccessImportHistoryByItemIdEvent extends ImportHistoryEvent {
   String warehouseId;
 
    List<Warehouse> warehouse;
-  List<String> poNumber;
+
   List<String> supplierList;
   List<Item> listAllItem;
   List<Item> itemSort;
   AccessImportHistoryByItemIdEvent(this.timestamp, this.startDate, this.endDate,
       this.itemId, this.warehouseId,
-       this.warehouse, this.itemSort, this.listAllItem, this.poNumber, this.supplierList);
+       this.warehouse, this.itemSort, this.listAllItem, this.supplierList);
   @override
   List<Object> get props => [timestamp];
 }

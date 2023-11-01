@@ -7,7 +7,7 @@ import 'package:mobile_warehouse_thaiduong/function.dart';
 
 class CustomizeDatePicker extends StatefulWidget {
   String name;
-  Function okBtnClickedFunction;
+ Function okBtnClickedFunction;
   FontWeight fontWeight;
   Color fontColor;
   DateTime initDateTime;
@@ -20,6 +20,7 @@ class CustomizeDatePicker extends StatefulWidget {
   @override
   CustomizeDatePickerState createState() => CustomizeDatePickerState();
 }
+
 
 class CustomizeDatePickerState extends State<CustomizeDatePicker> {
   String reference = '';

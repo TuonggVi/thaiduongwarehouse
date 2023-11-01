@@ -39,10 +39,13 @@ class Constants {
   // static const String herokuServer =
   //     'https://storagewebapi20210714122113.azurewebsites.net/';
   // static const String localServer = 'http://192.168.1.13:8081';
-  // api cũ
-  // static String baseUrl = "https://thaiduongwarehouse.azurewebsites.net/";
-  static String baseUrl = "https://thaiduongwarehouseapi.azurewebsites.net/";
-   // demo fablab
+  //static String baseUrl = "https://thaiduongwarehouse.azurewebsites.net/";
+  //static String baseUrl = "https://thaiduongwarehouseapi20230804005916.azurewebsites.net/";
+  static String baseUrl = "https://thaiduongwarehousedemo.azurewebsites.net/";
+  //static String baseUrl = "https://thaiduongwarehouseapi20230804005916.azurewebsites.net/";
+  //static String baseUrl = "https://thaiduongwarehousemanagement.azurewebsites.net/";
+  //static String baseUrl =  "https://thaiduongwarehouseapi.azurewebsites.net/";
+  // demo fablab
   //static String baseUrl = "https://thaiduongwarehouseapidemofablab.azurewebsites.net/";
   //static const baseUrl = 'http://192.168.1.13:8081';
 }

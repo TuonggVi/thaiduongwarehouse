@@ -19,8 +19,9 @@ class ItemLotService {
       return throw "Unable to retrieve posts.";
     }
   }
+  // truy xuất lô hàng theo itemId
  Future<List<ItemLotModel>> getItemLotsByItemId(String itemId) async {
-    final res = await http.get(Uri.parse('${Constants.baseUrl}api/ItemLots/ByItemId/$itemId'));
+    final res = await http.get(Uri.parse('${Constants.baseUrl}api/ItemLots/$itemId'));
     if (res.statusCode == 200) {
       List<dynamic> body = jsonDecode(res.body);
       List<ItemLotModel> items = body
@@ -34,9 +35,9 @@ class ItemLotService {
     }
   
   }
- 
+ // kệ kho: truy xuất theo vị trí
   Future<List<ItemLotModel>> getItemLotsByLocation(String locationId) async {
-    final res = await http.get(Uri.parse('${Constants.baseUrl}/api/ItemLots/ByLocation/$locationId'));
+    final res = await http.get(Uri.parse('${Constants.baseUrl}/api/ItemLots/$locationId/lots'));
     if (res.statusCode == 200) {
       List<dynamic> body = jsonDecode(res.body);
       List<ItemLotModel> items = body
@@ -48,10 +49,9 @@ class ItemLotService {
     } else {
       throw "Unable to retrieve posts.";
     }
-  
-  
   }
-
+  
+// truy xuất hàng cách ly
   Future<List<ItemLotModel>> getIsolatedItemLots() async {
    final res = await http.get(Uri.parse('${Constants.baseUrl}api/ItemLots/Isolated'));
     if (res.statusCode == 200) {
@@ -65,10 +65,8 @@ class ItemLotService {
     } else {
       throw "Unable to retrieve posts.";
     }
-  
-  
   }
-
+// cảnh báo hạn sử dụng
   Future<List<ItemLotModel>> getExpiredItemLots(int month) async {
  final res = await http.get(Uri.parse('${Constants.baseUrl}api/Warnings/ExpirationDate/$month'));
     if (res.statusCode == 200) {
@@ -84,7 +82,7 @@ class ItemLotService {
     }
   
   }
-
+// cảnh báo tồn kho tối thiểu
   Future<List<ItemLotModel>> getUnderStockminItemLots(String itemClassId) async {
        final res = await http.get(Uri.parse('${Constants.baseUrl}api/Warnings/MinimumStockLevel/$itemClassId'));
     if (res.statusCode == 200) {
@@ -100,9 +98,9 @@ class ItemLotService {
     }
   
   }
-
-  Future<ErrorPackage> patIsolationItemLot(bool isolated, String itemLotId ) async {
-       final res = await http.patch(Uri.parse('${Constants.baseUrl}api/ItemLots/$itemLotId?isIsolated=$isolated'),
+// cách ly lô hàng
+  Future<ErrorPackage> patchIsolationItemLot(bool isolated, String itemLotId ) async {
+       final res = await http.patch(Uri.parse('${Constants.baseUrl}api/ItemLots/$itemLotId?isIsolated=true'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': '*/*',

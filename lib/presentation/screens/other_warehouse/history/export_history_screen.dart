@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, unnecessary_null_comparison, prefer_const_literals_to_create_immutables
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:mobile_warehouse_thaiduong/domain/entities/location.dart';
 import 'package:mobile_warehouse_thaiduong/function.dart';
 import 'package:mobile_warehouse_thaiduong/presentation/bloc/blocs/other/history_bloc/export_history_bloc.dart';
-import 'package:mobile_warehouse_thaiduong/presentation/bloc/blocs/other/history_bloc/import_history_bloc.dart';
 import 'package:mobile_warehouse_thaiduong/presentation/bloc/events/other/history_event/export_history_event.dart';
-import 'package:mobile_warehouse_thaiduong/presentation/bloc/events/other/history_event/import_history_event.dart';
 import 'package:mobile_warehouse_thaiduong/presentation/bloc/states/other/history_state/export_history_state.dart';
 import '../../../../constant.dart';
 import '../../../../domain/entities/item.dart';
@@ -43,11 +41,11 @@ class _ExportHistoryScreenSate extends State<ExportHistoryScreen> {
     SizeConfig().init(context);
 
     return WillPopScope(
-      onWillPop: () async {
-        Navigator.pushNamed(context, "/history_function_screen");
-        return false;
-      },
-      child: Scaffold(
+        onWillPop: () async {
+          Navigator.pushNamed(context, "/history_function_screen");
+          return false;
+        },
+        child: Scaffold(
           appBar: AppBar(
             backgroundColor: Constants.mainColor,
             leading: IconButton(
@@ -61,7 +59,11 @@ class _ExportHistoryScreenSate extends State<ExportHistoryScreen> {
               style: TextStyle(fontSize: 22 * SizeConfig.ratioFont),
             ),
           ),
-          body: SingleChildScrollView(
+          body:
+
+              // Các thuộc tính tùy chỉnh riêng cho từng ExpansionPanelList
+
+              SingleChildScrollView(
             child: ExpansionPanelList.radio(
               children: [
                 ExpansionPanelRadio(
@@ -70,16 +72,16 @@ class _ExportHistoryScreenSate extends State<ExportHistoryScreen> {
                     return SizedBox(
                       width: 370 * SizeConfig.ratioHeight,
                       height: 60 * SizeConfig.ratioHeight,
-                      child: Row(
+                      child:  Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: const [
+                        children:const [
                           Icon(
                             Icons.add_shopping_cart_outlined,
                             color: Colors.black,
                             size: 36.0,
                           ),
                           Text(
-                            'Truy xuất theo sản phẩm   ',
+                            'Truy xuất theo sản phẩm',
                             style: TextStyle(
                               //fontFamily: 'MyFont',
                               fontSize: 18,
@@ -98,7 +100,8 @@ class _ExportHistoryScreenSate extends State<ExportHistoryScreen> {
                             return Column(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 8, 0, 0),
                                   child: SizedBox(
                                     width: 350 * SizeConfig.ratioWidth,
                                     height: 60 * SizeConfig.ratioHeight,
@@ -130,7 +133,6 @@ class _ExportHistoryScreenSate extends State<ExportHistoryScreen> {
                                                       DateTime.now(),
                                                       selectedWarehouse
                                                           .warehouseId,
-                                                      state.poNumber,
                                                       state.listAllItem,
                                                       state.itemSort,
                                                       state.warehouse,
@@ -144,7 +146,8 @@ class _ExportHistoryScreenSate extends State<ExportHistoryScreen> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 8, 0, 0),
                                   child: SizedBox(
                                     width: 350 * SizeConfig.ratioWidth,
                                     height: 60 * SizeConfig.ratioHeight,
@@ -169,7 +172,8 @@ class _ExportHistoryScreenSate extends State<ExportHistoryScreen> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 8, 0, 0),
                                   child: SizedBox(
                                     width: 350 * SizeConfig.ratioWidth,
                                     height: 60 * SizeConfig.ratioHeight,
@@ -230,45 +234,47 @@ class _ExportHistoryScreenSate extends State<ExportHistoryScreen> {
                                     ),
                                   ],
                                 ),
-                                CustomizedButton(
-                                    text: "Truy xuất",
-                                    onPressed: () {
-                                      selectedWarehouse.warehouseId == '' &&
-                                              selectedItem.itemName == ''
-                                          ? {
-                                              AlertDialogOneBtnCustomized(
-                                                      context,
-                                                      'Cảnh báo',
-                                                      'Vui lòng chọn kho hàng để truy xuất',
-                                                      'Trở lại',
-                                                      '', () {
-                                                // Navigator.pushNamed(context, '/main_receipt_screen');
-                                              }, 20, 15, () {}, false)
-                                                  .show()
-                                            }
-                                          : {
-                                              BlocProvider.of<
-                                                          ExportHistoryBloc>(
-                                                      context)
-                                                  .add(
-                                                      AccessExportHistoryByItemIdEvent(
-                                                          DateTime.now(),
-                                                          startDate,
-                                                          endDate,
-                                                          selectedItem.itemId,
-                                                          selectedWarehouse
-                                                              .warehouseId,
-                                                          state.warehouse,
-                                                          state.itemSort,
-                                                          state.listAllItem,
-                                                          state.poNumber,
-                                                          state.receiver)),
-                                              Navigator.pushNamed(
-                                                context,
-                                                '/list_export_history_screen',
-                                              )
-                                            };
-                                    }),
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: CustomizedButton(
+                                      text: "Truy xuất",
+                                      onPressed: () {
+                                        selectedWarehouse.warehouseId == '' &&
+                                                selectedItem.itemName == ''
+                                            ? {
+                                                AlertDialogOneBtnCustomized(
+                                                        context,
+                                                        'Cảnh báo',
+                                                        'Vui lòng chọn kho hàng để truy xuất',
+                                                        'Trở lại',
+                                                        '', () {
+                                                  // Navigator.pushNamed(context, '/main_receipt_screen');
+                                                }, 20, 15, () {}, false)
+                                                    .show()
+                                              }
+                                            : {
+                                                BlocProvider.of<
+                                                            ExportHistoryBloc>(
+                                                        context)
+                                                    .add(
+                                                        AccessExportHistoryByItemIdEvent(
+                                                            DateTime.now(),
+                                                            startDate,
+                                                            endDate,
+                                                            selectedItem.itemId,
+                                                            selectedWarehouse
+                                                                .warehouseId,
+                                                            state.warehouse,
+                                                            state.itemSort,
+                                                            state.listAllItem,
+                                                            state.receiver)),
+                                                Navigator.pushNamed(
+                                                  context,
+                                                  '/list_export_history_screen',
+                                                )
+                                              };
+                                      }),
+                                ),
                               ],
                             );
 
@@ -285,16 +291,16 @@ class _ExportHistoryScreenSate extends State<ExportHistoryScreen> {
                     return SizedBox(
                       width: 370 * SizeConfig.ratioHeight,
                       height: 60 * SizeConfig.ratioHeight,
-                      child: const Row(
+                      child:  Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
+                        children:const [
                           Icon(
                             Icons.add_home_outlined,
                             color: Colors.black,
                             size: 36.0,
                           ),
                           Text(
-                            'Truy xuất theo người nhận         ',
+                            'Truy xuất theo người nhận',
                             style: TextStyle(
                               //fontFamily: 'MyFont',
                               fontSize: 18,
@@ -311,7 +317,7 @@ class _ExportHistoryScreenSate extends State<ExportHistoryScreen> {
                         // if (state is GetAllInfoExportSuccessState) {
                         return Column(children: [
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                             child: SizedBox(
                               width: 350 * SizeConfig.ratioWidth,
                               height: 60 * SizeConfig.ratioHeight,
@@ -366,41 +372,43 @@ class _ExportHistoryScreenSate extends State<ExportHistoryScreen> {
                               ),
                             ],
                           ),
-                          CustomizedButton(
-                              text: "Truy xuất",
-                              onPressed: () {
-                                selectedReceiver == null
-                                    ? {
-                                        AlertDialogOneBtnCustomized(
-                                                context,
-                                                'Cảnh báo',
-                                                'Vui lòng chọn thông tin để truy xuất',
-                                                'Trở lại',
-                                                'warning_image.png', () {
-                                          // Navigator.pushNamed(context, '/main_receipt_screen');
-                                        }, 15, 20, () {}, false)
-                                            .show()
-                                      }
-                                    : {
-                                        BlocProvider.of<ExportHistoryBloc>(
-                                                context)
-                                            .add(
-                                                AccessExportHistoryByReceiverEvent(
-                                                    DateTime.now(),
-                                                    startDate,
-                                                    endDate,
-                                                    selectedReceiver!,
-                                                    state.warehouse,
-                                                    state.itemSort,
-                                                    state.listAllItem,
-                                                    state.poNumber,
-                                                    state.receiver)),
-                                        Navigator.pushNamed(
-                                          context,
-                                          '/list_export_history_screen',
-                                        )
-                                      };
-                              })
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: CustomizedButton(
+                                text: "Truy xuất",
+                                onPressed: () {
+                                  selectedReceiver == null
+                                      ? {
+                                          AlertDialogOneBtnCustomized(
+                                                  context,
+                                                  'Cảnh báo',
+                                                  'Vui lòng chọn thông tin để truy xuất',
+                                                  'Trở lại',
+                                                  'warning_image.png', () {
+                                            // Navigator.pushNamed(context, '/main_receipt_screen');
+                                          }, 15, 20, () {}, false)
+                                              .show()
+                                        }
+                                      : {
+                                          BlocProvider.of<ExportHistoryBloc>(
+                                                  context)
+                                              .add(
+                                                  AccessExportHistoryByReceiverEvent(
+                                                      DateTime.now(),
+                                                      startDate,
+                                                      endDate,
+                                                      selectedReceiver!,
+                                                      state.warehouse,
+                                                      state.itemSort,
+                                                      state.listAllItem,
+                                                      state.receiver)),
+                                          Navigator.pushNamed(
+                                            context,
+                                            '/list_export_history_screen',
+                                          )
+                                        };
+                                }),
+                          )
                         ]);
                         // }
                         // else {
@@ -408,80 +416,9 @@ class _ExportHistoryScreenSate extends State<ExportHistoryScreen> {
                         // }
                       }),
                 ),
-                ExpansionPanelRadio(
-                  value: 3,
-                  headerBuilder: ((context, isExpanded) {
-                    return SizedBox(
-                      width: 370 * SizeConfig.ratioHeight,
-                      height: 60 * SizeConfig.ratioHeight,
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Icon(
-                            Icons.document_scanner_outlined,
-                            color: Colors.black,
-                            size: 36.0,
-                          ),
-                          Text(
-                            'Truy xuất theo PO                  ',
-                            style: TextStyle(
-                              //fontFamily: 'MyFont',
-                              fontSize: 18,
-                              //fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }),
-                  body: BlocConsumer<ExportHistoryBloc, ExportHistoryState>(
-                      listener: (context, state) {},
-                      builder: (context, state) {
-                        //   if (state is GetAllInfoExportSuccessState) {
-                        return Column(children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-                            child: SizedBox(
-                              width: 350 * SizeConfig.ratioWidth,
-                              height: 60 * SizeConfig.ratioHeight,
-                              child: DropdownSearch<String>(
-                                mode: Mode.MENU,
-                                items: state.poNumber.map((e) => e).toList(),
-                                showSearchBox: true,
-                                label: "PO",
-                                onChanged: (value) {
-                                  selectedPo = value;
-                                },
-                                selectedItem: selectedPo ?? '',
-                              ),
-                            ),
-                          ),
-                          CustomizedButton(
-                              text: "Truy xuất",
-                              onPressed: () {
-                                BlocProvider.of<ExportHistoryBloc>(context).add(
-                                    AccessExportHistoryByPOEvent(
-                                        DateTime.now(),
-                                        selectedPo.toString(),
-                                        state.warehouse,
-                                        state.itemSort,
-                                        state.listAllItem,
-                                        state.poNumber,
-                                        state.receiver));
-                                Navigator.pushNamed(
-                                  context,
-                                  '/list_export_history_screen',
-                                );
-                              })
-                        ]);
-                        // } else {
-                        //   return const CircularProgressIndicator();
-                        // }
-                      }),
-                ),
               ],
             ),
-          )),
-    );
+          ),
+        ));
   }
 }

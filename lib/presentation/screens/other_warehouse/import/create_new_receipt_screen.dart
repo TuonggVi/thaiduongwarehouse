@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -23,7 +25,7 @@ class CreateNewReceiptScreen extends StatefulWidget {
 
 class _CreateNewReceiptScreenState extends State<CreateNewReceiptScreen> {
   GoodsReceipt goodsReceipt =
-      GoodsReceipt('', '',  [], DateTime.now(), null, false);
+      GoodsReceipt('', '', [], DateTime.now(), null, false);
   var receiptId = TextEditingController();
   var supplyId = TextEditingController();
 
@@ -54,20 +56,19 @@ class _CreateNewReceiptScreenState extends State<CreateNewReceiptScreen> {
           ),
         ),
         body: BlocConsumer<CreateReceiptBloc, CreateReceiptState>(
-          listener: (context, state) {
-          },
+          listener: (context, state) {},
           builder: (context, state) {
             if (state is AddLotToGoodsReceiptStateLoading ||
                 state is UpdateLotReceiptStateLoading ||
                 state is PostReceiptStateLoadingState) {
-              return const Dialog(
+              return Dialog(
                 // The background color
                 backgroundColor: Colors.white,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20),
+                  padding: const EdgeInsets.symmetric(vertical: 20),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: [
+                    children: const [
                       // The loading indicator
                       CircularProgressIndicator(),
                       SizedBox(
@@ -93,10 +94,10 @@ class _CreateNewReceiptScreenState extends State<CreateNewReceiptScreen> {
                         text: "Trở về",
                         onPressed: () {
                           // reset lại trang tạo phiếu
-                           BlocProvider.of<CreateReceiptBloc>(context)
+                          BlocProvider.of<CreateReceiptBloc>(context)
                               .add(UpdateReceiptFailEvent(
                             DateTime.now(),
-                          GoodsReceipt('', '',  [], null, null, false),
+                            GoodsReceipt('', '', [], null, null, false),
                           ));
                           Navigator.pushNamed(
                             context,
@@ -115,7 +116,7 @@ class _CreateNewReceiptScreenState extends State<CreateNewReceiptScreen> {
                       title: "Thất bại",
                       message: "Đã có lỗi trong lúc tạo đơn",
                     ),
-                     CustomizedButton(
+                    CustomizedButton(
                         text: "Chỉnh sửa",
                         onPressed: () {
                           BlocProvider.of<CreateReceiptBloc>(context)
@@ -129,18 +130,17 @@ class _CreateNewReceiptScreenState extends State<CreateNewReceiptScreen> {
                         text: "Trở về",
                         onPressed: () {
                           // reset lại trang tạo phiếu
-                            BlocProvider.of<CreateReceiptBloc>(context)
+                          BlocProvider.of<CreateReceiptBloc>(context)
                               .add(UpdateReceiptFailEvent(
                             DateTime.now(),
                             // tạo mới goodReiceip với các trường thông tin chưa được điền
-                          GoodsReceipt('', '',  [], null, null, false),
+                            GoodsReceipt('', '', [], null, null, false),
                           ));
                           Navigator.pushNamed(
                             context,
                             '/main_receipt_screen',
                           );
                         }),
-                   
                   ],
                 ),
               );
@@ -182,17 +182,16 @@ class _CreateNewReceiptScreenState extends State<CreateNewReceiptScreen> {
                     margin: EdgeInsets.symmetric(
                         vertical: 5 * SizeConfig.ratioHeight),
                     child: TextField(
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30)),
-                          // filled: true,
-                          // fillColor: Constants.buttonColor,
-                          labelText: "Số phiếu"),
-                      controller: receiptId,
-                      onChanged: (value)  {goodsReceipt.goodsReceiptId = value;
-                      print(goodsReceipt.goodsReceiptId);
-                      }
-                    ),
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                            // filled: true,
+                            // fillColor: Constants.buttonColor,
+                            labelText: "Số phiếu"),
+                        controller: receiptId,
+                        onChanged: (value) {
+                          goodsReceipt.goodsReceiptId = value;
+                        }),
                   ),
                   // const Divider(
                   //   indent: 30,
@@ -210,7 +209,7 @@ class _CreateNewReceiptScreenState extends State<CreateNewReceiptScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: 320 * SizeConfig.ratioHeight,
+                    height: 330 * SizeConfig.ratioHeight,
                     child: ListView.builder(
                         itemCount: state.goodsReceipt!.lots.length,
                         itemBuilder: (BuildContext context, int index) {
@@ -272,15 +271,6 @@ class _CreateNewReceiptScreenState extends State<CreateNewReceiptScreen> {
                                                     16 * SizeConfig.ratioFont,
                                                 color: Colors.black,
                                               ),
-                                              "Vị trí: ${state.goodsReceipt?.lots[index].location ?? '...'}"),
-                                          Text(
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w100,
-                                                fontSize:
-                                                    16 * SizeConfig.ratioFont,
-                                                color: Colors.black,
-                                              ),
                                               "NSX: ${state.goodsReceipt?.lots[index].productionDate ?? '...'}"),
                                         ],
                                       ),
@@ -300,24 +290,6 @@ class _CreateNewReceiptScreenState extends State<CreateNewReceiptScreen> {
                                                 color: Colors.black,
                                               ),
                                               "Tên hàng: ${state.goodsReceipt?.lots[index].item!.itemName}"),
-                                          Text(
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w100,
-                                                fontSize:
-                                                    16 * SizeConfig.ratioFont,
-                                                color: Colors.black,
-                                              ),
-                                              "Định mức: ${state.goodsReceipt?.lots[index].sublotSize ?? '...'}  "),
-                                          // Text(
-                                          //     overflow: TextOverflow.ellipsis,
-                                          //     style: TextStyle(
-                                          //       fontWeight: FontWeight.w100,
-                                          //       fontSize:
-                                          //           16 * SizeConfig.ratioFont,
-                                          //       color: Colors.black,
-                                          //     ),
-                                          //     "Số PO: ${state.goodsReceipt?.lots[index].purchaseOrderNumber ?? '...'}"),
                                           Text(
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w100,
@@ -433,25 +405,32 @@ class _CreateNewReceiptScreenState extends State<CreateNewReceiptScreen> {
                     color: Constants.mainColor,
                     thickness: 1,
                   ),
-                  ExceptionErrorState(
-                    title: "Chưa có lô hàng được nhập",
-                    message: "Chọn Tiếp tục để nhập kho",
+                  Center(
+                    child: Center(
+                      child: ExceptionErrorState(
+                        title: "Chưa có lô hàng được nhập",
+                        message: "Chọn Tiếp tục để nhập kho",
+                      ),
+                    ),
                   ),
-                  CustomizedButton(
-                      text: "Tiếp tục",
-                      onPressed: () {
-                        //  _showForm('', state.items);
-                        BlocProvider.of<FillReceiptLotBloc>(context)
-                            .add(FillReceiptLotEvent(
-                          DateTime.now(),
-                          goodsReceipt,
-                          -1,
-                        ));
-                        Navigator.pushNamed(
-                          context,
-                          '/fill_lot_receipt_screen',
-                        );
-                      }),
+                  Padding(
+                    padding: const EdgeInsets.all(60.0),
+                    child: CustomizedButton(
+                        text: "Tiếp tục",
+                        onPressed: () {
+                          //  _showForm('', state.items);
+                          BlocProvider.of<FillReceiptLotBloc>(context)
+                              .add(FillReceiptLotEvent(
+                            DateTime.now(),
+                            goodsReceipt,
+                            -1,
+                          ));
+                          Navigator.pushNamed(
+                            context,
+                            '/fill_lot_receipt_screen',
+                          );
+                        }),
+                  ),
                 ],
               );
             }
@@ -460,20 +439,4 @@ class _CreateNewReceiptScreenState extends State<CreateNewReceiptScreen> {
       ),
     );
   }
-//   onSearchTextChanged(String text) async {
-//     _searchResult.clear();
-//     if (text.isEmpty) {
-//       setState(() {});
-//       return;
-//     }
-
-//     goodsReceiptEntryConainerDataTemp.forEach((userDetail)
-//     {
-//       if (userDetail.itemId.contains(text)) _searchResult.add(userDetail);
-//     });
-
-//     setState(() {});
-//   }
-
-//  // List<GoodsReceiptEntryContainerData> _searchResult = [];
 }

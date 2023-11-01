@@ -26,10 +26,10 @@ class ImportHistoryBloc extends Bloc<ImportHistoryEvent, ImportHistoryState> {
       try {
         final item = await itemUsecase.getAllItem();
         final warehouse = await locationUsecase.getAllWarehouseId();
-        final poNumber = await infoUsecase.getAllPO();
+
         final supplier = await infoUsecase.getAllSupplier();
         emit(GetAllInfoImportSuccessState(
-            DateTime.now(), poNumber, warehouse, item, supplier));
+            DateTime.now(), warehouse, item, supplier));
       } catch (e) {
         emit(GetAllInfoImportFailState(DateTime.now(), ErrorPackage('')));
       }
@@ -41,13 +41,8 @@ class ImportHistoryBloc extends Bloc<ImportHistoryEvent, ImportHistoryState> {
         List<Item> item = event.listAllItem
             .expand((e) => [if (e.itemClass == event.warehouseId) e])
             .toList();
-        emit(GetImportItemByWarehouseSuccessState(
-            DateTime.now(),
-            event.poNumber,
-            event.listAllItem,
-            item,
-            event.warehouse,
-            event.supplier));
+        emit(GetImportItemByWarehouseSuccessState(DateTime.now(),
+            event.listAllItem, item, event.warehouse, event.supplier));
       } catch (e) {
         emit(GetImportItemByWarehouseFailState(
             DateTime.now(), ErrorPackage('')));
@@ -55,16 +50,22 @@ class ImportHistoryBloc extends Bloc<ImportHistoryEvent, ImportHistoryState> {
     });
     // truy xuất lịch sử nhập kho
     on<AccessImportHistoryByPOEvent>((event, emit) async {
-            List<ImportHistoryView> test = [];
+      List<ImportHistoryView> test = [];
 
       emit(AccessImportHistoryLoadingState(DateTime.now()));
       try {
         final goodReceiptLots = await importHistoryUsecase
             .getImportHistoryByPO(event.purchaseOrderNumber);
-             for (var element in goodReceiptLots) {
+        for (var element in goodReceiptLots) {
           if (element.lots!.isNotEmpty) {
             for (var e in element.lots!) {
-              test.add(ImportHistoryView(e.goodsReceiptLotId, e.quantity, e.purchaseOrderNumber, e.item!.itemName, e.note, element.supplier, element.timestamp));
+              test.add(ImportHistoryView(
+                  e.goodsReceiptLotId,
+                  e.quantity,
+                  e.item!.itemName,
+                  e.note,
+                  element.supplier,
+                  element.timestamp));
             }
           }
         }
@@ -75,7 +76,6 @@ class ImportHistoryBloc extends Bloc<ImportHistoryEvent, ImportHistoryState> {
                 event.warehouse,
                 event.itemSort,
                 event.listAllItem,
-                event.poNumber,
                 event.supplier))
             : emit(AccessImportHistoryFailState(
                 DateTime.now(),
@@ -83,7 +83,6 @@ class ImportHistoryBloc extends Bloc<ImportHistoryEvent, ImportHistoryState> {
                 event.warehouse,
                 event.itemSort,
                 event.listAllItem,
-                event.poNumber,
                 event.supplier));
       } catch (e) {
         emit(AccessImportHistoryFailState(
@@ -92,7 +91,6 @@ class ImportHistoryBloc extends Bloc<ImportHistoryEvent, ImportHistoryState> {
             event.warehouse,
             event.itemSort,
             event.listAllItem,
-            event.poNumber,
             event.supplier));
       }
     });
@@ -104,10 +102,16 @@ class ImportHistoryBloc extends Bloc<ImportHistoryEvent, ImportHistoryState> {
         final goodReceiptLots =
             await importHistoryUsecase.getImportHistoryBySupplier(
                 event.supplier, event.startDate, event.endDate);
- for (var element in goodReceiptLots) {
+        for (var element in goodReceiptLots) {
           if (element.lots!.isNotEmpty) {
             for (var e in element.lots!) {
-              test.add(ImportHistoryView(e.goodsReceiptLotId, e.quantity, e.purchaseOrderNumber, e.item!.itemName, e.note, element.supplier, element.timestamp));
+              test.add(ImportHistoryView(
+                  e.goodsReceiptLotId,
+                  e.quantity,
+                  e.item!.itemName,
+                  e.note,
+                  element.supplier,
+                  element.timestamp));
             }
           }
         }
@@ -118,7 +122,6 @@ class ImportHistoryBloc extends Bloc<ImportHistoryEvent, ImportHistoryState> {
                 event.warehouse,
                 event.itemSort,
                 event.listAllItem,
-                event.poNumber,
                 event.supplierList))
             : emit(AccessImportHistoryFailState(
                 DateTime.now(),
@@ -126,7 +129,6 @@ class ImportHistoryBloc extends Bloc<ImportHistoryEvent, ImportHistoryState> {
                 event.warehouse,
                 event.itemSort,
                 event.listAllItem,
-                event.poNumber,
                 event.supplierList));
       } catch (e) {
         emit(AccessImportHistoryFailState(
@@ -135,7 +137,6 @@ class ImportHistoryBloc extends Bloc<ImportHistoryEvent, ImportHistoryState> {
             event.warehouse,
             event.itemSort,
             event.listAllItem,
-            event.poNumber,
             event.supplierList));
       }
     });
@@ -150,11 +151,17 @@ class ImportHistoryBloc extends Bloc<ImportHistoryEvent, ImportHistoryState> {
           event.startDate,
           event.endDate,
         );
-      
+
         for (var element in goodReceiptLots) {
           if (element.lots!.isNotEmpty) {
             for (var e in element.lots!) {
-              test.add(ImportHistoryView(e.goodsReceiptLotId, e.quantity, e.purchaseOrderNumber, e.item!.itemName, e.note, element.supplier, element.timestamp));
+              test.add(ImportHistoryView(
+                  e.goodsReceiptLotId,
+                  e.quantity,
+                  e.item!.itemName,
+                  e.note,
+                  element.supplier,
+                  element.timestamp));
             }
           }
         }
@@ -165,7 +172,6 @@ class ImportHistoryBloc extends Bloc<ImportHistoryEvent, ImportHistoryState> {
                 event.warehouse,
                 event.itemSort,
                 event.listAllItem,
-                event.poNumber,
                 event.supplierList))
             : emit(AccessImportHistoryFailState(
                 DateTime.now(),
@@ -173,7 +179,6 @@ class ImportHistoryBloc extends Bloc<ImportHistoryEvent, ImportHistoryState> {
                 event.warehouse,
                 event.itemSort,
                 event.listAllItem,
-                event.poNumber,
                 event.supplierList));
       } catch (e) {
         emit(AccessImportHistoryFailState(
@@ -182,7 +187,6 @@ class ImportHistoryBloc extends Bloc<ImportHistoryEvent, ImportHistoryState> {
             event.warehouse,
             event.itemSort,
             event.listAllItem,
-            event.poNumber,
             event.supplierList));
       }
     });

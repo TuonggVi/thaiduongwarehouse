@@ -59,8 +59,7 @@ class _WarningUnderStockminScreenSate
                 if (state is MinimumStockWarningSuccessState) {
                   warehouseDropdownData = state.warehouse;
                 }
-                if (state is MinimumStockWarningLoadingState)
-                {}
+                if (state is MinimumStockWarningLoadingState) {}
               }, builder: (context, state) {
                 if (state is GetWarehouseSuccessState) {
                   return Column(
@@ -109,9 +108,11 @@ class _WarningUnderStockminScreenSate
                         color: Constants.mainColor,
                         thickness: 1,
                       ),
-                      ExceptionErrorState(
-                        title: 'Chưa có thông tin để truy xuất',
-                        message: "Chọn kho hàng để truy xuất",
+                      Center(
+                        child: ExceptionErrorState(
+                          title: 'Chưa có thông tin để truy xuất',
+                          message: "Chọn kho hàng để truy xuất",
+                        ),
                       ),
                     ],
                   );
@@ -164,10 +165,14 @@ class _WarningUnderStockminScreenSate
                         thickness: 1,
                       ),
                       SizedBox(
-                        height: 450 * SizeConfig.ratioHeight,
+                        height: 380 * SizeConfig.ratioHeight,
                         child: ListView.builder(
                             itemCount: state.itemLot.length,
                             itemBuilder: (BuildContext context, int index) {
+                              state.itemLot[index].productionDate ??
+                                  "Chưa cập nhật";
+                              state.itemLot[index].expirationDate ??
+                                  "Chưa cập nhật";
                               return Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
@@ -230,16 +235,6 @@ class _WarningUnderStockminScreenSate
                                                     color: Colors.black,
                                                   ),
                                                   "Số lượng: ${state.itemLot[index].quantity}"),
-                                              Text(
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w100,
-                                                    fontSize: 16 *
-                                                        SizeConfig.ratioFont,
-                                                    color: Colors.black,
-                                                  ),
-                                                  "Vị trí: ${state.itemLot[index].location?.locationId ?? '...'}"),
                                             ],
                                           ),
                                         ),
@@ -250,44 +245,47 @@ class _WarningUnderStockminScreenSate
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w100,
-                                                    fontSize: 16 *
-                                                        SizeConfig.ratioFont,
-                                                    color: Colors.black,
-                                                  ),
-                                                  "Định mức: ${state.itemLot[index].sublotSize ?? '...'}  "),
-                                              // Text(
-                                              //     overflow: TextOverflow.ellipsis,
-                                              //     style: TextStyle(
-                                              //       fontWeight: FontWeight.w100,
-                                              //       fontSize:
-                                              //           16 * SizeConfig.ratioFont,
-                                              //       color: Colors.black,
-                                              //     ),
-                                              //     "Số PO: ${state.itemLot[index].purchaseOrderNumber ?? '...'}"),
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w100,
+                                                  fontSize:
+                                                      16 * SizeConfig.ratioFont,
+                                                  color: Colors.black,
+                                                ),
+                                                state.itemLot[index]
+                                                            .productionDate ==
+                                                        null
+                                                    ? "NSX: Chưa cập nhật"
+                                                    : "NSX: ${DateFormat('yyyy-MM-dd').format(state.itemLot[index].productionDate as DateTime).toString()}",
+                                              ),
                                               Text(
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w100,
-                                                    fontSize: 16 *
-                                                        SizeConfig.ratioFont,
-                                                    color: Colors.black,
-                                                  ),
-                                                  "NSX: ${DateFormat('yyyy-MM-dd').format(state.itemLot[index].productionDate as DateTime)}"),
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w100,
+                                                  fontSize:
+                                                      16 * SizeConfig.ratioFont,
+                                                  color: Colors.black,
+                                                ),
+                                                state.itemLot[index]
+                                                            .expirationDate ==
+                                                        null
+                                                    ? "HSD: Chưa cập nhật"
+                                                    : "HSD: ${DateFormat('yyyy-MM-dd').format(state.itemLot[index].expirationDate as DateTime).toString()}",
+                                              ),
                                               Text(
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w100,
-                                                    fontSize: 16 *
-                                                        SizeConfig.ratioFont,
-                                                    color: Colors.black,
-                                                  ),
-                                                  "HSD: ${DateFormat('yyyy-MM-dd').format(state.itemLot[index].expirationDate as DateTime)}"),
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w100,
+                                                  fontSize:
+                                                      16 * SizeConfig.ratioFont,
+                                                  color: Colors.black,
+                                                ),
+                                                state.itemLot[index].item
+                                                            ?.minimumStockLevel ==
+                                                        null
+                                                    ? "Stockmin: Chưa cập nhật"
+                                                    : "Stockmin: ${state.itemLot[index].item?.minimumStockLevel}",
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -299,6 +297,16 @@ class _WarningUnderStockminScreenSate
                                 ),
                               );
                             }),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: CustomizedButton(
+                          text: "Trở lại",
+                          onPressed: () async {
+                            Navigator.pushNamed(
+                                context, "/warning_function_screen");
+                          },
+                        ),
                       ),
                     ],
                   );
@@ -406,14 +414,14 @@ class _WarningUnderStockminScreenSate
                         color: Constants.mainColor,
                         thickness: 1,
                       ),
-                      const Dialog(
+                       Dialog(
                         // The background color
                         backgroundColor: Colors.white,
                         child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 20),
+                          padding:const  EdgeInsets.symmetric(vertical: 20),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
-                            children: [
+                            children: const[
                               // The loading indicator
                               CircularProgressIndicator(),
                               SizedBox(

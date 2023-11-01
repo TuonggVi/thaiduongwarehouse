@@ -8,7 +8,7 @@ class ExportingReceiptBloc
   GoodsReceiptUsecase goodsReceiptUsecase;
   ExportingReceiptBloc(this.goodsReceiptUsecase)
       : super(LoadingReceiptExportingState(DateTime.now())) {
-        // load phiếu chưa hoàn thành
+
     on<LoadUncompletedGoodsReceiptEvent>((event, emit) async {
       emit(LoadingReceiptExportingState(DateTime.now()));
       try {
@@ -23,5 +23,6 @@ class ExportingReceiptBloc
             DateTime.now(), 'Không truy xuất được dữ liệu'));
       }
     });
+    
   }
 }

@@ -36,14 +36,14 @@ class ShelveFunctionScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // IconCustomizedButton(
-            //     icon: Icons.manage_search_outlined,
-            //     text: "TÌM KIẾM THEO SẢN PHẨM",
-            //     onPressed: ()async {
-            //       BlocProvider.of<ShelveBloc>(context)
-            //           .add(GetAllItemIdEvent(DateTime.now()));
-            //       Navigator.pushNamed(context, '/search_item_screen');    
-            //     }),
+            IconCustomizedButton(
+                icon: Icons.manage_search_outlined,
+                text: "TÌM KIẾM THEO SẢN PHẨM",
+                onPressed: ()async {
+                  BlocProvider.of<ShelveBloc>(context)
+                      .add(GetAllItemIdEvent(DateTime.now()));
+                  Navigator.pushNamed(context, '/search_item_screen');    
+                }),
             IconCustomizedButton(
                 icon: Icons.location_on,
                 text: "TRUY XUẤT VỊ TRÍ",

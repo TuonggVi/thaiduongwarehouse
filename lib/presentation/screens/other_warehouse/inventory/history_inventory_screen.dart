@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_warehouse_thaiduong/domain/entities/location.dart';
 import 'package:mobile_warehouse_thaiduong/function.dart';
 import '../../../../constant.dart';
 import '../../../bloc/blocs/other/inventory_bloc.dart';
@@ -111,46 +110,7 @@ class _ListInventoryScreenState extends State<ListInventoryScreen> {
                             ),
                           ),
                         ),
-                        // SizedBox(
-                        //     height: 500 * SizeConfig.ratioHeight,
-                        //     child: ListView.builder(
-                        //       itemCount: state.itemLots.length,
-                        //       itemBuilder: (BuildContext context, int index) {
-                        //         return Padding(
-                        //           padding: const EdgeInsets.all(8.0),
-                        //           child: Container(
-                        //             height: 110.0 * SizeConfig.ratioHeight,
-                        //             decoration: BoxDecoration(
-                        //               border: Border.all(
-                        //                 width: 1,
-                        //               ),
-                        //               borderRadius: BorderRadius.circular(10),
-                        //             ),
-                        //             child: ListTile(
-                        //                 leading: Text(DateFormat('yyyy-MM-dd')
-                        //                     .format(
-                        //                         state.itemLots[index].timestamp)),
-                        //                 // trailing: Icon(
-                        //                 //     Icons.arrow_drop_down_sharp,
-                        //                 //     size: 15 * SizeConfig.ratioFont),
-                        //                 title: Text(
-                        //                     "Mã lô : ${state.itemLots[index].itemLot}"),
-                        //                 subtitle: Row(
-                        //                   mainAxisAlignment:
-                        //                       MainAxisAlignment.spaceBetween,
-                        //                   children: [
-                        //                     Text(
-                        //                         "Sản phẩm : ${state.itemLots[index].item.itemName.toString()}  \nSố lượng ban đầu : ${state.itemLots[index].beforeQuantity.toString()}   \nSố lượng thay đổi : ${state.itemLots[index].changedQuantity.toString()}"),
-                        //                     // Text(
-                        //                     //     "nĐịnh mức : ${state.itemLots[index].itemLot.sublotSize.toString()}"),
-                        //                   ],
-                        //                 ),
-                        //                 isThreeLine: true,
-                        //                 onTap: () {}),
-                        //           ),
-                        //         );
-                        //       },
-                        //     )),
+                        
                         CustomizedButton(
                           onPressed: () {
                             // BlocProvider.of<HistoryBloc>(context)
