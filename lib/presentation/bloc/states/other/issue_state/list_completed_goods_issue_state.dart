@@ -3,6 +3,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:mobile_warehouse_thaiduong/domain/entities/other/goods_issue.dart';
 
+import '../../../../../domain/entities/error_package.dart';
+
 abstract class CompletedGoodsIssueState extends Equatable {}
 
 class LoadCompletedGoodsIssueInitState extends CompletedGoodsIssueState {
@@ -32,6 +34,32 @@ class LoadCompletedGoodsIssuesFailState extends CompletedGoodsIssueState {
   DateTime timestamp;
   String detail;
   LoadCompletedGoodsIssuesFailState(this.timestamp, this.detail);
+  @override
+  List<Object?> get props => [timestamp];
+}
+
+// xóa phiếu xuất
+class RemoveGoodIssueSuccessState extends CompletedGoodsIssueState {
+  int index;
+  GoodsIssue? goodsIssue;
+  DateTime timestamp;
+  RemoveGoodIssueSuccessState(this.index, this.goodsIssue, this.timestamp);
+  @override
+  List<Object?> get props => [timestamp];
+}
+
+class RemoveGoodIssueLoadingState extends CompletedGoodsIssueState {
+  DateTime timestamp;
+  RemoveGoodIssueLoadingState(this.timestamp);
+  @override
+  List<Object?> get props => [timestamp];
+}
+
+class RemoveGoodIssueFailState extends CompletedGoodsIssueState {
+  ErrorPackage error;
+  DateTime timestamp;
+  GoodsIssue? goodsIssue;
+  RemoveGoodIssueFailState(this.error, this.timestamp, this.goodsIssue);
   @override
   List<Object?> get props => [timestamp];
 }

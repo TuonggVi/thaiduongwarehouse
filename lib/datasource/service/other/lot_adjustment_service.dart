@@ -7,13 +7,13 @@ import '../../../constant.dart';
 
 class LotAdjustmentService {
   Future<ErrorPackageModel> postNewLotAdjustment(
-       String employeename, LotAdjustment lotAdjustment) async {
-          List bodyJson = [];
+      String employeename, LotAdjustment lotAdjustment) async {
+    List bodyJson = [];
     for (int i = 0; i < lotAdjustment.itemLotSublot.length; i++) {
       Map<String, dynamic> dimensionJson = {
         "locationId": lotAdjustment.itemLotSublot[i].locationId.toString(),
-        "newQuantityPerLocation":
-            double.tryParse(lotAdjustment.itemLotSublot[i].newQuantityPerLocation.toString()),
+        "newQuantityPerLocation": double.tryParse(
+            lotAdjustment.itemLotSublot[i].newQuantityPerLocation.toString()),
       };
       bodyJson.add(dimensionJson);
     }
@@ -27,10 +27,9 @@ class LotAdjustmentService {
               <String, dynamic>{
                 "lotId": lotAdjustment.lotId.toString(),
                 "itemId": lotAdjustment.item!.itemId.toString(),
-                "afterQuantity": double.tryParse(lotAdjustment.afterQuantity.toString()),
-                
+                "afterQuantity":
+                    double.tryParse(lotAdjustment.afterQuantity.toString()),
                 "unit": lotAdjustment.item!.unit.toString(),
-
                 "employeeName": "Tran Nhu Toan",
                 "note": lotAdjustment.note.toString(),
                 "sublotAdjustments": bodyJson,
@@ -41,7 +40,7 @@ class LotAdjustmentService {
         "success",
       );
     } else {
-     return ErrorPackageModel(
+      return ErrorPackageModel(
         "fail",
       );
     }

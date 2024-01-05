@@ -16,7 +16,7 @@ class FillInfoIssueEntryBloc
         final items = await itemUsecase.getAllItem();
 
         emit(LoadItemDataSuccessState(
-           items, event.goodsIssue, event.index, DateTime.now()));
+            items, event.goodsIssue, event.index, DateTime.now()));
       } catch (e) {
         //emit(Load(DateTime.now()));
       }

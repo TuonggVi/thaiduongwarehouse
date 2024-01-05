@@ -148,7 +148,7 @@ Future<void> initializeDependencies() async {
       CompletedReceiptLotBloc(injector()));
   injector.registerSingleton<FillInfoNewReceiptLotBloc>(
       FillInfoNewReceiptLotBloc(injector(), injector(), injector()));
-       injector.registerSingleton<GoodsReceiptSublotBloc>(
+  injector.registerSingleton<GoodsReceiptSublotBloc>(
       GoodsReceiptSublotBloc(injector(), injector()));
   //issue
   injector.registerSingleton<CreateIssueBloc>(

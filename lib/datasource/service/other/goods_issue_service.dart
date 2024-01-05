@@ -32,7 +32,7 @@ class GoodsIssueService {
                 "receiver": goodsIssue.receiver.toString(),
                 "timestamp": DateFormat('yyyy-MM-dd').format(DateTime.now()),
                 //"timestamp": "2023-04-18",
-              // "employeeId": 'NV01',
+                // "employeeId": 'NV01',
                 "employeeId": "NV1",
                 "entries": bodyJson
               },
@@ -209,4 +209,91 @@ class GoodsIssueService {
       return ErrorPackageModel("fail");
     }
   }
+
+  Future<ErrorPackageModel> removeGoodsIssueEntry(
+      GoodsIssue goodsIssue, int index) async {
+    // Kiểm tra xem vị trí yêu cầu có hợp lệ không
+    if (index < 0 || index >= goodsIssue.entries!.length) {
+      return ErrorPackageModel("Vị trí không tồn tại");
+    }
+
+    // Lấy id của yêu cầu cần xóa
+    String? entryId =
+        goodsIssue.entries![index].lots![0].goodsIssueLotId.toString();
+    String goodsIssueId = goodsIssue.goodsIssueId.toString();
+    String itemId = goodsIssue.entries![index].item!.itemId;
+    String? unit = goodsIssue.entries![index].item!.unit;
+
+    try {
+      final Uri uri = Uri.parse(
+        '${Constants.baseUrl}api/GoodsIssues/$goodsIssueId/goodsIssueEntry?$entryId',
+      ).replace(
+        queryParameters: {
+          'ItemId': itemId,
+          'Unit': unit ?? '', // ?? operator is used to handle nullable values
+        },
+      );
+
+      final res = await http.delete(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': '*/*',
+        },
+      );
+
+      if (res.statusCode == 200) {
+        // Xóa yêu cầu khỏi danh sách entries của goodsIssue
+        goodsIssue.entries!.removeAt(index);
+        return ErrorPackageModel("success");
+      } else {
+        return ErrorPackageModel("fail");
+      }
+    } catch (e) {
+      return ErrorPackageModel("fail");
+    }
+  }
 }
+
+  // // xóa yêu cầu phiếu xuất kho
+  // Future<ErrorPackageModel> removeGoodsIssueEntry(
+  //   GoodsIssue goodsIssue, GoodsIssueEntry goodsIssueEntry) async {
+  //   String id = goodsIssue.goodsIssueId.toString();
+  //   String lotId = goodsIssueEntry.toString();
+  //   List<String> lotIds = [lotId];
+  // if (lotIds.isEmpty) {
+  //   return ErrorPackageModel("fail");
+  // }
+
+  //   final res = await http.delete(
+  //       Uri.parse(
+  //           '${Constants.baseUrl}api/GoodsIssues/$id/goodsIssueEntry?ItemId=&Unit='),
+  //       headers: <String, String>{
+  //         'Content-Type': 'application/json; charset=UTF-8',
+  //         'Accept': '*/*',
+  //       },
+  //       body: jsonEncode(lotIds));
+
+  //   if (res.statusCode == 200) {
+  //     return ErrorPackageModel("success");
+  //   } else {
+  //     return ErrorPackageModel("fail");
+  //   }
+  // }
+  // xóa phiếu yêu cầu xuất kho
+//   Future<ErrorPackageModel> removeGoodsIssue(GoodsIssue goodsIssue) async {
+//     String id = goodsIssue.goodsIssueId.toString();
+//     final res =
+//         await http.delete(Uri.parse('${Constants.baseUrl}api/GoodsIssues/$id'),
+//             headers: <String, String>{
+//               'Content-Type': 'application/json; charset=UTF-8',
+//               'Accept': '*/*',
+//             },
+//             body: jsonEncode(id));
+//     if (res.statusCode == 200) {
+//       return ErrorPackageModel("success");
+//     } else {
+//       return ErrorPackageModel("fail");
+//     }
+//   }
+//}

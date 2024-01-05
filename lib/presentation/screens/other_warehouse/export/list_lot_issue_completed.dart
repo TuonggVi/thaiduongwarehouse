@@ -3,8 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_warehouse_thaiduong/constant.dart';
 import 'package:mobile_warehouse_thaiduong/function.dart';
 
+import '../../../bloc/blocs/other/issue_bloc/list_issue_entry_bloc.dart';
 import '../../../bloc/blocs/other/issue_bloc/list_lot_issue_completed_bloc.dart';
+import '../../../bloc/events/other/issue_event/list_issue_entry_event.dart';
 import '../../../bloc/states/other/issue_state/list_completed_lots_issue_state.dart';
+
 // danh sách các lô hàng đã xuất
 class ListLotIssueCompletedScreen extends StatelessWidget {
   const ListLotIssueCompletedScreen({super.key});
@@ -13,8 +16,8 @@ class ListLotIssueCompletedScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return WillPopScope(
-        onWillPop: () async {
-        Navigator.pushNamed(context,'/list_goods_issue_completed_screen');
+      onWillPop: () async {
+        Navigator.pushNamed(context, '/list_goods_issue_completed_screen');
         return false;
       },
       child: Scaffold(
@@ -77,26 +80,44 @@ class ListLotIssueCompletedScreen extends StatelessWidget {
                                   // ),
                                   // trailing: Icon(Icons.edit,
                                   //     size: 15 * SizeConfig.ratioFont),
-                                  title: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                  title: Row(
                                     children: [
-                                      Text(
-                                          "Sản phẩm : ${state.goodsIssue.entries![index].item!.itemName}"),
-                                      Text(
-                                          "Số lượng yêu cầu : ${state.goodsIssue.entries![index].requestQuantity}"),
+                                      SizedBox(
+                                        width: 280 * SizeConfig.ratioWidth,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                                "Sản phẩm : ${state.goodsIssue.entries![index].item!.itemName}"),
+                                            Text(
+                                                "Số lượng yêu cầu : ${state.goodsIssue.entries![index].requestQuantity}"),
+                                          ],
+                                        ),
+                                      ),
+                                      FloatingActionButton.small(
+                                        heroTag: null,
+                                        onPressed: () {
+                                          BlocProvider.of<
+                                                      ListGoodsIssueEntryBloc>(
+                                                  context)
+                                              .add(RemoveGoodsIssueEntryEvent(
+                                            state.goodsIssue,
+                                            index,
+                                            state.goodsIssue.entries![index],
+                                            DateTime.now(),
+                                          ));
+                                          Navigator.pushNamed(context,
+                                              '/list_goods_issue_completed_screen');
+                                        },
+                                        backgroundColor: Colors.white,
+                                        foregroundColor: Colors.black,
+                                        child: const Icon(Icons.delete),
+                                      ),
                                     ],
                                   ),
-                                  // subtitle: Row(
-                                  //   mainAxisAlignment:
-                                  //       MainAxisAlignment.spaceBetween,
-                                  //   children: [
-                                  //     Text(
-                                  //         "Số lượng yêu cầu : ${state.goodsIssue.entries![index].requestQuantity} \nĐịnh mức yêu cầu : ${state.goodsIssue.entries![index].requestSublotSize.toString()} "),
-                                  //   ],
-                                  // ),
-                                  //   isThreeLine: true,
-                                  onTap: () {},
                                 ),
                               ),
                               ListView.builder(
@@ -140,7 +161,6 @@ class ListLotIssueCompletedScreen extends StatelessWidget {
                                                 children: [
                                                   Text(
                                                       "Số lượng : ${state.goodsIssue.entries![index].lots![int].quantity} "),
-                                                 
                                                   Text(
                                                       "Ghi chú : ${state.goodsIssue.entries![index].lots![int].note}"),
                                                 ],

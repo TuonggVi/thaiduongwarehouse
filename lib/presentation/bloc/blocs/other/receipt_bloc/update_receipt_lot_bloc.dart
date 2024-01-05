@@ -12,7 +12,6 @@ class GoodsReceiptSublotBloc
   GoodsReceiptUsecase goodsReceiptUsecase;
   GoodsReceiptSublotBloc(this.itemUsecase, this.goodsReceiptUsecase)
       : super(ReceiptLotInitState(DateTime.now())) {
-
     on<RefillReceiptLotEvent>((event, emit) async {
       emit(LoadItemDataUpdateLoadingState(DateTime.now()));
       try {
@@ -25,25 +24,25 @@ class GoodsReceiptSublotBloc
     });
 
     on<AddGoodsReceiptSublotEvent>((event, emit) async {
-  emit(AddGoodsReceiptSublotLoadingState(
-      DateTime.now(), event.goodsReceiptLot, event.goodsReceiptSublotModel));
+      emit(AddGoodsReceiptSublotLoadingState(DateTime.now(),
+          event.goodsReceiptLot, event.goodsReceiptSublotModel));
 
-  try {
- 
+      try {
+        event.goodsReceiptLot.goodsReceiptSublots
+            .add(event.goodsReceiptSublotModel);
 
-    event.goodsReceiptLot.goodsReceiptSublots.add(event.goodsReceiptSublotModel);
-
-    emit(AddGoodsReceiptSublotSuccessState(event.index, event.goodsReceipt,
-        event.goodsReceiptLot, event.item, DateTime.now()));
-  } catch (e) {
-
-  }
-});
+        emit(AddGoodsReceiptSublotSuccessState(event.index, event.goodsReceipt,
+            event.goodsReceiptLot, event.item, DateTime.now()));
+      } catch (e) {
+        // emit(UpdateLotReceiptStateSuccess(DateTime.now(), event.goodsReceipt));
+        // emit(LoginStateLoginFailure(DateTime.now()));
+      }
+    });
     on<RemoveGoodsReceiptSublotEvent>((event, emit) async {
       emit(RemoveReceiptSublotLoadingState(DateTime.now()));
       try {
-     event.goodsReceiptLot.goodsReceiptSublots.removeWhere((sublot) =>
-        sublot == event.goodsReceiptSublotModel); 
+        event.goodsReceiptLot.goodsReceiptSublots
+            .removeWhere((sublot) => sublot == event.goodsReceiptSublotModel);
         emit(RemoveReceiptSublotSuccessState(event.index, event.goodsReceipt,
             event.goodsReceiptLot, event.item, DateTime.now()));
       } catch (e) {
@@ -51,6 +50,5 @@ class GoodsReceiptSublotBloc
         // emit(LoginStateLoginFailure(DateTime.now()));
       }
     });
-   
   }
 }

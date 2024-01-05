@@ -16,62 +16,76 @@ class GoodsIssueRepoImpl implements GoodsIssueRepository {
         goodsIssueService.addGoodsIssueEntry(goodsIssueId, goodsIssueEntry);
     return status;
   }
+
 // thêm lô vào entry
   @override
   Future<ErrorPackageModel> addLotToGoodsIssue(
       String goodsIssueId, String itemId, List<GoodsIssueLot> lots) async {
-    final status = goodsIssueService.addLotToGoodsIssue(goodsIssueId,itemId, lots);
+    final status =
+        goodsIssueService.addLotToGoodsIssue(goodsIssueId, itemId, lots);
     return status;
   }
-// 
+
+//
   @override
-  Future<List<GoodsIssueModel>> getCompletedGoodsissue(DateTime startDate, DateTime endDate) async {
-    final goodsIssues = goodsIssueService.getCompletedGoodsIssue(startDate,endDate);
+  Future<List<GoodsIssueModel>> getCompletedGoodsissue(
+      DateTime startDate, DateTime endDate) async {
+    final goodsIssues =
+        goodsIssueService.getCompletedGoodsIssue(startDate, endDate);
     return goodsIssues;
   }
 
   @override
-  Future<GoodsIssueModel> getGoodsIssueById(String goodsIssueId)async {
+  Future<GoodsIssueModel> getGoodsIssueById(String goodsIssueId) async {
     final goodsIssue = goodsIssueService.getGoodsIssueById(goodsIssueId);
     return goodsIssue;
   }
 
   @override
-  Future<List<GoodsIssue>> getUncompletedGoodsIssue() async{
+  Future<List<GoodsIssue>> getUncompletedGoodsIssue() async {
     final goodsIssues = goodsIssueService.getUncompletedGoodsIssue();
     return goodsIssues;
   }
 
   @override
-  Future<ErrorPackageModel> postNewGoodsIssue(
-     GoodsIssue goodsIssue)async {
-    final status = goodsIssueService.postNewGoodsIssue(
-      goodsIssue);
+  Future<ErrorPackageModel> postNewGoodsIssue(GoodsIssue goodsIssue) async {
+    final status = goodsIssueService.postNewGoodsIssue(goodsIssue);
     return status;
   }
+
 // sửa số lượng yêu cầu xuất
   @override
   Future<ErrorPackage> updateGoodsIssueEntry(
-      String goodsIssueId, String itemEntryId, double newQuantity) async{
+      String goodsIssueId, String itemEntryId, double newQuantity) async {
     final status = goodsIssueService.updateGoodsIssueEntry(
         goodsIssueId, itemEntryId, newQuantity);
     return status;
   }
+
 // sửa thông tin lô
   @override
   Future<ErrorPackage> updateGoodsIssueLot(
-      String goodsIssueId, String goodsIssueLotId, double newQuantity)async {
+      String goodsIssueId, String goodsIssueLotId, double newQuantity) async {
     final status = goodsIssueService.updateGoodsIssueLot(
         goodsIssueId, goodsIssueLotId, newQuantity);
     return status;
   }
-  
+
   @override
   Future<ErrorPackage> patchRequestQuantity(GoodsIssue goodsIssue) {
-   final status = goodsIssueService.patchRequestQuantity(
-        goodsIssue);
+    final status = goodsIssueService.patchRequestQuantity(goodsIssue);
     return status;
   }
-  
 
+  // @override
+  // Future<ErrorPackage> removeGoodsIssue(GoodsIssue goodsIssue) {
+  //   final status = goodsIssueService.removeGoodsIssue(goodsIssue);
+  //   return status;
+  // }
+
+  @override
+  Future<ErrorPackage> removeGoodsIssueEntry(GoodsIssue goodsIssue, int index) {
+    final status = goodsIssueService.removeGoodsIssueEntry(goodsIssue, index);
+    return status;
+  }
 }

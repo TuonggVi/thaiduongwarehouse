@@ -130,7 +130,7 @@ class AppRoute {
                       create: (context) => injector()),
                   BlocProvider<ExportingReceiptLotBloc>(
                       create: (context) => injector()),
-                          BlocProvider<GoodsReceiptSublotBloc>(
+                  BlocProvider<GoodsReceiptSublotBloc>(
                       create: (context) => injector()),
                 ], child: ListUncompletedGoodReceiptScreen()));
       // ds lô nhập kho trong phiếu chưa hoàn thành
@@ -248,6 +248,8 @@ class AppRoute {
                       create: (context) => injector()),
                   BlocProvider<ListGoodsIssueLotCompletedBloc>(
                       create: (context) => injector()),
+                  BlocProvider<ListGoodsIssueEntryBloc>(
+                      create: (context) => injector()),
                 ], child: const ListGoodIssueCompletedScreen()));
       case '/list_goods_issue_lot_completed_screen':
         return MaterialPageRoute(
@@ -255,6 +257,8 @@ class AppRoute {
                   BlocProvider<ListGoodsIssueCompletedBloc>(
                       create: (context) => injector()),
                   BlocProvider<ListGoodsIssueLotCompletedBloc>(
+                      create: (context) => injector()),
+                  BlocProvider<ListGoodsIssueEntryBloc>(
                       create: (context) => injector()),
                 ], child: const ListLotIssueCompletedScreen()));
       case '/lot_adjustment_screen':

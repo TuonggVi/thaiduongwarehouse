@@ -1,17 +1,13 @@
-
 import 'package:mobile_warehouse_thaiduong/domain/entities/error_package.dart';
 import 'package:mobile_warehouse_thaiduong/domain/entities/other/goods_issue.dart';
 import 'package:mobile_warehouse_thaiduong/domain/repositories/other/goods_issue_repository.dart';
 
 class GoodsIssueUseCase {
   final GoodsIssueRepository goodsIssueRepository;
-  GoodsIssueUseCase( this.goodsIssueRepository);
- 
+  GoodsIssueUseCase(this.goodsIssueRepository);
 
-  Future<ErrorPackage> postNewGoodsIssue(
-    GoodsIssue goodsIssue) async {
-    final status = goodsIssueRepository.postNewGoodsIssue(
-       goodsIssue);
+  Future<ErrorPackage> postNewGoodsIssue(GoodsIssue goodsIssue) async {
+    final status = goodsIssueRepository.postNewGoodsIssue(goodsIssue);
     return status;
   }
 
@@ -20,8 +16,10 @@ class GoodsIssueUseCase {
     return goodsIssues;
   }
 
-  Future<List<GoodsIssue>> getCompletedGoodsissue(DateTime startDate, DateTime endDate) async {
-    final goodsIssues = goodsIssueRepository.getCompletedGoodsissue(startDate, endDate);
+  Future<List<GoodsIssue>> getCompletedGoodsissue(
+      DateTime startDate, DateTime endDate) async {
+    final goodsIssues =
+        goodsIssueRepository.getCompletedGoodsissue(startDate, endDate);
     return goodsIssues;
   }
 
@@ -29,8 +27,6 @@ class GoodsIssueUseCase {
     final goodsIssue = goodsIssueRepository.getGoodsIssueById(goodsIssueId);
     return goodsIssue;
   }
-  
-
 
   Future<ErrorPackage> updateGoodsIssueEntry(
       String goodsIssueId, String itemEntryId, double newQuantity) async {
@@ -47,8 +43,9 @@ class GoodsIssueUseCase {
   }
 
   Future<ErrorPackage> addLotToGoodsIssue(
-      String goodsIssueId,String itemId,  List<GoodsIssueLot> lots) async {
-    final status = goodsIssueRepository.addLotToGoodsIssue(goodsIssueId,itemId, lots);
+      String goodsIssueId, String itemId, List<GoodsIssueLot> lots) async {
+    final status =
+        goodsIssueRepository.addLotToGoodsIssue(goodsIssueId, itemId, lots);
     return status;
   }
 
@@ -58,10 +55,21 @@ class GoodsIssueUseCase {
         goodsIssueId, goodsIssueLotId, newQuantity);
     return status;
   }
-    Future<ErrorPackage> patchRequestQuantity(
-      GoodsIssue goodsIssue) async {
-    final status =
-        goodsIssueRepository.patchRequestQuantity( goodsIssue);
+
+  Future<ErrorPackage> patchRequestQuantity(GoodsIssue goodsIssue) async {
+    final status = goodsIssueRepository.patchRequestQuantity(goodsIssue);
     return status;
   }
+
+  Future<ErrorPackage> removeGoodsIssueEntry(
+      GoodsIssue goodsIssue, int index) async {
+    final status =
+        goodsIssueRepository.removeGoodsIssueEntry(goodsIssue, index);
+    return status;
+  }
+
+  // Future<ErrorPackage> removeGoodsIssue(GoodsIssue goodsIssue) async {
+  //   final status = goodsIssueRepository.removeGoodsIssue(goodsIssue);
+  //   return status;
+  // }
 }

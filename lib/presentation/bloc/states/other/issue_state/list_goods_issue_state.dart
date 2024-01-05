@@ -20,8 +20,8 @@ class LoadGoodsIssuesLoadingState extends GoodsIssueState {
 class LoadGoodsIssuesSuccessState extends GoodsIssueState {
   DateTime timestamp;
   List<GoodsIssue> listGoodsIssues;
-GoodsIssue goodsIssue;
-GoodsIssueLot? goodIssueLot;
+  GoodsIssue goodsIssue;
+  GoodsIssueLot? goodIssueLot;
   LoadGoodsIssuesSuccessState(
     this.timestamp,
     this.listGoodsIssues,
@@ -55,7 +55,7 @@ class PatchRequestQuantitySuccessState extends GoodsIssueState {
   ErrorPackage statusRequest;
   //List<GoodsIssue> listGoodsIssues;
   GoodsIssue goodsIssue;
- // int index;
+  // int index;
   PatchRequestQuantitySuccessState(
       this.timestamp, this.statusRequest, this.goodsIssue)
       : super(0);

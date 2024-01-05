@@ -5,14 +5,16 @@ import 'package:mobile_warehouse_thaiduong/domain/entities/other/goods_issue.dar
 
 abstract class CompletedGoodsIssueLotState extends Equatable {}
 
-class LoadCompletedGoodsIssueLotLoadingState extends CompletedGoodsIssueLotState {
+class LoadCompletedGoodsIssueLotLoadingState
+    extends CompletedGoodsIssueLotState {
   DateTime timestamp;
   LoadCompletedGoodsIssueLotLoadingState(this.timestamp);
   @override
   List<Object?> get props => [timestamp];
 }
 
-class LoadCompletedGoodsIssueLotSuccessState extends CompletedGoodsIssueLotState {
+class LoadCompletedGoodsIssueLotSuccessState
+    extends CompletedGoodsIssueLotState {
   DateTime timestamp;
   GoodsIssue goodsIssue;
   LoadCompletedGoodsIssueLotSuccessState(this.timestamp, this.goodsIssue);
@@ -20,14 +22,12 @@ class LoadCompletedGoodsIssueLotSuccessState extends CompletedGoodsIssueLotState
   List<Object?> get props => [timestamp];
 }
 
-
 class LoadCompletedGoodsIssueLotFailState extends CompletedGoodsIssueLotState {
   DateTime timestamp;
   LoadCompletedGoodsIssueLotFailState(this.timestamp);
   @override
   List<Object?> get props => [timestamp];
 }
-
 
 class UpdateGoodsIssueLotLoadingState extends CompletedGoodsIssueLotState {
   DateTime timestamp;
@@ -43,7 +43,6 @@ class UpdateGoodsIssueLotSuccessState extends CompletedGoodsIssueLotState {
   @override
   List<Object?> get props => [timestamp];
 }
-
 
 class UpdateGoodsIssueLotFailState extends CompletedGoodsIssueLotState {
   DateTime timestamp;

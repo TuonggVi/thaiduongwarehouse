@@ -10,5 +10,6 @@ abstract class ItemLotRepository {
   Future<List<ItemLot>> getExpiredItemLots(int month);
   Future<List<ItemLot>> getUnderStockminItemLots(String itemClassId);
   Future<ErrorPackage> patchIsolationItemLot(bool isolated, String itemLotId);
-
+  Future<ErrorPackage> postIsolationItemLot(bool isolated, ItemLot itemLot);
+  Future<ErrorPackage> patchUnIsolationItemLot(bool isolated, ItemLot itemLot);
 }

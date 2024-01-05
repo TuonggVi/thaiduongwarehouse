@@ -47,4 +47,16 @@ class ItemLotRepoImpl implements ItemLotRepository {
     final status = itemLotService.patchIsolationItemLot(isolated, itemLotId);
     return status;
   }
+
+  @override
+  Future<ErrorPackage> patchUnIsolationItemLot(bool isolated, ItemLot itemLot) {
+    final status = itemLotService.patchUnIsolationItemLot(isolated, itemLot);
+    return status;
+  }
+
+  @override
+  Future<ErrorPackage> postIsolationItemLot(bool isolated, ItemLot itemLot) {
+    final status = itemLotService.postIsolationItemLot(isolated, itemLot);
+    return status;
+  }
 }

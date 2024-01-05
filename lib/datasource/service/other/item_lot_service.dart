@@ -4,6 +4,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mobile_warehouse_thaiduong/domain/entities/error_package.dart';
 
+import '../../../domain/entities/other/item_lot.dart';
+import '../../models/error_package_model.dart';
+
 class ItemLotService {
   Future<ItemLotModel> getItemLotById(String lotId) async {
     final res = await http.get(
@@ -15,13 +18,14 @@ class ItemLotService {
       ItemLotModel lot = ItemLotModel.fromJson(body);
       return lot;
     } else {
-
       return throw "Unable to retrieve posts.";
     }
   }
+
   // truy xuất lô hàng theo itemId
- Future<List<ItemLotModel>> getItemLotsByItemId(String itemId) async {
-    final res = await http.get(Uri.parse('${Constants.baseUrl}api/ItemLots/$itemId'));
+  Future<List<ItemLotModel>> getItemLotsByItemId(String itemId) async {
+    final res =
+        await http.get(Uri.parse('${Constants.baseUrl}api/ItemLots/$itemId'));
     if (res.statusCode == 200) {
       List<dynamic> body = jsonDecode(res.body);
       List<ItemLotModel> items = body
@@ -33,11 +37,12 @@ class ItemLotService {
     } else {
       throw "Unable to retrieve posts.";
     }
-  
   }
- // kệ kho: truy xuất theo vị trí
+
+  // kệ kho: truy xuất theo vị trí
   Future<List<ItemLotModel>> getItemLotsByLocation(String locationId) async {
-    final res = await http.get(Uri.parse('${Constants.baseUrl}/api/ItemLots/$locationId/lots'));
+    final res = await http
+        .get(Uri.parse('${Constants.baseUrl}/api/ItemLots/$locationId/lots'));
     if (res.statusCode == 200) {
       List<dynamic> body = jsonDecode(res.body);
       List<ItemLotModel> items = body
@@ -50,10 +55,11 @@ class ItemLotService {
       throw "Unable to retrieve posts.";
     }
   }
-  
+
 // truy xuất hàng cách ly
   Future<List<ItemLotModel>> getIsolatedItemLots() async {
-   final res = await http.get(Uri.parse('${Constants.baseUrl}api/ItemLots/Isolated'));
+    final res =
+        await http.get(Uri.parse('${Constants.baseUrl}api/ItemLots/Isolated'));
     if (res.statusCode == 200) {
       List<dynamic> body = jsonDecode(res.body);
       List<ItemLotModel> items = body
@@ -66,9 +72,11 @@ class ItemLotService {
       throw "Unable to retrieve posts.";
     }
   }
+
 // cảnh báo hạn sử dụng
   Future<List<ItemLotModel>> getExpiredItemLots(int month) async {
- final res = await http.get(Uri.parse('${Constants.baseUrl}api/Warnings/ExpirationDate/$month'));
+    final res = await http.get(
+        Uri.parse('${Constants.baseUrl}api/Warnings/ExpirationDate/$month'));
     if (res.statusCode == 200) {
       List<dynamic> body = jsonDecode(res.body);
       List<ItemLotModel> items = body
@@ -80,11 +88,13 @@ class ItemLotService {
     } else {
       throw "Unable to retrieve posts.";
     }
-  
   }
+
 // cảnh báo tồn kho tối thiểu
-  Future<List<ItemLotModel>> getUnderStockminItemLots(String itemClassId) async {
-       final res = await http.get(Uri.parse('${Constants.baseUrl}api/Warnings/MinimumStockLevel/$itemClassId'));
+  Future<List<ItemLotModel>> getUnderStockminItemLots(
+      String itemClassId) async {
+    final res = await http.get(Uri.parse(
+        '${Constants.baseUrl}api/Warnings/MinimumStockLevel/$itemClassId'));
     if (res.statusCode == 200) {
       List<dynamic> body = jsonDecode(res.body);
       List<ItemLotModel> items = body
@@ -96,23 +106,81 @@ class ItemLotService {
     } else {
       throw "Unable to retrieve posts.";
     }
-  
   }
-// cách ly lô hàng
-  Future<ErrorPackage> patchIsolationItemLot(bool isolated, String itemLotId ) async {
-       final res = await http.patch(Uri.parse('${Constants.baseUrl}api/ItemLots/$itemLotId?isIsolated=true'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': '*/*',
-        },
-     );
+
+// cách ly toàn bộ lô hàng
+  Future<ErrorPackage> patchIsolationItemLot(
+      bool isolated, String itemLotId) async {
+    final res = await http.patch(
+      Uri.parse('${Constants.baseUrl}api/ItemLots/$itemLotId?isIsolated=true'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': '*/*',
+      },
+    );
     if (res.statusCode == 200) {
-    
       return ErrorPackage('Success');
     } else {
-        return ErrorPackage('Fail');
+      return ErrorPackage('Fail');
     }
-  
   }
-  
+
+  // cách ly lô hàng theo vị trí
+  Future<ErrorPackage> postIsolationItemLot(
+      bool Isolated, ItemLot itemLot) async {
+    List bodyJson = [];
+    for (int i = 0; i < itemLot.itemLotSubLot.length; i++) {
+      Map<String, dynamic> dimensionJson = {
+        // "locationId": lotAdjustment.itemLotSublot[i].locationId.toString(),
+        // "newQuantityPerLocation":
+        //     double.tryParse(lotAdjustment.itemLotSublot[i].newQuantityPerLocation.toString()),
+      };
+      bodyJson.add(dimensionJson);
+    }
+    final res =
+        await http.post(Uri.parse('${Constants.baseUrl}api/LotAdjustments'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Accept': '*/*',
+            },
+            body: jsonEncode(
+              <String, dynamic>{
+                // "lotId": lotAdjustment.lotId.toString(),
+                // "itemId": lotAdjustment.item!.itemId.toString(),
+                // "afterQuantity": double.tryParse(lotAdjustment.afterQuantity.toString()),
+
+                // "unit": lotAdjustment.item!.unit.toString(),
+
+                // "employeeName": "Tran Nhu Toan",
+                // "note": lotAdjustment.note.toString(),
+                // "sublotAdjustments": bodyJson,
+              },
+            ));
+    if (res.statusCode == 200) {
+      return ErrorPackageModel(
+        "success",
+      );
+    } else {
+      return ErrorPackageModel(
+        "fail",
+      );
+    }
+  }
+
+  // cách ly toàn bộ lô hàng
+  Future<ErrorPackage> patchUnIsolationItemLot(
+      bool isolated, ItemLot itemLot) async {
+    final res = await http.patch(
+      Uri.parse('${Constants.baseUrl}api/ItemLots/$itemLot?isIsolated=true'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': '*/*',
+      },
+    );
+    if (res.statusCode == 200) {
+      return ErrorPackage('Success');
+    } else {
+      return ErrorPackage('Fail');
+    }
+  }
 }

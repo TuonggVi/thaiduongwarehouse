@@ -2,6 +2,8 @@
 
 import 'package:equatable/equatable.dart';
 
+import '../../../../../domain/entities/other/goods_issue.dart';
+
 abstract class CompletedGoodsIssueEvent extends Equatable {}
 
 class LoadCompletedGoodsIssuesEvent extends CompletedGoodsIssueEvent {
@@ -11,4 +13,14 @@ class LoadCompletedGoodsIssuesEvent extends CompletedGoodsIssueEvent {
   LoadCompletedGoodsIssuesEvent(this.timestamp, this.startDate, this.endDate);
   @override
   List<Object?> get props => [timestamp];
+}
+
+class RemoveGoodsIssueEvent extends CompletedGoodsIssueEvent {
+  GoodsIssue goodsIssue;
+  int index;
+  DateTime timestamp;
+  RemoveGoodsIssueEvent(this.goodsIssue, this.index, this.timestamp);
+
+  @override
+  List<Object?> get props => [];
 }

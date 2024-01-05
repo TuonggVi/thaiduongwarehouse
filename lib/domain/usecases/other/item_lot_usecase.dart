@@ -10,30 +10,49 @@ class ItemLotUsecase {
     return itemLot;
   }
 
-  Future<List<ItemLot>> getItemLotsByItemId(String itemId) async{
+  Future<List<ItemLot>> getItemLotsByItemId(String itemId) async {
     final itemLots = itemLotRepository.getItemLotsByItemId(itemId);
     return itemLots;
   }
-  
-  Future<List<ItemLot>> getItemLotsByLocation(String locationId)async {
+
+  Future<List<ItemLot>> getItemLotsByLocation(String locationId) async {
     final itemLots = itemLotRepository.getItemLotsByLocation(locationId);
     return itemLots;
   }
-  Future<List<ItemLot>> getIsolatedItemLots() async{
+
+  Future<List<ItemLot>> getIsolatedItemLots() async {
     final itemLots = itemLotRepository.getIsolatedItemLots();
     return itemLots;
   }
-  Future<List<ItemLot>> getExpiredItemLots(int month)async {
-     final itemLots = itemLotRepository.getExpiredItemLots(month);
+
+  Future<List<ItemLot>> getExpiredItemLots(int month) async {
+    final itemLots = itemLotRepository.getExpiredItemLots(month);
     return itemLots;
   }
 
-  Future<List<ItemLot>> getUnderStockminItemLots(String itemClassId)async {
-     final itemLots = itemLotRepository.getUnderStockminItemLots(itemClassId);
+  Future<List<ItemLot>> getUnderStockminItemLots(String itemClassId) async {
+    final itemLots = itemLotRepository.getUnderStockminItemLots(itemClassId);
     return itemLots;
   }
-  Future<ErrorPackage> patchIsolationItemLot(bool isolated, String itemLotId )async {
-     final status = itemLotRepository.patchIsolationItemLot(isolated, itemLotId);
+
+  // cách ly toàn bộ lô hàng
+  Future<ErrorPackage> patchIsolationItemLot(
+      bool isolated, String itemLotId) async {
+    final status = itemLotRepository.patchIsolationItemLot(isolated, itemLotId);
+    return status;
+  }
+
+  // hoàn tác cách ly lô hàng theo vị trí
+  Future<ErrorPackage> patchUnIsolationItemLot(
+      bool isolated, ItemLot itemLot) async {
+    final status = itemLotRepository.postIsolationItemLot(isolated, itemLot);
+    return status;
+  }
+
+  // cách ly lô hàng theo vị trí
+  Future<ErrorPackage> postIsolationItemLot(
+      bool isolated, ItemLot itemLot) async {
+    final status = itemLotRepository.postIsolationItemLot(isolated, itemLot);
     return status;
   }
 }

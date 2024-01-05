@@ -126,20 +126,20 @@ class GoodsReceiptService {
       GoodsReceipt goodsReceipt) async {
     List bodyJson = [];
     for (int i = 0; i < goodsReceipt.lots.length; i++) {
-      List bodySublot = [];   
-        for (int j = 0;
-            j < goodsReceipt.lots[i].goodsReceiptSublots.length;
-            j++) {
-          Map<String, dynamic> dimensionSublot = {
-            "locationId": goodsReceipt.lots[i].goodsReceiptSublots[j].locationId
-                .toString(),
-            "quantityPerLocation": double.tryParse(goodsReceipt
-                .lots[i].goodsReceiptSublots[j].quantityPerLocation
-                .toString()),
-          };
-          bodySublot.add(dimensionSublot);
-        }
-  
+      List bodySublot = [];
+      for (int j = 0;
+          j < goodsReceipt.lots[i].goodsReceiptSublots.length;
+          j++) {
+        Map<String, dynamic> dimensionSublot = {
+          "locationId":
+              goodsReceipt.lots[i].goodsReceiptSublots[j].locationId.toString(),
+          "quantityPerLocation": double.tryParse(goodsReceipt
+              .lots[i].goodsReceiptSublots[j].quantityPerLocation
+              .toString()),
+        };
+        bodySublot.add(dimensionSublot);
+      }
+
       Map<String, dynamic> dimensionJson = {
         "oldGoodsReceiptLotId":
             goodsReceipt.lots[i].goodsReceiptLotId.toString(),
@@ -191,7 +191,7 @@ class GoodsReceiptService {
         "quantity": double.tryParse(goodsReceipt.lots[i].quantity.toString()),
         "itemId": goodsReceipt.lots[i].item!.itemId.toString(),
         "unit": goodsReceipt.lots[i].unit.toString(),
-      // "employeeId": 'NV01',
+        // "employeeId": 'NV01',
         "employeeId": "NV1",
         "note": goodsReceipt.lots[i].note.toString(),
         // "locationId": goodsReceipt.lots[i].location.toString(),
@@ -220,9 +220,9 @@ class GoodsReceiptService {
     String id = goodsReceipt.goodsReceiptId.toString();
     String lotId = goodsReceiptLot.goodsReceiptLotId.toString();
     List<String> lotIds = [lotId];
-  if (lotIds.isEmpty) {
-    return ErrorPackageModel("fail");
-  }
+    if (lotIds.isEmpty) {
+      return ErrorPackageModel("fail");
+    }
     final res = await http.patch(
         Uri.parse(
             '${Constants.baseUrl}api/GoodsReceipts/$id/removedGoodsReceiptLots'),
